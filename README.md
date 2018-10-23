@@ -26,8 +26,8 @@ Basically, this application should make people feel a bit more accomplished afte
 # Authors
 
 * **Corey Mitchell** - *User Authentication* - (https://github.com/corey-mitchell)
-* **Tyrell Bopp** - *Initial work* - ()
-* **Matthew Fort** - *Initial work* - ()
+* **Tyrell Bopp** - *Initial work* - (https://github.com/tbopp)
+* **Matthew Fort** - *Initial work* - (https://github.com/mfort87)
 * **Malorie Lara** - *Initial work* - ()
 * **V'Ana Abbott** - *Initial work* - ()
-* **Casey Monroe** - *Initial work* - ()
+* **Casey Monroe** - *Initial work* - (https://github.com/Monroe89)
