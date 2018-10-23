@@ -6,13 +6,13 @@ Shared to-do list, where the list items are assigned to people who desire them m
 
 Here's what it might look like: You and your partner are planning something, like a big trip. Jointly, you list out the things to be done. Independently, you each 'swipe right' on the tasks you, personally, would find satisfying. From there…
 
-*You get assigned the tasks only you swiped right on.
+* You get assigned the tasks only you swiped right on.
 
-*Your partner gets the tasks only they swiped right on.
+* Your partner gets the tasks only they swiped right on.
 
-*For tasks both of you swiped, you could enjoy working on them together.
+* For tasks both of you swiped, you could enjoy working on them together.
 
-*For tasks neither of you swiped, the list might suggest ways to outsource.
+* For tasks neither of you swiped, the list might suggest ways to outsource.
 
 There's probably room for machine learning here, so users can give feedback about whether the tasks they got really made them happy and inform future to-do lists.
 
