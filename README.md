@@ -22,6 +22,9 @@ Two points from research on happiness that are relevant here: 1) Our sense of we
 
 Basically, this application should make people feel a bit more accomplished after finishing tasks from these lists because they are tasks that the person is more satisfied performing. Feeling more accomplished should encourage group members to accomplish more tasks faster!
 
+## MVP
+
+A list of tasks that multiple users have access to. The users can add items to the list, assign themselves to tasks, view which users are working on which tasks and mark tasks as completed (perhaps depending on some sort of 'manager/list-owner' status so that not all users can add and delete tasks all willie nillie). Then, perhaps look into providing outsourced relief for unassigned/undesired tasks.
 
 # Authors
 
