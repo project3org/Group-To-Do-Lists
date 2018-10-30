@@ -3,7 +3,7 @@ const db = require('../models');
 
 module.exports = {
     // Handles Creating New User
-    createUser: function(req, res, next) {
+    createUser: function(req, res) {
         // Place information in variables
         const { body } = req;
         const {
@@ -11,7 +11,6 @@ module.exports = {
             lastName,
             password
         } = body;
-
         let { email } = body;
 
         // Check to make sure that all fields are filled out
@@ -20,23 +19,17 @@ module.exports = {
                 success: false,
                 message: 'Error: First name cannot be blank.'
             });
-        }
-
-        if (!lastName) {
+        } else if (!lastName) {
             return res.send({
                 success: false,
                 message: 'Error: Last name cannot be blank.'
             });
-        }
-
-        if (!email) {
+        } else if (!email) {
             return res.send({
                 success: false,
                 message: 'Error: Email cannot be blank.'
             });
-        }
-
-        if (!password) {
+        } else if (!password) {
             return res.send({
                 success: false,
                 message: 'Error: Password cannot be blank.'
@@ -80,6 +73,80 @@ module.exports = {
                 return res.send({
                     success: true,
                     message: 'Signed up successfully!'
+                });
+            });
+        });
+    },
+
+    // Handles User Sign In
+    signin: function(req, res) {
+        // Place information in variables
+        const { body } = req;
+        const {
+            password
+        } = body;
+        let { email } = body;
+
+        // Check to make sure that all fields are filled out
+        if (!email) {
+            return res.send({
+                success: false,
+                message: 'Error: Email cannot be blank.'
+            });
+        } else if (!password) {
+            return res.send({
+                success: false,
+                message: 'Error: Password cannot be blank.'
+            });
+        };
+
+        // Changes Email to lower case
+        email = email.toLowerCase();
+
+        // Find Exsisting User by email
+        db.User.find({
+            email: email,
+        }, (err, users)=>{
+            if(err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server error.'
+                })
+            } else if (users.length != 1) {
+                    return res.send({
+                        success: false,
+                        message: 'Error: Invalid Email'
+                    })
+            };
+
+            // Setting the user to a variable
+            const user = users[0];
+            const UserSession = db.UserSession
+
+            // Makes sure password is valid
+            if (!user.validPassword(password)) {
+                return res.send({
+                    success: false,
+                    message: 'Invalid Password'
+                });
+            };
+
+            // Creates new UserSession and targets the user's id for a token
+            const userSession = new UserSession();
+            userSession.userId = user._id;
+            userSession.save((err, doc)=>{
+                if (err) {
+                    return res.send({
+                        success: false,
+                        message: 'Error: Server Error'
+                    });
+                }
+
+                // Sends back token after valid sign in
+                return res.send({
+                    success: true,
+                    message: 'Valid sign in',
+                    token: doc._id
                 });
             });
         });
