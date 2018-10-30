@@ -3,7 +3,7 @@ const db = require('../models');
 
 module.exports = {
     // Handles Creating New User
-    createUser: function(req, res) {
+    createUser: (req, res) => {
         // Place information in variables
         const { body } = req;
         const {
@@ -79,7 +79,7 @@ module.exports = {
     },
 
     // Handles User Sign In
-    signin: function(req, res) {
+    signin:(req, res) => {
         // Place information in variables
         const { body } = req;
         const {
@@ -149,6 +149,73 @@ module.exports = {
                     token: doc._id
                 });
             });
+        });
+    },
+
+    // Handles User Verification
+    verify: (req, res) => {
+        // Gets User Token
+        const { query } = req;
+        const { token } = query;
+
+        // Verify the token is one of a kind and it has not been deleted.
+        db.UserSession.find({
+            _id: token,
+            isDeleted: false
+        }, {
+            new: true
+        }, (err, sessions) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            };
+            
+            if (sessions.length != 1) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Invalid'
+                });
+            } else {
+                return res.send({
+                    success: true,
+                    message: 'Good'
+                });
+            };
+        });
+    },
+
+    // Handles User Logout
+    logout: (req, res) => {
+        // Gets User Token
+        const { query } = req;
+        const { token } = query;
+
+        // Verify the token is one of a kind and it has not been deleted.
+        db.UserSession.findOneAndUpdate({
+            _id: token,
+            isDeleted: false
+        }, 
+        // Sets isDeleted to true
+        {
+            $set:{
+                isDeleted: true
+            }
+        }, {
+            new: true
+        }, (err) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            }
+
+            return res.send({
+                success: true,
+                message: 'Good'
+            });         
         });
     }
 };
