@@ -4,7 +4,6 @@ const db = require('../models');
 module.exports = {
     // Handles Creating New User
     createUser: function(req, res, next) {
-        console.log(req);
         // Place information in variables
         const { body } = req;
         const {
@@ -64,7 +63,7 @@ module.exports = {
             }
 
             // Save 'new User()' into variable
-            const newUser = new User();
+            const newUser = new db.User();
 
             // Saves New User
             newUser.email = email;

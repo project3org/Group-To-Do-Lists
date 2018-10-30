@@ -14,14 +14,14 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String
     },
-    idDeleted: {
+    isDeleted: {
         type: Boolean,
         default: false
     }
 });
 
-UserSchema.methods.gerateHash = function(password) {
-    return bcrypt.hashSync(password, bycrypt.genSaltSync(8), null);
+UserSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 UserSchema.methods.validPassword = function(password) {
