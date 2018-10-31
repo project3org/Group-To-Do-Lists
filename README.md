@@ -29,8 +29,8 @@ A list of tasks that multiple users have access to. The users can add items to t
 # Authors
 
 * **Corey Mitchell** - *User Authentication* - (https://github.com/corey-mitchell)
-* **Tyrell Bopp** - *Initial work* - (https://github.com/tbopp)
-* **Matthew Fort** - *Initial work* - (https://github.com/mfort87)
-* **Malorie Lara** - *Initial work* - ()
-* **V'Ana Abbott** - *Initial work* - ()
-* **Casey Monroe** - *Initial work* - (https://github.com/Monroe89)
+* **Tyrell Bopp** - ** - (https://github.com/tbopp)
+* **Matthew Fort** - ** - (https://github.com/mfort87)
+* **Malorie Lara** - ** - ()
+* **V'Ana Abbott** - ** - (https://github.com/vana-abbott)
+* **Casey Monroe** - ** - (https://github.com/Monroe89)
