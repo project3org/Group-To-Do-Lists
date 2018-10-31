@@ -146,6 +146,7 @@ module.exports = {
                 return res.send({
                     success: true,
                     message: 'Valid sign in',
+                    userData: users[0],
                     token: doc._id
                 });
             });
@@ -187,7 +188,7 @@ module.exports = {
     },
 
     // Handles User Logout
-    logout: (req, res) => {
+    signout: (req, res) => {
         // Gets User Token
         const { query } = req;
         const { token } = query;

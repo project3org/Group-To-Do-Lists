@@ -1,3 +1,6 @@
+// I may end up separating this into two separate components. One dialog for sign in and one for sign up.
+// I didn't at first because of how I'm passing in the Navbar. I don't want to pass too many components into each other.
+
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 // Import Navbar component
 import Navbar from './Navbar'
 
-// Import Function for Storing and Retrieving User Token
+// Import Function for Storing and Retrieving User's Token
 import {
   getFromStorage,
   setInStorage
@@ -23,20 +26,27 @@ export default class FormDialog extends React.Component {
     open: false,
     signedIn: false,
     signedUp: true,
-    token: null
+    signUpError: '',
+    signInError: '',
+    token: null,
+    userFirstName: ''
   };
 
-  // Checks for Token
+  // Checks for user token
   componentDidMount() {
-    const token = getFromStorage('the_main_app');
+    // Get obj from storage
+    const obj = getFromStorage('the_main_app');
 
-    // If token exists...
-    if (token) {
+    // If token exists in obj...
+    if (obj && obj.token) {
       // ...verify token
+      const { token } = obj;
       fetch(`/api/account/verify?token=${token}`)
         .then(res => res.json())
         .then(json => {
+          // If Response is successful
           if (json.success) {
+            // Set State token to exsisting token and sign in to true
             this.setState({
               token,
               signedIn: true
@@ -69,9 +79,6 @@ export default class FormDialog extends React.Component {
 
   // Handle Submit New User Button
   handleUserSubmit = () => {
-    this.setState({signedUp: true});
-    this.setState({signedIn: true});
-
     // Target input fields
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
@@ -92,14 +99,66 @@ export default class FormDialog extends React.Component {
       }),
     }).then(res => res.json())
       .then(json => {
+        // If post was successful,
         if (json.success) {
+          // log out success message
+          this.setState({
+            signUpError: json.message,
+            signedUp: true,
+            signedIn: true
+          });
+          console.log(json.message);
+          console.log(`Hello ${firstName}!`);
+        } else {
+        // Else log out error message
           this.setState({
             signUpError: json.message
           });
-        } else {
+          console.log(json.message);
+        }
+      });
+  };
+
+  // Handle User Sign In
+  handleUserSignIn = () => {
+    // Target input fields
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Posts new user info to DB
+    fetch('api/account/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+    }).then(res => res.json())
+      .then(json => {
+        // If Sign In is successful,
+        if (json.success) {
+          // save user token in localStorage
+          setInStorage('the_main_app', { token: json.token });
+          // Set states
           this.setState({
-            signUpError: json.message
-          })
+            signInError: json.message,
+            token: json.token,
+            signedIn: true
+          });
+
+          // This is to target the signed in user's info for later use
+          const user = json.userData
+          console.log(json.message);
+          console.log(`Hello ${user.firstName}!`);
+          // console.log(user);
+        } else {
+        // Else log out Server error message.
+          this.setState({
+            signInError: json.message
+          });
+          console.log(json.message);
         }
       });
   };
@@ -107,7 +166,36 @@ export default class FormDialog extends React.Component {
   // Handle 'Sign Out' Button
   handleUserSignOut = () => {
     this.setState({signedIn: false});
+
+    // Get obj from storage
+    const obj = getFromStorage('the_main_app');
+
+    // If token exists in obj...
+    if (obj && obj.token) {
+      // ...delete token
+      const { token } = obj;
+      fetch(`/api/account/signout?token=${token}`)
+        .then(res => res.json())
+        .then(json => {
+          // If Response is successful
+          if (json.success) {
+            // Set State token to blank and sign in to false
+            this.setState({
+              token: '',
+              signedIn: false
+            });
+          };
+        });
+    } else {
+      this.setState({
+        signedIn: false
+      });
+    };
   };
+
+
+  // Create Form Validation Here
+
 
   // Renders Component to app
   render() {
@@ -130,11 +218,12 @@ export default class FormDialog extends React.Component {
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
+          onEnter={this.validateForm}
         >
           <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
           <DialogContent>
             <DialogContentText>
-                Please enter the following information
+              Please enter the following information
             </DialogContentText>
             <TextField
               autoFocus
@@ -144,6 +233,7 @@ export default class FormDialog extends React.Component {
               type="text"
               onChange={this.onTextboxChangeSignUpFirstName}
               fullWidth
+              required
             />
             <TextField
               autoFocus
@@ -152,6 +242,7 @@ export default class FormDialog extends React.Component {
               label="Last Name"
               type="text"
               fullWidth
+              required
             />
             <TextField
               autoFocus
@@ -160,6 +251,7 @@ export default class FormDialog extends React.Component {
               label="Email Address"
               type="email"
               fullWidth
+              required
             />
             <TextField
               autoFocus
@@ -168,6 +260,7 @@ export default class FormDialog extends React.Component {
               label="Password"
               type="password"
               fullWidth
+              required
             />
           </DialogContent>
           <DialogActions>
@@ -208,7 +301,7 @@ export default class FormDialog extends React.Component {
               <TextField
                 autoFocus
                 margin="dense"
-                id="Email"
+                id="email"
                 label="Email Address"
                 type="email"
                 fullWidth
@@ -226,7 +319,7 @@ export default class FormDialog extends React.Component {
               <Button onClick={this.handleClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={this.handleClose} color="primary">
+              <Button onClick={this.handleUserSignIn} color="primary">
                 Sign In
               </Button>
             </DialogActions>

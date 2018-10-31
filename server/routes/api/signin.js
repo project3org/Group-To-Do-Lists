@@ -14,8 +14,8 @@ router.route('/signin')
 router.route('/verify')
     .get(userController.verify);
 
-router.route('/logout')
-    .get(userController.logout);
+router.route('/signout')
+    .get(userController.signout);
 
 // Exports Router
 module.exports = router;
