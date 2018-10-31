@@ -10,39 +10,104 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 // Import Navbar component
 import Navbar from './Navbar'
 
+// Import Function for Storing and Retrieving User Token
+import {
+  getFromStorage,
+  setInStorage
+} from '../utils/storage';
+
 // Creates and exports component
 export default class FormDialog extends React.Component {
   // Creates States
   state = {
     open: false,
     signedIn: false,
-    signedUp: true
+    signedUp: true,
+    token: null
   };
 
-  // Button Functions
+  // Checks for Token
+  componentDidMount() {
+    const token = getFromStorage('the_main_app');
+
+    // If token exists...
+    if (token) {
+      // ...verify token
+      fetch(`/api/account/verify?token=${token}`)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token,
+              signedIn: true
+            });
+          };
+        });
+    } else {
+      this.setState({
+        signedIn: false
+      });
+    };
+  };
+
+  // Button Handlers
+
+  // Opens Dialog
   handleClickOpen = () => {
     this.setState({ open: true });
   };
 
+  // Closes Dialog
   handleClose = () => {
     this.setState({ open: false });
   };
 
+  // Changes Dialog From 'Sign In' to 'Sign Up'
   handleSignedUp = () => {
     this.setState({signedUp: false});
   };
 
+  // Handle Submit New User Button
   handleUserSubmit = () => {
     this.setState({signedUp: true});
     this.setState({signedIn: true});
 
-    // Add code here to post user info to DB
+    // Target input fields
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Posts new user info to DB
+    fetch('api/account/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password
+      }),
+    }).then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            signUpError: json.message
+          });
+        } else {
+          this.setState({
+            signUpError: json.message
+          })
+        }
+      });
   };
 
+  // Handle 'Sign Out' Button
   handleUserSignOut = () => {
     this.setState({signedIn: false});
   };
-
 
   // Renders Component to app
   render() {
@@ -77,6 +142,7 @@ export default class FormDialog extends React.Component {
               id="firstName"
               label="First Name"
               type="text"
+              onChange={this.onTextboxChangeSignUpFirstName}
               fullWidth
             />
             <TextField
