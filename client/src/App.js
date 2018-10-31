@@ -1,4 +1,8 @@
+// Import React
 import React, { Component } from 'react';
+// Import Components
+import Navbar from './components/Navbar';
+// Import CSS
 import './App.css';
 
 import {
@@ -22,7 +26,7 @@ class App extends Component {
       signUpFirstName: '',
       signUpLastName: '',
       signUpEmail: '',
-      signUpPassword: ''
+      signUpPassword: '',
     };
 
     // Binds Text Changes
@@ -159,98 +163,99 @@ class App extends Component {
 
   // Renders Data to page
   render() {
-    // Targets States
-    const {
-      isLoading,
-      token,
-      isSignedIn,
-      signUpError,
-      signInError,
-      signInEmail,
-      signInPassword,
-      signUpFirstName,
-      signUpLastName,
-      signUpEmail,
-      signUpPassword
-    } = this.state;
+    // // Targets States
+    // const {
+    //   isLoading,
+    //   token,
+    //   isSignedIn,
+    //   signUpError,
+    //   signInError,
+    //   signInEmail,
+    //   signInPassword,
+    //   signUpFirstName,
+    //   signUpLastName,
+    //   signUpEmail,
+    //   signUpPassword
+    // } = this.state;
 
-    // If loading, render loading dive
-    if (isLoading) {
-      return(<div><p>Loading...</p></div>);
-    };
+    // // If loading, render loading dive
+    // if (isLoading) {
+    //   return(<div><p>Loading...</p></div>);
+    // };
 
-    // If token = null then display sign in/sign up
-    if (!token) {
-      return(
-        <div>
-          <div>
-            {/* If sign in error, display it. Else displays nothing. */}
-            {
-              (signInError) ? (
-                <p>{signInError}</p>
-              ) : (null)
-            }
-            {/* Sign In Div */}
-            <p>Sign In</p>
-            <input 
-              type="email" 
-              placeholder="Email" 
-              value={signInEmail}
-              onChange={this.onTextboxChangeSignInEmail}
-            />
-            <br />
-            <input 
-              type="password" 
-              placeholder="password" 
-              value={signInPassword}
-              onChange={this.onTextboxChangeSignInPassword}
-            />
-            <br />
-            <button onClick={this.onSignIn}>Sign In</button>
-          </div>
-          <br />
-          {/* Sign Up Div */}
-          <div>
-            <p>Sign Up</p>
-            <input 
-              type='text' 
-              placeholder="First Name" 
-              value={signUpFirstName} 
-              onChange={this.onTextboxChangeSignUpFirstName}
-            />
-            <br />
-            <input 
-              type='text' 
-              placeholder="Last Name" 
-              value={signUpLastName} 
-              onChange={this.onTextboxChangeSignUpLastName}
-            />
-            <br />
-            <input 
-              type='email' 
-              placeholder="Email" 
-              value={signUpEmail} 
-              onChange={this.onTextboxChangeSignUpEmail}
-            />
-            <br />
-            <input 
-              type='password' 
-              placeholder="Password" 
-              value={signUpPassword} 
-              onChange={this.onTextboxChangeSignUpPassword}
-            />
-            <br />
-            <button onClick={this.onSignUp}>Sign Up</button>
-          </div>
-        </div>
-      );
-    };
+    // // If token = null then display sign in/sign up
+    // if (!token) {
+    //   return(
+    //     <div>
+    //       <div>
+    //         {/* If sign in error, display it. Else displays nothing. */}
+    //         {
+    //           (signInError) ? (
+    //             <p>{signInError}</p>
+    //           ) : (null)
+    //         }
+    //         {/* Sign In Div */}
+    //         <p>Sign In</p>
+    //         <input 
+    //           type="email" 
+    //           placeholder="Email" 
+    //           value={signInEmail}
+    //           onChange={this.onTextboxChangeSignInEmail}
+    //         />
+    //         <br />
+    //         <input 
+    //           type="password" 
+    //           placeholder="password" 
+    //           value={signInPassword}
+    //           onChange={this.onTextboxChangeSignInPassword}
+    //         />
+    //         <br />
+    //         <button onClick={this.onSignIn}>Sign In</button>
+    //       </div>
+    //       <br />
+    //       {/* Sign Up Div */}
+    //       <div>
+    //         <p>Sign Up</p>
+    //         <input 
+    //           type='text' 
+    //           placeholder="First Name" 
+    //           value={signUpFirstName} 
+    //           onChange={this.onTextboxChangeSignUpFirstName}
+    //         />
+    //         <br />
+    //         <input 
+    //           type='text' 
+    //           placeholder="Last Name" 
+    //           value={signUpLastName} 
+    //           onChange={this.onTextboxChangeSignUpLastName}
+    //         />
+    //         <br />
+    //         <input 
+    //           type='email' 
+    //           placeholder="Email" 
+    //           value={signUpEmail} 
+    //           onChange={this.onTextboxChangeSignUpEmail}
+    //         />
+    //         <br />
+    //         <input 
+    //           type='password' 
+    //           placeholder="Password" 
+    //           value={signUpPassword} 
+    //           onChange={this.onTextboxChangeSignUpPassword}
+    //         />
+    //         <br />
+    //         <button onClick={this.onSignUp}>Sign Up</button>
+    //       </div>
+    //     </div>
+    //   );
+    // };
 
-    // return (
-    //   <div className="App">
-    //     <h1>We puts the stuffs here!</h1>
-    //   </div>
-    // );
+    return (
+      <div className="App">
+        <Navbar name={this.state.signUpFirstName}/>
+        <h1>We puts the stuffs here!</h1>
+      </div>
+    );
   }
 }
 
