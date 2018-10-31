@@ -30,10 +30,11 @@ function ButtonAppBar(props) {
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
+          <Typography variant="display1" color="inherit" className={classes.grow}>
             Task Master
           </Typography>
-          <Button color="inherit">Login</Button>
+          {/* Add an onClick function here to open sign in modal */}
+          <Button color="inherit" onClick={props.open}>{props.isSignedIn}</Button>
         </Toolbar>
       </AppBar>
     </div>

@@ -1,7 +1,7 @@
 // Import React
 import React, { Component } from 'react';
 // Import Components
-import Navbar from './components/Navbar';
+import NavDialogs from './components/Dialogs';
 // Import CSS
 import './App.css';
 
@@ -18,7 +18,7 @@ class App extends Component {
     // Creates States
     this.state = {
       isLoading: true,
-      isSignedIn: '',
+      isSignedIn: false,
       signUpError: '',
       signInError: '',
       signInEmail: '',
@@ -252,7 +252,10 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Navbar name={this.state.signUpFirstName}/>
+        {/* I Pass in the Sign In/Sign Up dialog, Which in turn passes in the Navbar. */}
+        {/* This way, the Navbar can open the dialogs */}
+        <NavDialogs isSignedIn={this.state.isSignedIn} />
+
         <h1>We puts the stuffs here!</h1>
       </div>
     );
