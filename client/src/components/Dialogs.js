@@ -231,7 +231,6 @@ export default class FormDialog extends React.Component {
               id="firstName"
               label="First Name"
               type="text"
-              onChange={this.onTextboxChangeSignUpFirstName}
               fullWidth
               required
             />

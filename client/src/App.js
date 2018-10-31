@@ -6,6 +6,14 @@ import NavDialogs from './components/Dialogs';
 import './App.css';
 
 class App extends Component {
+  // Set States
+  constructor(props) {
+    super(props);
+    this.state = {
+      signInButtonMessage: 'Sign In'
+    };    
+  }
+
   // Renders Data to page
   render() {
     return (
