@@ -23,11 +23,13 @@
     "@material-ui/icons": "^3.0.1",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
     "express": "^4.16.4",
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.6",
     "nodemailer": "^4.6.8",
+    "passport": "^0.4.0",
     "randomstring": "^1.1.5"
   }
 }
