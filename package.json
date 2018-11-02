@@ -27,6 +27,7 @@
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.6",
+    "nodemailer": "^4.6.8",
     "randomstring": "^1.1.5"
   }
 }
