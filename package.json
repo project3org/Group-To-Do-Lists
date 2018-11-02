@@ -30,6 +30,8 @@
     "mongoose": "^5.3.6",
     "nodemailer": "^4.6.8",
     "passport": "^0.4.0",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "react": "^16.6.0",
+    "react-router-dom": "^4.3.1"
   }
 }

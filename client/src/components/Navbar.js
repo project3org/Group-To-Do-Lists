@@ -1,12 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+
+import SignUp from './dialogs/SignUp';
+import SignIn from './dialogs/SignIn';
 
 const styles = {
   root: {
@@ -21,28 +22,58 @@ const styles = {
   },
 };
 
-function ButtonAppBar(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="display1" color="inherit" className={classes.grow}>
-            Task Master
-          </Typography>
-          {/* Add an onClick function here to open sign in modal */}
-          <Button color="inherit" onClick={props.open}>{props.isSignedIn}</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+export default class FormDialog extends React.Component {
+  state = {
+    openSignIn: false,
+    openSignUp: false,
+    signedInOrOutButton: ''
+  };
+
+  openSignInDialog = () => {
+    this.setState({openSignIn: true});
+  };
+
+  openSignUpDialog = () => {
+    this.setState({openSignUp: true});
+  };
+
+  closeDialog = () => {
+    this.setState({
+      openSignIn: false,
+      openSignUp: false
+    });
+  };
+
+  signInOrOut = (string) => {
+    this.setState({
+      signedInOrOutButton: string
+    });
+  };
+
+  render() {
+    return (
+      <div className='root' style={styles.root}>
+        {/* Render Closed Dialogs With the AppBar for Sign In/Sign Up function*/}
+        <SignIn open={this.state.openSignIn} close={this.closeDialog} signInButton={this.signInOrOut}/>
+        <SignUp open={this.state.openSignUp} close={this.closeDialog}/>
+
+        {/* Render AppBar */}
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="display1" color="inherit" className='grow' style={styles.grow}>
+              Task Master
+            </Typography>
+            {/* Sign In Button */}
+            <Button color="inherit" onClick={this.openSignInDialog}>Sign In</Button>
+
+            {/* Sign Up Button */}
+            <Button color="inherit" onClick={this.openSignUpDialog}>Sign Up</Button>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
-
-ButtonAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(ButtonAppBar);
