@@ -52,12 +52,15 @@ export default class FormDialog extends React.Component {
         if (json.success) {
           // log out success message
           this.setState({
-            signUpError: '',
+            signUpError: json.message,
             signedUp: true,
             signedIn: true
           });
           // Tells the user Hello in console
           console.log(`Hello ${firstName}!`);
+
+          // Closes the Dialog after successful user submittion
+          this.props.close();
         } else {
         // Else log out error message
           this.setState({

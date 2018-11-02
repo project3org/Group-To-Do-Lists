@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { getFromStorage, setInStorage } from '../../utils/storage';
+import { setInStorage } from '../../utils/storage';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -27,34 +27,6 @@ export default class FormDialog extends React.Component {
             signedIn: false,
             signInError: '',
             token: null
-        };
-    };
-
-    // Checks for user token on component load
-    componentDidMount() {
-        // Get obj from storage
-        const obj = getFromStorage('the_main_app');
-
-        // If token exists in obj...
-        if (obj && obj.token) {
-        // ...verify token
-        const { token } = obj;
-        fetch(`/api/account/verify?token=${token}`)
-            .then(res => res.json())
-            .then(json => {
-            // If Response is successful
-            if (json.success) {
-                // Set State token to exsisting token and sign in to true
-                this.setState({
-                token,
-                signedIn: true
-                });
-            };
-            });
-        } else {
-        this.setState({
-            signedIn: false
-        });
         };
     };
 
@@ -94,7 +66,10 @@ export default class FormDialog extends React.Component {
             console.log(`Hello ${user.firstName}!`);
 
             // Changes Button From 'Sign In' to 'Sign Out'
-            this.props.signInButton('Sign Out');
+            this.props.button('Sign Out');
+
+            // Closes Dialog After Successful Sign In
+            this.props.close();
         } else {
         // Else log out Server error message.
             this.setState({
@@ -104,38 +79,38 @@ export default class FormDialog extends React.Component {
         }});
     };
 
-    // Handle 'Sign Out' Button
-    handleUserSignOut = () => {
-    this.setState({signedIn: false});
+    // // Handle 'Sign Out' Button
+    // handleUserSignOut = () => {
+    // this.setState({signedIn: false});
 
-    // Get obj from storage
-    const obj = getFromStorage('the_main_app');
+    // // Get obj from storage
+    // const obj = getFromStorage('the_main_app');
 
-    // If token exists in obj...
-    if (obj && obj.token) {
-        // ...delete token
-        const { token } = obj;
-        fetch(`/api/account/signout?token=${token}`)
-        .then(res => res.json())
-        .then(json => {
-            // If Response is successful
-            if (json.success) {
-                // Set State token to blank and sign in to false
-                this.setState({
-                    token: '',
-                    signedIn: false
-                });
+    // // If token exists in obj...
+    // if (obj && obj.token) {
+    //     // ...delete token
+    //     const { token } = obj;
+    //     fetch(`/api/account/signout?token=${token}`)
+    //     .then(res => res.json())
+    //     .then(json => {
+    //         // If Response is successful
+    //         if (json.success) {
+    //             // Set State token to blank and sign in to false
+    //             this.setState({
+    //                 token: '',
+    //                 signedIn: false
+    //             });
 
-                // Changes Button From 'Sign Out' to Sign In'
-                this.props.signInButton('Sign In');
-            };
-        });
-    } else {
-        this.setState({
-        signedIn: false
-        });
-    };
-    };
+    //             // Changes Button From 'Sign Out' to Sign In'
+    //             this.props.button('Sign In');
+    //         };
+    //     });
+    // } else {
+    //     this.setState({
+    //     signedIn: false
+    //     });
+    // };
+    // };
 
     // Renders Component
     render() {
