@@ -284,7 +284,7 @@ module.exports = {
                 });
             }
 
-            req.flash('Email Confirmed! You may now log in.')
+            req.flash('success', 'Email Confirmed! You may now log in.')
 
             res.send({
                 success: true,
