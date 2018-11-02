@@ -1,5 +1,15 @@
+// const jwt = require('jsonwebtoken');
+const randomstring = require('randomstring');
+
 // Require Models
 const db = require('../models');
+
+// Makes sure that the email field is in the proper format
+// i.g. thisemail@domain.com
+validateEmail = (email) => {
+  const regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regEx.test(email);
+};
 
 module.exports = {
     // Handles Creating New User
@@ -9,30 +19,52 @@ module.exports = {
         const {
             firstName,
             lastName,
-            password
+            password,
+            passwordVerification
         } = body;
         let { email } = body;
 
+        // Generates random string and saves it as a secretToken
+        const secretToken = randomstring.generate();
+        req.body.secretToken = secretToken;
+        req.body.isConfirmed = false;
+
         // Check to make sure that all fields are filled out
+        // Returns corresponding error messages
         if (!firstName) {
             return res.send({
                 success: false,
-                message: 'Error: First name cannot be blank.'
+                message: 'First name cannot be blank.'
             });
         } else if (!lastName) {
             return res.send({
                 success: false,
-                message: 'Error: Last name cannot be blank.'
+                message: 'Last name cannot be blank.'
             });
         } else if (!email) {
             return res.send({
                 success: false,
-                message: 'Error: Email cannot be blank.'
+                message: 'Email cannot be blank.'
             });
+        } else if (!validateEmail(email)) {
+            return res.send({
+                success: false,
+                message: 'Please enter a valid email.'
+            })
         } else if (!password) {
             return res.send({
                 success: false,
-                message: 'Error: Password cannot be blank.'
+                message: 'Password cannot be blank.'
+            });
+        } else if (!passwordVerification) {
+            return res.send({
+                success: false,
+                message: 'Please Verify Password.'
+            });
+        } else if (password !== passwordVerification) {
+            return res.send({
+                success: false,
+                message: 'Passwords do not match.'
             });
         }
 
@@ -51,7 +83,7 @@ module.exports = {
             } else if (previousUsers.length > 0) {
                 return res.send({
                     success: false,
-                    message: 'Error: Account already exists.'
+                    message: 'Account already exists.'
                 });
             }
 
@@ -63,6 +95,7 @@ module.exports = {
             newUser.firstName = firstName;
             newUser.lastName = lastName;
             newUser.password = newUser.generateHash(password);
+            newUser.secretToken = secretToken;
             newUser.save((err, user)=>{
                 if (err) {
                     return res.send({
@@ -75,6 +108,8 @@ module.exports = {
                     message: 'Signed up successfully!'
                 });
             });
+
+            console.log(req.body);
         });
     },
 
@@ -91,12 +126,12 @@ module.exports = {
         if (!email) {
             return res.send({
                 success: false,
-                message: 'Error: Email cannot be blank.'
+                message: 'Email cannot be blank.'
             });
         } else if (!password) {
             return res.send({
                 success: false,
-                message: 'Error: Password cannot be blank.'
+                message: 'Password cannot be blank.'
             });
         };
 
@@ -108,16 +143,21 @@ module.exports = {
             email: email,
         }, (err, users)=>{
             if(err) {
+            return res.send({
+                success: false,
+                message: 'Error: Server error.'
+            })
+            } else if (users.length != 1) {
                 return res.send({
                     success: false,
-                    message: 'Error: Server error.'
+                    message: 'Invalid Email.'
                 })
-            } else if (users.length != 1) {
-                    return res.send({
-                        success: false,
-                        message: 'Error: Invalid Email'
-                    })
-            };
+            } else if (!users[0].isConfirmed) {
+                return res.send({
+                    success: false,
+                    message: 'Please confirm email to sign in.'
+                })
+            }
 
             // Setting the user to a variable
             const user = users[0];
@@ -153,40 +193,6 @@ module.exports = {
         });
     },
 
-    // Handles User Verification
-    verify: (req, res) => {
-        // Gets User Token
-        const { query } = req;
-        const { token } = query;
-
-        // Verify the token is one of a kind and it has not been deleted.
-        db.UserSession.find({
-            _id: token,
-            isDeleted: false
-        }, {
-            new: true
-        }, (err, sessions) => {
-            if (err) {
-                return res.send({
-                    success: false,
-                    message: 'Error: Server Error'
-                });
-            };
-            
-            if (sessions.length != 1) {
-                return res.send({
-                    success: false,
-                    message: 'Error: Invalid'
-                });
-            } else {
-                return res.send({
-                    success: true,
-                    message: 'Good'
-                });
-            };
-        });
-    },
-
     // Handles User Logout
     signout: (req, res) => {
         // Gets User Token
@@ -218,5 +224,77 @@ module.exports = {
                 message: 'Good'
             });         
         });
+    },
+
+    // Handles User Verification
+    verifySession: (req, res) => {
+        // Gets User Token
+        const { query } = req;
+        const { token } = query;
+
+        // Verify the token is one of a kind and it has not been deleted.
+        db.UserSession.find({
+            _id: token,
+            isDeleted: false
+        }, {
+            new: true
+        }, (err, sessions) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            };
+            
+            if (sessions.length != 1) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Invalid Session'
+                });
+            } else {
+                return res.send({
+                    success: true,
+                    message: 'Good'
+                });
+            };
+        });
+    },
+
+    // Handles Email Confirmation
+    emailVerification: async (req, res) => {
+        // Target Token
+        const token = req.params.token;
+
+        // Finds user that has this secret token and has not confirmed email
+        db.User.findOneAndUpdate({
+            secretToken: token,
+            isConfirmed: false
+        }, {
+            // Set confirmed email to true so that the user can now log in
+            $set: {
+                isConfirmed: true
+            }
+        }, {
+            new: true
+        }, (err) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            }
+
+            req.flash('Email Confirmed! You may now log in.')
+
+            res.send({
+                success: true,
+                message: 'Email Confirmed'
+            }); 
+            return;        
+        });
+
+        // Redirects the page back to home
+        // return res.redirect('/');
     }
+
 };
