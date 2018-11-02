@@ -29,7 +29,7 @@ export default class FormDialog extends React.Component {
     signUpError: '',
     signInError: '',
     token: null,
-    userFirstName: ''
+    userFirstName: '',
   };
 
   // Checks for user token
@@ -225,6 +225,9 @@ export default class FormDialog extends React.Component {
             <DialogContentText>
               Please enter the following information
             </DialogContentText>
+            <DialogContentText className='errMessage'>
+              {this.state.signUpError}
+            </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
@@ -296,6 +299,9 @@ export default class FormDialog extends React.Component {
                 <Button onClick={this.handleSignedUp} color="primary">
                   Sign Up
                 </Button>
+              </DialogContentText>
+              <DialogContentText className='errMessage'>
+                {this.state.signInError}
               </DialogContentText>
               <TextField
                 autoFocus
