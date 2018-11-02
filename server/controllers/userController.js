@@ -1,7 +1,7 @@
-// const jwt = require('jsonwebtoken');
+// Require dependencies
 const randomstring = require('randomstring');
-
-// Require Models
+const passport = require('passport');
+const mailer = require('../mailer/mailer');
 const db = require('../models');
 
 // Makes sure that the email field is in the proper format
@@ -11,6 +11,7 @@ validateEmail = (email) => {
   return regEx.test(email);
 };
 
+// Exports Controllers
 module.exports = {
     // Handles Creating New User
     createUser: (req, res) => {
@@ -109,7 +110,26 @@ module.exports = {
                 });
             });
 
-            console.log(req.body);
+            // Create email text
+            const verificationEmail = `Hello ${firstName},
+            <br />
+            Thank you for registering with Task Master!
+            In order to log in to your account, we need to verify your email address.
+            Please follow this link:
+            <br />
+            <a href='http://localhost:3000/api/account/confirmation/${secretToken}'>http://localhost:3000/api/account/confirmation/${secretToken}</a>
+            <br />
+            We hope you enjoy the site.
+            <br /><br />
+            <b>Thanks Again!</b>
+            <br /><br />
+            Task Master Devs`
+
+            // Send email
+            mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', email, 'Task Master Email Verification', verificationEmail);
+
+            // res.flash('success', 'Please check your email.');
+            // res.redirect('/');
         });
     },
 
@@ -282,9 +302,7 @@ module.exports = {
                     success: false,
                     message: 'Error: Server Error'
                 });
-            }
-
-            req.flash('success', 'Email Confirmed! You may now log in.')
+            };
 
             res.send({
                 success: true,
@@ -294,7 +312,6 @@ module.exports = {
         });
 
         // Redirects the page back to home
-        // return res.redirect('/');
+        return res.redirect('/');
     }
-
 };

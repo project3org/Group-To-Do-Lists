@@ -1,6 +1,10 @@
+// This file is for sending emails through node
+
+// Require dependencies
 const nodemailer = require('nodemailer');
 const config = require('./config');
 
+// Create Transport
 const transport = nodemailer.createTransport({
     service: 'Mailgun',
     auth: {
@@ -12,6 +16,7 @@ const transport = nodemailer.createTransport({
     }
 });
 
+// Exports sendMail function
 module.exports = {
     sendEmail(from, to, subject, html) {
         return new Promise((resolve, reject) => {
