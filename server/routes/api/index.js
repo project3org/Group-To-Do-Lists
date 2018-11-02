@@ -2,10 +2,10 @@
 const router = require("express").Router();
 
 // Require Route here.
-const signinRoute = require("./signin");
+const userAuthRoute = require("./userAuth");
 
 // API routes
-router.use("/account", signinRoute);
+router.use("/account", userAuthRoute);
 
 // Export Router
 module.exports = router;

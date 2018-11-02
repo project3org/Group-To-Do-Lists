@@ -19,6 +19,14 @@ import {
   setInStorage
 } from '../utils/storage';
 
+// Creating some styles to Override material-ui
+const errorStyle = {
+  color: 'red',
+  fontSize: 13,
+  textAlign: 'right',
+  paddingTop: 10
+};
+
 // Creates and exports component
 export default class FormDialog extends React.Component {
   // Creates States
@@ -28,8 +36,7 @@ export default class FormDialog extends React.Component {
     signedUp: true,
     signUpError: '',
     signInError: '',
-    token: null,
-    userFirstName: '',
+    token: null
   };
 
   // Checks for user token
@@ -69,7 +76,11 @@ export default class FormDialog extends React.Component {
 
   // Closes Dialog
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({
+      open: false,
+      signInError: '',
+      signUpError: ''
+    });
   };
 
   // Changes Dialog From 'Sign In' to 'Sign Up'
@@ -77,13 +88,14 @@ export default class FormDialog extends React.Component {
     this.setState({signedUp: false});
   };
 
-  // Handle Submit New User Button
+  // Handle Submit New User
   handleUserSubmit = () => {
     // Target input fields
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const passwordVerification = document.getElementById('passwordVerification').value;
 
     // Posts new user info to DB
     fetch('api/account/signup', {
@@ -95,7 +107,8 @@ export default class FormDialog extends React.Component {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password
+        password: password,
+        passwordVerification: passwordVerification
       }),
     }).then(res => res.json())
       .then(json => {
@@ -103,24 +116,23 @@ export default class FormDialog extends React.Component {
         if (json.success) {
           // log out success message
           this.setState({
-            signUpError: json.message,
+            signUpError: '',
             signedUp: true,
             signedIn: true
           });
-          console.log(json.message);
           console.log(`Hello ${firstName}!`);
         } else {
         // Else log out error message
           this.setState({
             signUpError: json.message
           });
-          console.log(json.message);
         }
       });
   };
 
   // Handle User Sign In
   handleUserSignIn = () => {
+
     // Target input fields
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -143,22 +155,19 @@ export default class FormDialog extends React.Component {
           setInStorage('the_main_app', { token: json.token });
           // Set states
           this.setState({
-            signInError: json.message,
+            signInError: '',
             token: json.token,
             signedIn: true
           });
 
           // This is to target the signed in user's info for later use
           const user = json.userData
-          console.log(json.message);
           console.log(`Hello ${user.firstName}!`);
-          // console.log(user);
         } else {
         // Else log out Server error message.
           this.setState({
             signInError: json.message
           });
-          console.log(json.message);
         }
       });
   };
@@ -193,10 +202,6 @@ export default class FormDialog extends React.Component {
     };
   };
 
-
-  // Create Form Validation Here
-
-
   // Renders Component to app
   render() {
     // If User is NOT Signed Up, and NOT signed in
@@ -225,9 +230,6 @@ export default class FormDialog extends React.Component {
             <DialogContentText>
               Please enter the following information
             </DialogContentText>
-            <DialogContentText className='errMessage'>
-              {this.state.signUpError}
-            </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
@@ -238,7 +240,6 @@ export default class FormDialog extends React.Component {
               required
             />
             <TextField
-              autoFocus
               margin="dense"
               id="lastName"
               label="Last Name"
@@ -247,7 +248,6 @@ export default class FormDialog extends React.Component {
               required
             />
             <TextField
-              autoFocus
               margin="dense"
               id="email"
               label="Email Address"
@@ -256,7 +256,6 @@ export default class FormDialog extends React.Component {
               required
             />
             <TextField
-              autoFocus
               margin="dense"
               id="password"
               label="Password"
@@ -264,6 +263,17 @@ export default class FormDialog extends React.Component {
               fullWidth
               required
             />
+            <TextField
+              margin="dense"
+              id="passwordVerification"
+              label="Password Verification"
+              type="password"
+              fullWidth
+              required
+            />
+            <DialogContentText style={errorStyle}>
+              {this.state.signUpError}
+            </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
@@ -300,9 +310,6 @@ export default class FormDialog extends React.Component {
                   Sign Up
                 </Button>
               </DialogContentText>
-              <DialogContentText className='errMessage'>
-                {this.state.signInError}
-              </DialogContentText>
               <TextField
                 autoFocus
                 margin="dense"
@@ -312,13 +319,15 @@ export default class FormDialog extends React.Component {
                 fullWidth
               />
               <TextField
-                autoFocus
                 margin="dense"
                 id="password"
                 label="Password"
                 type="password"
                 fullWidth
               />
+              <DialogContentText style={errorStyle}>
+                {this.state.signInError}
+              </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={this.handleClose} color="primary">

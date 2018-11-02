@@ -18,6 +18,14 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    secretToken: {
+        type: String,
+        default: ''
+    },
+    isConfirmed: {
+        type: Boolean,
+        default: false
+    },
     isDeleted: {
         type: Boolean,
         default: false

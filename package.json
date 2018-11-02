@@ -25,6 +25,8 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "if-env": "^1.0.4",
-    "mongoose": "^5.3.6"
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.6",
+    "randomstring": "^1.1.5"
   }
 }
