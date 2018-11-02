@@ -246,7 +246,7 @@ module.exports = {
         });
     },
 
-    // Handles User Verification
+    // Handles User Session Verification
     verifySession: (req, res) => {
         // Gets User Token
         const { query } = req;
