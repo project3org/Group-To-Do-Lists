@@ -64,6 +64,7 @@ export default class FormDialog extends React.Component {
           this.props.close();
 
           // Display a success message telling user to check their email
+          // Creates toastr options
           toastr.options = {
             "closeButton": true,
             "debug": false,
@@ -82,6 +83,7 @@ export default class FormDialog extends React.Component {
             "hideMethod": "fadeOut"
           };
 
+          // Sends toastr message to user
           toastr["success"]("My name is Inigo Montoya. You killed my father. Prepare to die!");
         } else {
         // Else log out error message
