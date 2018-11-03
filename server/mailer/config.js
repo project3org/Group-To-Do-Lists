@@ -2,6 +2,6 @@
 
 // Export Mailgun information
 module.exports = {
-    USER:'corey.waitforit.mitchell@gmail.com',
-    PASS:'athena18$'
+    USER:'nigerianprincelookingformoney@gmail.com',
+    PASS:'macaroniman69$'
 };

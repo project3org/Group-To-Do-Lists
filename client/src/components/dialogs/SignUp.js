@@ -1,4 +1,5 @@
 import React from 'react';
+import toastr from 'toastr';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -61,6 +62,27 @@ export default class FormDialog extends React.Component {
 
           // Closes the Dialog after successful user submittion
           this.props.close();
+
+          // Display a success message telling user to check their email
+          toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          };
+
+          toastr["success"]("My name is Inigo Montoya. You killed my father. Prepare to die!");
         } else {
         // Else log out error message
           this.setState({
