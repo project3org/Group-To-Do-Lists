@@ -11,11 +11,14 @@ router.route('/signup')
 router.route('/signin')
     .post(userController.signin);
 
-router.route('/verify')
-    .get(userController.verify);
-
 router.route('/signout')
     .get(userController.signout);
+
+router.route('/verify')
+    .get(userController.verifySession);
+
+router.route('/confirmation/:token')
+    .put(userController.emailVerification);
 
 // Exports Router
 module.exports = router;

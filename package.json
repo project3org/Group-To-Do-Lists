@@ -23,8 +23,21 @@
     "@material-ui/icons": "^3.0.1",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
     "express": "^4.16.4",
     "if-env": "^1.0.4",
-    "mongoose": "^5.3.6"
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.6",
+    "nodemailer": "^4.6.8",
+    "passport": "^0.4.0",
+    "randomstring": "^1.1.5",
+    "react": "^16.6.0",
+    "react-router-dom": "^4.3.1",
+<<<<<<< HEAD
+    "react-toastr": "^3.0.0",
+    "toastr": "^2.1.4",
+=======
+>>>>>>> dece68a9df512668c4094b76ec0e68aebcb67d64
+    "xoauth2": "^1.2.0"
   }
 }

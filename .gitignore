@@ -1,2 +1,5 @@
 # dependencies
 /node_modules
+
+# mailer info
+/server/mailer/config.js
