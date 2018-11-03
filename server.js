@@ -1,7 +1,7 @@
 // Require Dependencies
 const express = require("express");
 const mongoose = require("mongoose");
-const routes = require("./routes");
+const routes = require("./server/routes");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -12,11 +12,12 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client"));
 }
+
 // Add routes, both API and view
 app.use(routes);
 
-// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+// If deployed, use the deployed database. Otherwise use the local <DB Name Here> database
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/ToDo";
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
