@@ -79,39 +79,6 @@ export default class FormDialog extends React.Component {
         }});
     };
 
-    // // Handle 'Sign Out' Button
-    // handleUserSignOut = () => {
-    // this.setState({signedIn: false});
-
-    // // Get obj from storage
-    // const obj = getFromStorage('the_main_app');
-
-    // // If token exists in obj...
-    // if (obj && obj.token) {
-    //     // ...delete token
-    //     const { token } = obj;
-    //     fetch(`/api/account/signout?token=${token}`)
-    //     .then(res => res.json())
-    //     .then(json => {
-    //         // If Response is successful
-    //         if (json.success) {
-    //             // Set State token to blank and sign in to false
-    //             this.setState({
-    //                 token: '',
-    //                 signedIn: false
-    //             });
-
-    //             // Changes Button From 'Sign Out' to Sign In'
-    //             this.props.button('Sign In');
-    //         };
-    //     });
-    // } else {
-    //     this.setState({
-    //     signedIn: false
-    //     });
-    // };
-    // };
-
     // Renders Component
     render() {
         return (
