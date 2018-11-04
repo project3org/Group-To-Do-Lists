@@ -1,15 +1,26 @@
+// Import react and dependencies
 import React from "react";
 import "font-awesome/css/font-awesome.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { Col, Container, Row, Footer } from "mdbreact";
 
+// Creating style to make footer sticky
+const styles = {
+  footer: {
+    paddingTop: '50vh'
+  }
+};
+
+// Create component
 class FooterPagePro extends React.Component {
+  // Render Component
   render() {
     return (
       <Footer
         color="stylish-color-dark"
         className="page-footer font-small pt-4 mt-4"
+        style={styles.footer}
       >
         <Container fluid className="text-center text-md-left">
           <Row>
@@ -76,4 +87,5 @@ class FooterPagePro extends React.Component {
   }
 }
 
+// Export Component
 export default FooterPagePro;

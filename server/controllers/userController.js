@@ -288,8 +288,6 @@ module.exports = {
         // Target Token
         const token = req.params.token;
 
-        console.log(token);
-
         // Finds user that has this secret token and has not confirmed email
         db.User.findOneAndUpdate({
             secretToken: token,
