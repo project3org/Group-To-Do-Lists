@@ -39,7 +39,8 @@ class App extends Component {
           });
         };
       });
-      
+
+      // Redirect user back to homepage
       return window.location.href = "/"
   };
 
