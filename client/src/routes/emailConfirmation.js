@@ -53,9 +53,6 @@ class App extends Component {
 
         {/* Main Content */}
         <MainBody verify={this.verifyEmail}/>
-        {/* <h1>Email Verification</h1>
-        <h2>Click this button to verify email</h2>
-        <button onClick={this.buttonFunction}>Verify</button> */}
 
         {/* Footer */}
         <Footer />
