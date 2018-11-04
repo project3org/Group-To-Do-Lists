@@ -15,6 +15,9 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  appBar: {
+    background: '#323741',
+  },
   grow: {
     flexGrow: 1,
   },
@@ -146,7 +149,7 @@ export default class FormDialog extends React.Component {
         <SignUp open={this.state.openSignUp} close={this.closeDialog}/>
 
         {/* Render AppBar */}
-        <AppBar position="static">
+        <AppBar position="static" className='appBar' style={styles.appBar}>
           <Toolbar>
             {/* App Title */}
             <Typography variant="display1" color="inherit" className='grow' style={styles.grow}>

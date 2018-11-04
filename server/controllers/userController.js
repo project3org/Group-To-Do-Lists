@@ -121,8 +121,8 @@ module.exports = {
             In order to log in to your account, we need to verify your email address.
             Please follow this link:
             <br />
-            <a href='http://localhost:3000/api/account/confirmation/${secretToken}'>
-                http://localhost:3000/api/account/confirmation/${secretToken}
+            <a href='http://localhost:3000/account/confirmation/${secretToken}'>
+                http://localhost:3000/account/confirmation/${secretToken}
             </a>
             <br />
             We hope you enjoy the site.

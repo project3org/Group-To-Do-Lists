@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 // Import Components
 import Navbar from '../components/Navbar';
+import MainBody from '../components/emailConfirmationMainBody';
 import Footer from '../components/Footer';
 
 class App extends Component {
@@ -14,23 +15,13 @@ class App extends Component {
     };    
   };
 
-  // componentDidMount() {
-
-  // };
-
-  buttonFunction = () => {
+  verifyEmail = () => {
     // There's probably a better way to target this, but I'm in a rush so I'll look into it later.
-    // console.log(window.location.pathname.substr(26));
+    const token = window.location.pathname.substr(22);
 
-    const token = window.location.pathname.substr(26);
-
-    // PUT user isConfirmed index to true so users can sign in.
-    fetch(`api/account/confirmation/${token}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json())
+    // Changes user isConfirmed index to true so users can sign in.
+    fetch(`/api/account/confirmation/${token}`)
+      .then(res => res.json())
       .then(json => {
         // If post was successful,
         if (json.success) {
@@ -38,15 +29,17 @@ class App extends Component {
           this.setState({
             serverMessage: json.message
           });
-
           console.log(this.state.serverMessage);
         } else {
         // Else log out error message
           this.setState({
             serverMessage: json.message
           });
-
           console.log(this.state.serverMessage);
+
+          // Maybe add toastr here to tell users to contact a dev
+
+          // ====================================================
         };
       });
       return window.location.href = "/";
@@ -60,9 +53,10 @@ class App extends Component {
         <Navbar />
 
         {/* Main Content */}
-        <h1>Email Verification</h1>
+        <MainBody verify={this.verifyEmail}/>
+        {/* <h1>Email Verification</h1>
         <h2>Click this button to verify email</h2>
-        <button onClick={this.buttonFunction}>Verify</button>
+        <button onClick={this.buttonFunction}>Verify</button> */}
 
         {/* Footer */}
         <Footer />

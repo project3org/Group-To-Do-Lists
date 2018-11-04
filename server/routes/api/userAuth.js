@@ -18,7 +18,7 @@ router.route('/verify')
     .get(userController.verifySession);
 
 router.route('/confirmation/:token')
-    .put(userController.emailVerification);
+    .get(userController.emailVerification);
 
 // Exports Router
 module.exports = router;

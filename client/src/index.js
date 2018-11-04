@@ -10,7 +10,7 @@ ReactDOM.render((
     <BrowserRouter>
         <Switch>
             <Route exact path='/' component={App} />
-            <Route path='/api/account/confirmation/:token' component={redirect} />
+            <Route path='/account/confirmation/:token' component={redirect} />
         </Switch>
     </BrowserRouter>
 ), document.getElementById('root'));
