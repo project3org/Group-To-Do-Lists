@@ -84,7 +84,7 @@ export default class FormDialog extends React.Component {
           };
 
           // Sends toastr message to user
-          toastr["success"]("My name is Inigo Montoya. You killed my father. Prepare to die!");
+          toastr.success("Please follow the link sent to your email.", "Account successfully created!");
         } else {
         // Else log out error message
           this.setState({
