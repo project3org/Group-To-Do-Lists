@@ -299,12 +299,17 @@ module.exports = {
             }
         }, {
             new: true
-        }, (err) => {
+        }, (err, users) => {
             if (err) {
                 return res.send({
                     success: false,
                     message: 'Error: Server Error'
                 });
+            } else if (users === null) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Token Expired or Already Confirmed'
+                })
             };
 
             res.send({

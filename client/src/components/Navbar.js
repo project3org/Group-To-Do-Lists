@@ -153,7 +153,7 @@ export default class FormDialog extends React.Component {
           <Toolbar>
             {/* App Title */}
             <Typography variant="display1" color="inherit" className='grow' style={styles.grow}>
-              Task Master
+              Gratify
             </Typography>
 
             {/* Sign In/Sign Out Button */}

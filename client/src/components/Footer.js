@@ -41,7 +41,10 @@ class FooterPagePro extends React.Component {
               </h5>
               <ul className="list-unstyled">
                 <li>
-                  <a href="#!">Link 1</a>
+                  <a href="https://github.com/project3org/Group-To-Do-Lists">
+                    Gratify's GitHub Rep
+                    <i className="fa fa-github"></i>
+                  </a>
                 </li>
                 <li>
                   <a href="#!">Link 2</a>

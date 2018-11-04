@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    secretTokenCreatedAt: {
+        type: Date,
+        default: Date.now()
+    },
     isConfirmed: {
         type: Boolean,
         default: false
