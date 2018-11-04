@@ -284,7 +284,7 @@ module.exports = {
     },
 
     // Handles Email Confirmation
-    emailVerification: async (req, res) => {
+    emailVerification: (req, res) => {
         // Target Token
         const token = req.params.token;
 
@@ -315,8 +315,5 @@ module.exports = {
             }); 
             return;        
         });
-
-        // Redirects the page back to home
-        return res.redirect('/');
     }
 };
