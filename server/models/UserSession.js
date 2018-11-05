@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const UserSessionSchema = new mongoose.Schema({
     userId: {
@@ -8,6 +9,10 @@ const UserSessionSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
         default: Date.now()
+    },
+    sessionExpires: {
+        type: Date,
+        default: moment(new Date).add(1, 'hour')
     },
     isDeleted: {
         type: Boolean,

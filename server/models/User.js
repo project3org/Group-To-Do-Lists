@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 
 const UserSchema = new mongoose.Schema({
     firstName: {
@@ -21,6 +22,10 @@ const UserSchema = new mongoose.Schema({
     secretToken: {
         type: String,
         default: ''
+    },
+    secretTokenExpiresAt: {
+        type: Date,
+        default: moment(new Date).add(1, 'hour')
     },
     isConfirmed: {
         type: Boolean,

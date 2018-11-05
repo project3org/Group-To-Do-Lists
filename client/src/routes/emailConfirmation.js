@@ -1,5 +1,7 @@
 // Import React
 import React, { Component } from 'react';
+// Import Dependencies
+import toastr from 'toastr';
 // Import Components
 import Navbar from '../components/Navbar';
 import MainBody from '../components/emailConfirmationMainBody';
@@ -32,16 +34,36 @@ class App extends Component {
           this.setState({
             serverMessage: json.message
           });
+
+          // Redirect user back to homepage
+          return window.location.href = "/";
+
         } else {
-        // Else log out error message
+          // Else log out error message
           this.setState({
             serverMessage: json.message
           });
+
+          // Send toastr message to user
+          // Creates toastr options
+          toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          };
+
+          // Sends toastr error message to user
+          toastr.error("Sounds like you may need a new token.", `${json.message}`);
         };
       });
-
-      // Redirect user back to homepage
-      return window.location.href = "/"
   };
 
   // Renders Data to page
