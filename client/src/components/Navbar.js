@@ -45,24 +45,24 @@ export default class FormDialog extends React.Component {
     // ...verify token
     const { token } = obj;
     fetch(`/api/account/verify?token=${token}`)
-        .then(res => res.json())
-        .then(json => {
-        // If Response is successful
-        if (json.success) {
-          // Set State token to exsisting token and sign in to true
-          // Set Button to be 'Sign Out'
-          this.setState({
-          token,
-          signedIn: true,
-          signedInOrOutButton: 'Sign Out'
-          });
-        };
+      .then(res => res.json())
+      .then(json => {
+      // If Response is successful
+      if (json.success) {
+        // Set State token to exsisting token and sign in to true
+        // Set Button to be 'Sign Out'
+        this.setState({
+        token,
+        signedIn: true,
+        signedInOrOutButton: 'Sign Out'
         });
+      };
+      });
     } else {
       // Else set state signed in to false and set button to be 'Sign In'
       this.setState({
-          signedIn: false,
-          signedInOrOutButton: 'Sign In'
+        signedIn: false,
+        signedInOrOutButton: 'Sign In'
       });
     };
   };

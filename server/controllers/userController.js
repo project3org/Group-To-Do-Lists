@@ -1,6 +1,7 @@
 // Require dependencies
 // I Have passport required in case I decide to do any auth with other sites. But I wanna focus on other things for now.
 const randomstring = require('randomstring');
+const moment = require('moment');
 const passport = require('passport');
 
 const mailer = require('../mailer/mailer');
@@ -288,10 +289,14 @@ module.exports = {
         // Target Token
         const token = req.params.token;
 
+        // Target current time to be compared with tokenExpiration
+        const currentTime = moment(new Date());
+
         // Finds user that has this secret token and has not confirmed email
         db.User.findOneAndUpdate({
             secretToken: token,
             isConfirmed: false
+
         }, {
             // Set confirmed email to true so that the user can now log in
             $set: {
@@ -308,15 +313,57 @@ module.exports = {
             } else if (users === null) {
                 return res.send({
                     success: false,
-                    message: 'Error: Token Expired or Already Confirmed'
+                    message: 'Error: Not a Valid Token.'
                 })
-            };
+            } else if (currentTime < users.secretTokenExpiresAt) {
+                return res.send({
+                    success: false,
+                    message: 'Error : Token Expired'
+                })
+            }
 
             res.send({
                 success: true,
                 message: 'Email Confirmed'
             }); 
-            return;        
+            return; 
+        });
+    },
+
+    // Handles retrieving user info 
+    createNewSecretToken: (req, res) => {
+        // Target current token
+        const token = req.query.token;
+
+        // Generate new token
+        const newToken = randomstring.generate();
+
+        // Locate user based on current secretToken
+        db.User.findOneAndUpdate({
+            secretToken: token
+        }, {
+            // Set secretToken to newToken
+            $set: {
+                secretToken: newToken
+            }
+        }, {
+            new: true
+        }, (err, user) => {
+            // If error occurs, send back success false
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            };
+
+            // Send back success true
+            res.send({
+                success: true,
+                message: 'Token Updated',
+                user: user
+            });
+            return;
         });
     }
 };

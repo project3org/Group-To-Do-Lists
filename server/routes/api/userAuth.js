@@ -20,5 +20,8 @@ router.route('/verify')
 router.route('/confirmation/:token')
     .get(userController.emailVerification);
 
+router.route('/user')
+    .get(userController.createNewSecretToken);
+
 // Exports Router
 module.exports = router;

@@ -20,7 +20,6 @@ class App extends Component {
 
   // Function for verifing email in DB
   verifyEmail = () => {
-    console.log(window.location)
     // Targeting email verification token
     // There's probably a better way to target this, but I'm in a rush so I'll look into it later.
     const token = window.location.pathname.substr(22);
@@ -62,7 +61,7 @@ class App extends Component {
           };
 
           // Sends toastr error message to user
-          toastr.error("I must be tired, I swear this doesn't usually happen to me.", `${json.message}`);
+          toastr.error("Sounds like you may need a new token.", `${json.message}`);
         };
       });
   };
