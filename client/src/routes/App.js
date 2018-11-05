@@ -1,10 +1,8 @@
 // Import React
 import React, { Component } from 'react';
 // Import Components
-import Navbar from './components/Navbar';
-
-// Import CSS
-import './App.css';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 class App extends Component {
   // Set States
@@ -22,7 +20,11 @@ class App extends Component {
         {/* I Pass in the Sign In/Sign Up dialogs thru the Navbar */}
         <Navbar />
 
+        {/* Main Content */}
         <h1>We puts the stuffs here!</h1>
+
+        {/* Footer */}
+        <Footer />
       </div>
     );
   }

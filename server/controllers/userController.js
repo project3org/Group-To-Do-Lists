@@ -121,8 +121,8 @@ module.exports = {
             In order to log in to your account, we need to verify your email address.
             Please follow this link:
             <br />
-            <a href='http://localhost:3000/api/account/confirmation/${secretToken}'>
-                http://localhost:3000/api/account/confirmation/${secretToken}
+            <a href='http://localhost:3000/account/confirmation/${secretToken}'>
+                http://localhost:3000/account/confirmation/${secretToken}
             </a>
             <br />
             We hope you enjoy the site.
@@ -284,11 +284,9 @@ module.exports = {
     },
 
     // Handles Email Confirmation
-    emailVerification: async (req, res) => {
+    emailVerification: (req, res) => {
         // Target Token
         const token = req.params.token;
-
-        console.log(token);
 
         // Finds user that has this secret token and has not confirmed email
         db.User.findOneAndUpdate({
@@ -315,8 +313,5 @@ module.exports = {
             }); 
             return;        
         });
-
-        // Redirects the page back to home
-        return res.redirect('/');
     }
 };

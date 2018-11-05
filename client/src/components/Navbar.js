@@ -3,8 +3,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+// Dependencies for menu icon, if we decide to keep it.
+// import IconButton from '@material-ui/core/IconButton';
+// import MenuIcon from '@material-ui/icons/Menu';
 
 import SignUp from './dialogs/SignUp';
 import SignIn from './dialogs/SignIn';
@@ -13,6 +14,9 @@ import { getFromStorage } from '../utils/storage';
 const styles = {
   root: {
     flexGrow: 1,
+  },
+  appBar: {
+    background: '#323741',
   },
   grow: {
     flexGrow: 1,
@@ -145,19 +149,23 @@ export default class FormDialog extends React.Component {
         <SignUp open={this.state.openSignUp} close={this.closeDialog}/>
 
         {/* Render AppBar */}
-        <AppBar position="static">
+        <AppBar position="static" className='appBar' style={styles.appBar}>
           <Toolbar>
-            <IconButton className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
+            {/* App Title */}
             <Typography variant="display1" color="inherit" className='grow' style={styles.grow}>
               Task Master
             </Typography>
-            {/* Sign In Button */}
+
+            {/* Sign In/Sign Out Button */}
             <Button color="inherit" onClick={this.signInSignOutButton}>{this.state.signedInOrOutButton}</Button>
 
             {/* Sign Up Button */}
             <Button color="inherit" onClick={this.openSignUpDialog}>Sign Up</Button>
+
+            {/* Icon for a menu button in case we would like to add one later */}
+            {/* <IconButton className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu">
+              <MenuIcon />
+            </IconButton> */}
           </Toolbar>
         </AppBar>
       </div>

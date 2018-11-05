@@ -67,11 +67,7 @@ export default class FormDialog extends React.Component {
           // Creates toastr options
           toastr.options = {
             "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-top-full-width",
-            "preventDuplicates": false,
+            "positionClass": "toast-top-right",
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
@@ -83,14 +79,14 @@ export default class FormDialog extends React.Component {
             "hideMethod": "fadeOut"
           };
 
-          // Sends toastr message to user
-          toastr["success"]("My name is Inigo Montoya. You killed my father. Prepare to die!");
+          // Sends toastr success message to user
+          toastr.success("Please follow the link sent to your email.", "Account successfully created!");
         } else {
         // Else log out error message
           this.setState({
             signUpError: json.message
           });
-        }
+        };
     });
   };
 
