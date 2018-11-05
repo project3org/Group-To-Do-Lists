@@ -43,8 +43,8 @@ export default class FormDialog extends React.Component {
     // If token exists in obj...
     if (obj && obj.token) {
     // ...verify token
-    const { token } = obj;
-    fetch(`/api/account/verify?token=${token}`)
+    const { token, expires } = obj;
+    fetch(`/api/account/verify?token=${token}&expires=${expires}`)
       .then(res => res.json())
       .then(json => {
       // If Response is successful

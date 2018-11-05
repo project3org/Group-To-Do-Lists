@@ -204,14 +204,15 @@ module.exports = {
                         success: false,
                         message: 'Error: Server Error'
                     });
-                }
+                };
 
                 // Sends back token after valid sign in
                 return res.send({
                     success: true,
                     message: 'Valid sign in',
                     userData: users[0],
-                    token: doc._id
+                    token: doc._id,
+                    expires: doc.sessionExpires
                 });
             });
         });
@@ -256,7 +257,32 @@ module.exports = {
         const { query } = req;
         const { token } = query;
 
-        // Verify the token is one of a kind and it has not been deleted.
+        // Targets current time and session expiration time 
+        const currentTime = moment(new Date);
+        const sessionExpires = moment(req.query.expires);
+
+        // If token is expired, set isDeleted to true
+        db.UserSession.findOneAndUpdate({
+            _id: token,
+            sessionExpires: currentTime > sessionExpires
+        }, {
+            $set: {
+                isDeleted: true
+            }
+        }, {
+            new: true
+        }, (err)=>{
+            if(err) {
+                return err;
+            };
+
+            return res.send({
+                success: true,
+                message: 'Token Expired'
+            })
+        });
+
+        // Verify the token is one of a kind and it has not been deleted. Also limits session time.
         db.UserSession.find({
             _id: token,
             isDeleted: false
@@ -269,7 +295,8 @@ module.exports = {
                     message: 'Error: Server Error'
                 });
             };
-            
+
+            // If no sessions exsist then the user is Signed Out
             if (sessions.length != 1) {
                 return res.send({
                     success: false,
