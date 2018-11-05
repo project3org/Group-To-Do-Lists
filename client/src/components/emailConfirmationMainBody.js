@@ -1,5 +1,6 @@
 // Import react and dependencies
 import React from 'react';
+import toastr from 'toastr';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -29,10 +30,30 @@ const newToken = () => {
     .then(res => res.json())
     .then(json => {
       if (json.success) {
-        console.log(json.message);
+        // Display a success message telling user to check their email
+        // Creates toastr options
+        toastr.options = {
+          "closeButton": true,
+          "positionClass": "toast-top-right",
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+
+        // Sends toastr success message to user
+        toastr.success("Please follow the link sent to your email. Link only valid for one hour!", "New Token Sent");
+
+        // Returns server message
         return json.message;
+
       } else {
-        console.log(json.message);
+        // Returns server message
         return json.message;
       }
     });

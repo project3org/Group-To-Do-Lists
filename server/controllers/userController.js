@@ -118,9 +118,9 @@ module.exports = {
             // Create email text
             const verificationEmail = `Hello ${firstName},
             <br />
-            Thank you for registering with Task Master!
+            Thank you for registering with Gratify!
             In order to log in to your account, we need to verify your email address.
-            Please follow this link:
+            Please follow this link as soon as possible, link expires in one hour:
             <br />
             <a href='http://localhost:3000/account/confirmation/${secretToken}'>
                 http://localhost:3000/account/confirmation/${secretToken}
@@ -130,10 +130,10 @@ module.exports = {
             <br /><br />
             <b>Thanks Again!</b>
             <br /><br />
-            Task Master Devs`
+            Gratify Devs`
 
             // Send email
-            mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', email, 'Task Master Email Verification', verificationEmail);
+            mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', email, 'Gratify Email Verification', verificationEmail);
         });
     },
 
@@ -315,7 +315,7 @@ module.exports = {
                     success: false,
                     message: 'Error: Not a Valid Token.'
                 })
-            } else if (currentTime < users.secretTokenExpiresAt) {
+            } else if (currentTime > users.secretTokenExpiresAt) {
                 return res.send({
                     success: false,
                     message: 'Error : Token Expired'
@@ -326,7 +326,7 @@ module.exports = {
                 success: true,
                 message: 'Email Confirmed'
             }); 
-            return; 
+            return;
         });
     },
 
@@ -338,17 +338,21 @@ module.exports = {
         // Generate new token
         const newToken = randomstring.generate();
 
+        // Generate new token expiration
+        const newExpiration = moment(new Date).add(1, 'hour')
+
         // Locate user based on current secretToken
         db.User.findOneAndUpdate({
             secretToken: token
         }, {
             // Set secretToken to newToken
             $set: {
-                secretToken: newToken
+                secretToken: newToken,
+                secretTokenExpiresAt: newExpiration
             }
         }, {
             new: true
-        }, (err, user) => {
+        }, (err) => {
             // If error occurs, send back success false
             if (err) {
                 return res.send({
@@ -360,10 +364,40 @@ module.exports = {
             // Send back success true
             res.send({
                 success: true,
-                message: 'Token Updated',
-                user: user
+                message: 'Token Updated'
             });
             return;
+        });
+
+        // Find current user
+        db.User.find({
+            secretToken: newToken
+        }, (err, user) => {
+            if (err) {
+                console.err(err);
+            };
+
+            console.log(user);
+
+            // Create email text
+            const verificationEmail = `Hello ${user[0].firstName},
+            <br />
+            Thank you for registering with Gratify!
+            In order to log in to your account, we need to verify your email address.
+            Please follow this link as soon as possible, link expires in one hour:
+            <br />
+            <a href='http://localhost:3000/account/confirmation/${newToken}'>
+                http://localhost:3000/account/confirmation/${newToken}
+            </a>
+            <br />
+            We hope you enjoy the site.
+            <br /><br />
+            <b>Thanks Again!</b>
+            <br /><br />
+            Gratify Devs`
+
+            // Send email
+            mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', user[0].email, 'Gratify Email Verification', verificationEmail);
         });
     }
 };
