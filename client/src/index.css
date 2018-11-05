@@ -13,3 +13,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.center-image {
+  background-image: url('./images/checklist.jpg');
+  background-position: 0 -200px
+}

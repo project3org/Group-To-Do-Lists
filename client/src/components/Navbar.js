@@ -27,7 +27,7 @@ const styles = {
   },
 };
 
-export default class FormDialog extends React.Component {
+export default class Navbar extends React.Component {
   state = {
     openSignIn: false,
     openSignUp: false,

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 // Import Components
 import Navbar from '../components/Navbar';
+import Jumbotron from '../components/Jumbotron';
 import Footer from '../components/Footer';
 
 class App extends Component {
@@ -19,6 +20,8 @@ class App extends Component {
       <div className="App">
         {/* I Pass in the Sign In/Sign Up dialogs thru the Navbar */}
         <Navbar />
+
+        <Jumbotron />
 
         {/* Main Content */}
         <h1>We puts the stuffs here!</h1>
