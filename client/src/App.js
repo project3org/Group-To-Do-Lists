@@ -1,8 +1,8 @@
 // Import React
 import React, { Component } from 'react';
 // Import Components
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
 
 class App extends Component {
   // Set States
