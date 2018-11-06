@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // Import Components
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+import Tasks from './pages/Tasks';
 
 class App extends Component {
   // Set States
@@ -21,7 +22,7 @@ class App extends Component {
         <Navbar />
 
         {/* Main Content */}
-        <h1>We puts the stuffs here!</h1>
+        <Tasks />
 
         {/* Footer */}
         <Footer />

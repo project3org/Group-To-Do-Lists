@@ -1,10 +1,14 @@
 // Require Express
 const router = require("express").Router();
 
-// Require Route here.
+// Require Routes here.
 const userAuthRoute = require("./userAuth");
+const taskRoutes = require("./tasks");
 
-// API routes
+// Task routes
+router.use("/tasks", taskRoutes);
+
+// userAuth routes
 router.use("/account", userAuthRoute);
 
 // Export Router

@@ -16,8 +16,8 @@ if (process.env.NODE_ENV === "production") {
 // Add routes, both API and view
 app.use(routes);
 
-// If deployed, use the deployed database. Otherwise use the local <DB Name Here> database
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/ToDo";
+// If deployed, use the deployed database. Otherwise use the local gratify database
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/gratify";
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB

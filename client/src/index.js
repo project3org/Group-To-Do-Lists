@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import './index.css';
-import App from './routes/App';
+import App from './App';
 import redirect from './routes/emailConfirmation';
 
 ReactDOM.render((
