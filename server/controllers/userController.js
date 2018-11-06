@@ -1,6 +1,7 @@
 // Require dependencies
 // I Have passport required in case I decide to do any auth with other sites. But I wanna focus on other things for now.
 const randomstring = require('randomstring');
+const moment = require('moment');
 const passport = require('passport');
 
 const mailer = require('../mailer/mailer');
@@ -117,9 +118,9 @@ module.exports = {
             // Create email text
             const verificationEmail = `Hello ${firstName},
             <br />
-            Thank you for registering with Task Master!
+            Thank you for registering with Gratify!
             In order to log in to your account, we need to verify your email address.
-            Please follow this link:
+            Please follow this link as soon as possible, link expires in one hour:
             <br />
             <a href='http://localhost:3000/account/confirmation/${secretToken}'>
                 http://localhost:3000/account/confirmation/${secretToken}
@@ -129,10 +130,10 @@ module.exports = {
             <br /><br />
             <b>Thanks Again!</b>
             <br /><br />
-            Task Master Devs`
+            Gratify Devs`
 
             // Send email
-            mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', email, 'Task Master Email Verification', verificationEmail);
+            mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', email, 'Gratify Email Verification', verificationEmail);
         });
     },
 
@@ -203,14 +204,15 @@ module.exports = {
                         success: false,
                         message: 'Error: Server Error'
                     });
-                }
+                };
 
                 // Sends back token after valid sign in
                 return res.send({
                     success: true,
                     message: 'Valid sign in',
                     userData: users[0],
-                    token: doc._id
+                    token: doc._id,
+                    expires: doc.sessionExpires
                 });
             });
         });
@@ -255,7 +257,32 @@ module.exports = {
         const { query } = req;
         const { token } = query;
 
-        // Verify the token is one of a kind and it has not been deleted.
+        // Targets current time and session expiration time 
+        const currentTime = moment(new Date);
+        const sessionExpires = moment(req.query.expires);
+
+        // If token is expired, set isDeleted to true
+        db.UserSession.findOneAndUpdate({
+            _id: token,
+            sessionExpires: currentTime > sessionExpires
+        }, {
+            $set: {
+                isDeleted: true
+            }
+        }, {
+            new: true
+        }, (err)=>{
+            if(err) {
+                return err;
+            };
+
+            return res.send({
+                success: true,
+                message: 'Token Expired'
+            })
+        });
+
+        // Verify the token is one of a kind and it has not been deleted. Also limits session time.
         db.UserSession.find({
             _id: token,
             isDeleted: false
@@ -268,7 +295,8 @@ module.exports = {
                     message: 'Error: Server Error'
                 });
             };
-            
+
+            // If no sessions exsist then the user is Signed Out
             if (sessions.length != 1) {
                 return res.send({
                     success: false,
@@ -288,10 +316,14 @@ module.exports = {
         // Target Token
         const token = req.params.token;
 
+        // Target current time to be compared with tokenExpiration
+        const currentTime = moment(new Date());
+
         // Finds user that has this secret token and has not confirmed email
         db.User.findOneAndUpdate({
             secretToken: token,
             isConfirmed: false
+
         }, {
             // Set confirmed email to true so that the user can now log in
             $set: {
@@ -299,7 +331,56 @@ module.exports = {
             }
         }, {
             new: true
+        }, (err, users) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            } else if (users === null) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Not a Valid Token.'
+                })
+            } else if (currentTime > users.secretTokenExpiresAt) {
+                return res.send({
+                    success: false,
+                    message: 'Error : Token Expired'
+                })
+            }
+
+            res.send({
+                success: true,
+                message: 'Email Confirmed'
+            }); 
+            return;
+        });
+    },
+
+    // Handles retrieving user info 
+    createNewSecretToken: (req, res) => {
+        // Target current token
+        const token = req.query.token;
+
+        // Generate new token
+        const newToken = randomstring.generate();
+
+        // Generate new token expiration
+        const newExpiration = moment(new Date).add(1, 'hour')
+
+        // Locate user based on current secretToken
+        db.User.findOneAndUpdate({
+            secretToken: token
+        }, {
+            // Set secretToken to newToken
+            $set: {
+                secretToken: newToken,
+                secretTokenExpiresAt: newExpiration
+            }
+        }, {
+            new: true
         }, (err) => {
+            // If error occurs, send back success false
             if (err) {
                 return res.send({
                     success: false,
@@ -307,11 +388,43 @@ module.exports = {
                 });
             };
 
+            // Send back success true
             res.send({
                 success: true,
-                message: 'Email Confirmed'
-            }); 
-            return;        
+                message: 'Token Updated'
+            });
+            return;
+        });
+
+        // Find current user
+        db.User.find({
+            secretToken: newToken
+        }, (err, user) => {
+            if (err) {
+                console.err(err);
+            };
+
+            console.log(user);
+
+            // Create email text
+            const verificationEmail = `Hello ${user[0].firstName},
+            <br />
+            Thank you for registering with Gratify!
+            In order to log in to your account, we need to verify your email address.
+            Please follow this link as soon as possible, link expires in one hour:
+            <br />
+            <a href='http://localhost:3000/account/confirmation/${newToken}'>
+                http://localhost:3000/account/confirmation/${newToken}
+            </a>
+            <br />
+            We hope you enjoy the site.
+            <br /><br />
+            <b>Thanks Again!</b>
+            <br /><br />
+            Gratify Devs`
+
+            // Send email
+            mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', user[0].email, 'Gratify Email Verification', verificationEmail);
         });
     }
 };

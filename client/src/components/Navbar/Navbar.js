@@ -27,7 +27,7 @@ const styles = {
   },
 };
 
-export default class FormDialog extends React.Component {
+export default class Navbar extends React.Component {
   state = {
     openSignIn: false,
     openSignUp: false,
@@ -43,26 +43,26 @@ export default class FormDialog extends React.Component {
     // If token exists in obj...
     if (obj && obj.token) {
     // ...verify token
-    const { token } = obj;
-    fetch(`/api/account/verify?token=${token}`)
-        .then(res => res.json())
-        .then(json => {
-        // If Response is successful
-        if (json.success) {
-          // Set State token to exsisting token and sign in to true
-          // Set Button to be 'Sign Out'
-          this.setState({
-          token,
-          signedIn: true,
-          signedInOrOutButton: 'Sign Out'
-          });
-        };
+    const { token, expires } = obj;
+    fetch(`/api/account/verify?token=${token}&expires=${expires}`)
+      .then(res => res.json())
+      .then(json => {
+      // If Response is successful
+      if (json.success) {
+        // Set State token to exsisting token and sign in to true
+        // Set Button to be 'Sign Out'
+        this.setState({
+        token,
+        signedIn: true,
+        signedInOrOutButton: 'Sign Out'
         });
+      };
+      });
     } else {
       // Else set state signed in to false and set button to be 'Sign In'
       this.setState({
-          signedIn: false,
-          signedInOrOutButton: 'Sign In'
+        signedIn: false,
+        signedInOrOutButton: 'Sign In'
       });
     };
   };
@@ -153,7 +153,7 @@ export default class FormDialog extends React.Component {
           <Toolbar>
             {/* App Title */}
             <Typography variant="display1" color="inherit" className='grow' style={styles.grow}>
-              Task Master
+              Gratify
             </Typography>
 
             {/* Sign In/Sign Out Button */}

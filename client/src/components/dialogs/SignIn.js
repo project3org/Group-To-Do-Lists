@@ -52,7 +52,7 @@ export default class FormDialog extends React.Component {
         // If Sign In is successful,
         if (json.success) {
             // save user token in localStorage
-            setInStorage('the_main_app', { token: json.token });
+            setInStorage('the_main_app', { token: json.token, expires: json.expires });
 
             // Set states
             this.setState({
