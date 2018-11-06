@@ -1,7 +1,6 @@
 // Import react and dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import toastr from 'toastr';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -24,69 +23,85 @@ const errorStyle = {
 
 // Exports Component
 class SignUpDialog extends React.Component {
+  // Create Value States for Form
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstNameValue: '',
+      lastNameValue: '',
+      emailValue: '',
+      passwordValue: '',
+      passwordVerificationValue: ''
+    };
+
+    this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
+    this.handleChangeLastName = this.handleChangeLastName.bind(this);
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleChangePassword = this.handleChangePassword.bind(this);
+    this.handleChangePasswordVerification = this.handleChangePasswordVerification.bind(this);
+  };
+
+  // Handles form value change for firstName input
+  handleChangeFirstName = (event) => {
+    this.setState({firstNameValue: event.target.value});
+  };
+
+  // Handles form value change for lastName input
+  handleChangeLastName = (event) => {
+    this.setState({lastNameValue: event.target.value});
+  };
+
+  // Handles form value change for email input
+  handleChangeEmail = (event) => {
+    this.setState({emailValue: event.target.value});
+  };
+
+  // Handles form value change for password input
+  handleChangePassword = (event) => {
+    this.setState({passwordValue: event.target.value});
+  };
+
+  // Handles form value change for passwordVerification input
+  handleChangePasswordVerification = (event) => {
+    this.setState({passwordVerificationValue: event.target.value});
+  };
+
+  // Handles Closing Dialog
+  handleDialogClose = () =>{
+    // Sets value states back to empty strings
+    this.setState({
+        firstNameValue: '',
+        lastNameValue: '',
+        emailValue: '',
+        passwordValue: '',
+        passwordVerificationValue: ''
+    });
+
+    // Envokes closeDialogs
+    this.props.closeDialogs();
+  };
+
   // Handle Submit New User
   handleUserSubmit = () => {
     // Target input fields
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('emailSignUp').value;
-    const password = document.getElementById('passwordSignUp').value;
-    const passwordVerification = document.getElementById('passwordVerification').value;
+    const firstName = this.state.firstNameValue
+    const lastName = this.state.lastNameValue
+    const email = this.state.emailValue
+    const password = this.state.passwordValue
+    const passwordVerification = this.state.passwordVerificationValue
 
-    // Posts new user info to DB
-    fetch('api/account/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        passwordVerification: passwordVerification
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        // If post was successful,
-        if (json.success) {
-          // log out success message
-          this.setState({
-            signUpError: json.message,
-            signedUp: true,
-            signedIn: true
-          });
-          // Tells the user Hello in console
-          console.log(`Hello ${firstName}!`);
+    // Rund signUp function with arguments firstName, lastName, email, password and passwordVerification
+    this.props.signUp(firstName, lastName, email, password, passwordVerification);
 
-          // Closes the Dialog after successful user submittion
-          this.props.close();
-
-          // Display a success message telling user to check their email
-          // Creates toastr options
-          toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-top-right",
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-          };
-
-          // Sends toastr success message to user
-          toastr.success("Please follow the link sent to your email.", "Account successfully created!");
-        } else {
-        // Else log out error message
-          this.setState({
-            signUpError: json.message
-          });
-        };
-    });
+    if (this.props.errorMessage === '') {
+      this.setState({
+        firstNameValue: '',
+        lastNameValue: '',
+        emailValue: '',
+        passwordValue: '',
+        passwordVerificationValue: ''
+      });
+    };
   };
 
   // Renders Component
@@ -99,65 +114,62 @@ class SignUpDialog extends React.Component {
           onClose={this.props.closeDialogs}
           aria-labelledby="form-dialog-title"
           onEnter={this.validateForm}
-          >
-          <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-            Please enter the following information
-            </DialogContentText>
-            <TextField
-            autoFocus
-            margin="dense"
-            id="firstName"
-            label="First Name"
-            type="text"
-            fullWidth
-            required
-            />
-            <TextField
-            margin="dense"
-            id="lastName"
-            label="Last Name"
-            type="text"
-            fullWidth
-            required
-            />
-            <TextField
-            margin="dense"
-            id="emailSignUp"
-            label="Email Address"
-            type="email"
-            fullWidth
-            required
-            />
-            <TextField
-            margin="dense"
-            id="passwordSignUp"
-            label="Password"
-            type="password"
-            fullWidth
-            required
-            />
-            <TextField
-            margin="dense"
-            id="passwordVerification"
-            label="Password Verification"
-            type="password"
-            fullWidth
-            required
-            />
-            <DialogContentText style={errorStyle}>
-            {this.props.errorMessage}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.props.closeDialogs} color="primary">
-            Cancel
-            </Button>
-            <Button onClick={this.handleUserSubmit} color="primary">
-            Submit
-            </Button>
-          </DialogActions>
+        >
+          <form onSubmit={this.handleUserSubmit}>
+            <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+              Please enter the following information
+              </DialogContentText>
+              <TextField
+              autoFocus
+              margin="dense"
+              label="First Name"
+              type="text"
+              fullWidth
+              onChange={this.handleChangeFirstName}
+              />
+              <TextField
+              margin="dense"
+              label="Last Name"
+              type="text"
+              fullWidth
+              onChange={this.handleChangeLastName}
+              />
+              <TextField
+              margin="dense"
+              label="Email Address"
+              type="email"
+              fullWidth
+              onChange={this.handleChangeEmail}
+              />
+              <TextField
+              margin="dense"
+              label="Password"
+              type="password"
+              fullWidth
+              onChange={this.handleChangePassword}
+              />
+              <TextField
+              margin="dense"
+              label="Password Verification"
+              type="password"
+              fullWidth
+              onChange={this.handleChangePasswordVerification}
+              />
+              <DialogContentText style={errorStyle}>
+              {this.props.errorMessage}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.closeDialog} color="primary">
+              Cancel
+              </Button>
+              <Button type="Submit" color="primary">
+              Submit
+              </Button>
+            </DialogActions>
+          </form>
         </Dialog>
       </div>
     );
@@ -167,8 +179,8 @@ class SignUpDialog extends React.Component {
 // Create PropTypes
 SignUpDialog.propTypes = {
   closeDialogs: PropTypes.func.isRequired,
-  openSignUpDialog: PropTypes.bool,
-  errorMessage: PropTypes.string,
+  openSignUpDialog: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string.isRequired,
 }
 
 // Map State to Props

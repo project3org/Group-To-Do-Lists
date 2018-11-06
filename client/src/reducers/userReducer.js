@@ -1,6 +1,8 @@
 // Import Local Dependencies
 import { setInStorage } from '../utils/storage';
 
+import toastr from 'toastr';
+
 // Import action types
 import { 
     SIGN_IN, 
@@ -16,7 +18,7 @@ const initialState = {
     serverPayload: {},
     openSignInDialog: false,
     openSignUpDialog: false,
-    errorMessage: '',
+    errorMessage: ' ',
     signedIn: false,
     buttonTitle: 'Sign In',
     currentUser: {}
@@ -48,8 +50,77 @@ export default function(state = initialState, action)  {
             return {
                 ...state,
                 openSignInDialog: false,
-                openSignUpDialog: false
+                openSignUpDialog: false,
+                errorMessage: ''
             };
+
+        // Sign Up Action
+        case SIGN_UP:
+            // If Sign Up was successful
+            if(action.payload.success) {
+                // Display a success message telling user to check their email
+                // Creates toastr options
+                toastr.options = {
+                    "closeButton": true,
+                    "positionClass": "toast-top-right",
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            
+                // Sends toastr success message to user
+                toastr.success("Please follow the link sent to your email.", "Account successfully created!");
+                // return states with signUpDialog set to false
+                return {
+                    ...state,
+                    serverPayload: action.payload,
+                    errorMessage: '',
+                    openSignUpDialog: false
+
+                };
+            } else {
+                return {
+                    ...state,
+                    serverPayload: action.payload,
+                    errorMessage: action.payload.message
+                }
+            }
+
+        // Sign In Action
+        case SIGN_IN:
+        // If Sign in was successful
+        if (action.payload.success) {
+            // save user token in localStorage
+            setInStorage('the_main_app', { token: action.payload.token, expires: action.payload.expires });
+
+            // Return States
+            return {
+                ...state,
+                serverPayload: action.payload,
+                signedIn: true,
+                buttonTitle: 'Sign Out',
+                errorMessage: '',
+                currentUser: action.payload.userData,
+                openSignInDialog: false
+            };
+        // Else
+        } else {
+            // Return States
+            return {
+                ...state,
+                serverPayload: action.payload,
+                signedIn: true,
+                errorMessage: action.payload.message,
+                currentUser: action.payload.userData,
+            };
+        }
+    
 
         // Sign Out Action
         case SIGN_OUT:
