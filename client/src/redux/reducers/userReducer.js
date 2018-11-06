@@ -1,5 +1,5 @@
 // Import Local Dependencies
-import { setInStorage } from '../utils/storage';
+import { setInStorage } from '../../utils/storage';
 
 import toastr from 'toastr';
 

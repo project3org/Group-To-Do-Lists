@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import toastr from 'toastr';
 
 // Import Components
-import store from '../store';
+import store from '../redux/store';
 import Navbar from '../components/Navbar';
 import MainBody from '../components/emailConfirmationMainBody';
 import Footer from '../components/Footer';

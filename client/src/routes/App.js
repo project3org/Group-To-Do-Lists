@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 
 // Import Components
-import store from '../store';
+import store from '../redux/store';
 import SignUp from '../components/dialogs/SignUp';
 import SignIn from '../components/dialogs/SignIn';
 import Navbar from '../components/Navbar';
