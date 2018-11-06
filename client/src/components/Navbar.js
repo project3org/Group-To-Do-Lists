@@ -31,28 +31,24 @@ const styles = {
 
 // Create Componenet
 class Navbar extends React.Component {
-  state = {
-    buttonTitle: ''
-  };
-
   // Checks for user token on component mount
   componentWillMount() {
     // Verifies user session
     this.props.verifySession();
-
-    // console.log(this.props.signedIn);
-    // // If signed in, set button to say 'Sign Out'
-    // if(this.props.signedIn) {
-    //   this.setState({buttonTitle: 'Sign Out'}); 
-    // } else {
-    //   // Else, set button to say 'Sign In'
-    //   this.setState({buttonTitle: 'Sign In'});
-    // };
   };
 
   // Opens Sign In Dialog
   openSignInDialog = () => {
     this.props.openSignIn();
+  };
+
+  // User Sign Out
+  handleUserSignOut = () =>{
+    // Set button to say 'Sign In'
+    this.setState({buttonTitle: 'Sign In'});
+
+    // Run signOut function
+    this.props.signOut();
   };
 
   // Switches Functionality of Sign In/Sign Out Button
@@ -64,15 +60,6 @@ class Navbar extends React.Component {
     } else {
       return this.openSignInDialog();
     }
-  };
-
-  // User Sign Out
-  handleUserSignOut = () =>{
-    // Set button to say 'Sign In'
-    this.setState({buttonTitle: 'Sign In'});
-
-    // Run signOut function
-    this.props.signOut();
   };
 
   // Renders Component to DOM

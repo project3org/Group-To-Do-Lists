@@ -3,6 +3,7 @@ import { setInStorage } from '../utils/storage';
 
 // Import action types
 import { 
+    SIGN_UP,
     SIGN_IN, 
     SIGN_OUT,
     OPEN_SIGNIN_DIALOG,
@@ -51,6 +52,56 @@ export default function(state = initialState, action)  {
                 openSignUpDialog: false
             };
 
+        // Sign Up Action
+        case SIGN_UP:
+            // If Sign Up was successful
+            if(action.payload.success) {
+                // return states with signUpDialog set to false
+                return {
+                    ...state,
+                    serverPayload: action.payload,
+                    errorMessage: '',
+                    openSignUpDialog: false
+
+                };
+            } else {
+                return {
+                    ...state,
+                    serverPayload: action.payload,
+                    errorMessage: action.payload.message
+                }
+            }
+
+        // Sign In Action
+        case SIGN_IN:
+        // If Sign in was successful
+        if (action.payload.success) {
+            // save user token in localStorage
+            setInStorage('the_main_app', { token: action.payload.token, expires: action.payload.expires });
+
+            // Return States
+            return {
+                ...state,
+                serverPayload: action.payload,
+                signedIn: true,
+                buttonTitle: 'Sign Out',
+                errorMessage: '',
+                currentUser: action.payload.userData,
+                openSignInDialog: false
+            };
+        // Else
+        } else {
+            // Return States
+            return {
+                ...state,
+                serverPayload: action.payload,
+                signedIn: true,
+                errorMessage: action.payload.message,
+                currentUser: action.payload.userData,
+            };
+        }
+    
+
         // Sign Out Action
         case SIGN_OUT:
         if (action.payload.success) {
@@ -73,40 +124,10 @@ export default function(state = initialState, action)  {
             };
         }
 
-        // Sign In Action
-        case SIGN_IN:
-            // If Sign in was successfull
-            if (action.payload.success) {
-                // save user token in localStorage
-                setInStorage('the_main_app', { token: action.payload.token, expires: action.payload.expires });
-
-                // Return States
-                return {
-                    ...state,
-                    serverPayload: action.payload,
-                    signedIn: true,
-                    buttonTitle: 'Sign Out',
-                    errorMessage: '',
-                    currentUser: action.payload.userData,
-                    openSignInDialog: false
-                };
-            // Else
-            } else {
-                // Return States
-                return {
-                    ...state,
-                    serverPayload: action.payload,
-                    signedIn: true,
-                    errorMessage: action.payload.message,
-                    currentUser: action.payload.userData,
-                };
-            }
-
         // Verify Session Action
         case VERIFY_SESSION:
             // If Session is Still Active
             if(action.payload.success) {
-                console.log(action.payload);
                 // Return States with signedIn set to true
                 return {
                     ...state,

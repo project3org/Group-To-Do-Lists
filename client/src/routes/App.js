@@ -19,19 +19,19 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          {/* Render Closed Dialogs With the AppBar for Sign In/Sign Up function*/}
+          {/* Render Closed Dialogs for Sign In/Sign Up function*/}
           <SignIn />
           <SignUp />
 
-          {/* I Pass in the Sign In/Sign Up dialogs thru the Navbar */}
+          {/* Render Navbar */}
           <Navbar />
 
           <Jumbotron />
 
-          {/* Main Content */}
+          {/* Main Contents will go here */}
           <h1>We puts the stuffs here!</h1>
 
-          {/* Footer */}
+          {/* Render Footer */}
           <Footer />
         </div>
       </Provider>

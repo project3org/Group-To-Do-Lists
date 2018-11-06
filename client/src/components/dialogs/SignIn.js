@@ -88,7 +88,6 @@ class SignInDialog extends React.Component {
                             label="Email Address"
                             type="email"
                             fullWidth
-                            value={this.state.emailValue}
                             onChange={this.handleChangeEmail}
                             />
                             <TextField
@@ -96,7 +95,6 @@ class SignInDialog extends React.Component {
                             label="Password"
                             type="password"
                             fullWidth
-                            value={this.state.passwordValue}
                             onChange={this.handleChangePassword}
                             />
                             <DialogContentText style={errorStyle}>
