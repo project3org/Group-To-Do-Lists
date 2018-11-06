@@ -1,0 +1,82 @@
+// Import Local Dependencies
+import { getFromStorage } from '../utils/storage';
+
+// Import Action Types
+import {
+    SIGN_IN, 
+    SIGN_OUT, 
+    OPEN_SIGNIN_DIALOG, 
+    OPEN_SIGNUP_DIALOG, 
+    CLOSE_DIALOGS, 
+    VERIFY_SESSION 
+} from './types';
+
+// Export openSignIn function
+export const openSignIn = () => dispatch => {
+    dispatch({type: OPEN_SIGNIN_DIALOG});
+};
+
+// Export openSignUp function
+export const openSignUp = () => dispatch => {
+    dispatch({type: OPEN_SIGNUP_DIALOG});
+};
+
+// Export closeDialogs function
+export const closeDialogs = () => dispatch => {
+    dispatch({type: CLOSE_DIALOGS});
+};
+
+// Export signOut function
+export const signOut = () => dispatch => {
+    // Get obj from storage
+    const obj = getFromStorage('the_main_app');
+
+    // If token exists in obj...
+    if (obj && obj.token) {
+      // ...delete token
+      const { token } = obj;
+      fetch(`/api/account/signout?token=${token}`)
+      .then(res => res.json())
+      .then(json => dispatch({
+        type: SIGN_OUT,
+        payload: json
+      }));
+    };
+};
+
+// Export signIn function
+export const signIn = (email, password) => dispatch => {
+    // Posts new user info to DB
+    fetch('api/account/signin', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        email: email,
+        password: password
+        }),
+    }).then(res => res.json())
+    .then(json => dispatch({
+        type: SIGN_IN,
+        payload: json
+    }));
+};
+
+// Export verifySession function
+export const verifySession = () => dispatch => {
+    // Get obj from storage
+    const obj = getFromStorage('the_main_app');
+
+    // If token exists in obj...
+    if (obj && obj.token) {
+    // ...verify token
+    const { token, expires } = obj;
+    fetch(`/api/account/verify?token=${token}&expires=${expires}`)
+      .then(res => res.json())
+      .then(json => dispatch({
+          type: VERIFY_SESSION,
+          payload: json
+      }));
+    };
+};
