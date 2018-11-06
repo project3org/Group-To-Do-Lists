@@ -1,16 +1,18 @@
+// Import react and dependencies
 import React from 'react';
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-// Dependencies for menu icon, if we decide to keep it.
-// import IconButton from '@material-ui/core/IconButton';
-// import MenuIcon from '@material-ui/icons/Menu';
+import { connect } from 'react-redux';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import SignUp from '../dialogs/SignUp';
-import SignIn from '../dialogs/SignIn';
-import { getFromStorage } from '../../utils/storage';
+// Import Local Dependencies
+import { signOut, openSignIn, openSignUp, verifySession } from '../../redux/actions/userActions';
 
+// Create Custom Styles
 const styles = {
   root: {
     flexGrow: 1,
@@ -27,148 +29,83 @@ const styles = {
   },
 };
 
-export default class Navbar extends React.Component {
-  state = {
-    openSignIn: false,
-    openSignUp: false,
-    signedIn: false,
-    signedInOrOutButton: 'Sign In'
-  };
-
-  // Checks for user token on component load
-  componentDidMount() {
-    // Get obj from storage
-    const obj = getFromStorage('the_main_app');
-
-    // If token exists in obj...
-    if (obj && obj.token) {
-    // ...verify token
-    const { token, expires } = obj;
-    fetch(`/api/account/verify?token=${token}&expires=${expires}`)
-      .then(res => res.json())
-      .then(json => {
-      // If Response is successful
-      if (json.success) {
-        // Set State token to exsisting token and sign in to true
-        // Set Button to be 'Sign Out'
-        this.setState({
-        token,
-        signedIn: true,
-        signedInOrOutButton: 'Sign Out'
-        });
-      };
-      });
-    } else {
-      // Else set state signed in to false and set button to be 'Sign In'
-      this.setState({
-        signedIn: false,
-        signedInOrOutButton: 'Sign In'
-      });
-    };
+// Create Componenet
+class Navbar extends React.Component {
+  // Checks for user token on component mount
+  componentWillMount() {
+    // Verifies user session
+    this.props.verifySession();
   };
 
   // Opens Sign In Dialog
   openSignInDialog = () => {
-    this.setState({openSignIn: true});
+    this.props.openSignIn();
   };
 
-  // Opens Sign Up Dialog
-  openSignUpDialog = () => {
-    this.setState({openSignUp: true});
-  };
+  // User Sign Out
+  handleUserSignOut = () =>{
+    // Set button to say 'Sign In'
+    this.setState({buttonTitle: 'Sign In'});
 
-  // Closes Dialogs
-  closeDialog = () => {
-    this.setState({
-      openSignIn: false,
-      openSignUp: false
-    });
-  };
-
-  // Changes Button and sign in states from 'Signed In' to 'Signed Out' and Vice Versa
-  signInOrOut = (string) => {
-    if(this.state.signedIn) {
-      this.setState({
-        signedIn: false
-      });
-    } else {
-      this.setState({
-        signedIn: true,
-        signedInOrOutButton: string
-      });
-    };
+    // Run signOut function
+    this.props.signOut();
   };
 
   // Switches Functionality of Sign In/Sign Out Button
-  // I tried to combine this with the above function, but it wouldn't work properly.
   signInSignOutButton = () => {
-    if(this.state.signedIn) {
+    // If user is signed in, button will sign them out
+    if(this.props.signedIn) {
       return this.handleUserSignOut();
+    // Else button will open sign in dialog
     } else {
       return this.openSignInDialog();
     }
-  };
-
-  // Handle 'Sign Out' Button
-  handleUserSignOut = () => {
-    this.setState({signedIn: false});
-
-    // Get obj from storage
-    const obj = getFromStorage('the_main_app');
-
-    // If token exists in obj...
-    if (obj && obj.token) {
-      // ...delete token
-      const { token } = obj;
-      fetch(`/api/account/signout?token=${token}`)
-      .then(res => res.json())
-      .then(json => {
-        // If Response is successful
-        if (json.success) {
-          // Set State token to blank and sign in to false
-          this.setState({
-            token: '',
-            signedIn: false,
-            signedInOrOutButton: 'Sign In'
-          });
-        };
-      });
-    } else {
-      this.setState({
-        signedIn: false
-      }); 
-    };
   };
 
   // Renders Component to DOM
   render() {
     return (
       <div className='root' style={styles.root}>
-        {/* Render Closed Dialogs With the AppBar for Sign In/Sign Up function*/}
-        <SignIn open={this.state.openSignIn} close={this.closeDialog} button={this.signInOrOut}/>
-        <SignUp open={this.state.openSignUp} close={this.closeDialog}/>
-
         {/* Render AppBar */}
         <AppBar position="static" className='appBar' style={styles.appBar}>
           <Toolbar>
             {/* App Title */}
-            <Typography variant="display1" color="inherit" className='grow' style={styles.grow}>
+            <Typography variant="h3" color="inherit" className='grow' style={styles.grow}>
               Gratify
             </Typography>
 
             {/* Sign In/Sign Out Button */}
-            <Button color="inherit" onClick={this.signInSignOutButton}>{this.state.signedInOrOutButton}</Button>
+            <Button color="inherit" onClick={this.signInSignOutButton}>{this.props.buttonTitle}</Button>
 
             {/* Sign Up Button */}
-            <Button color="inherit" onClick={this.openSignUpDialog}>Sign Up</Button>
+            <Button color="inherit" onClick={this.props.openSignUp}>Sign Up</Button>
 
-            {/* Icon for a menu button in case we would like to add one later */}
-            {/* <IconButton className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu">
+            {/* Icon for a menu button */}
+            <IconButton className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu">
               <MenuIcon />
-            </IconButton> */}
+            </IconButton>
           </Toolbar>
         </AppBar>
       </div>
     );
   };
 };
+
+// Create PropTypes
+Navbar.propTypes = {
+  signOut: PropTypes.func.isRequired,
+  openSignIn: PropTypes.func.isRequired,
+  openSignUp: PropTypes.func.isRequired,
+  verifySession: PropTypes.func.isRequired,
+  signedIn: PropTypes.bool.isRequired,
+  buttonTitle: PropTypes.string.isRequired
+}
+
+// Maps States to Component Props
+const mapStateToProps = state => ({
+  signedIn: state.user.signedIn,
+  buttonTitle: state.user.buttonTitle
+});
+
+// Export Component
+export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, verifySession })(Navbar);

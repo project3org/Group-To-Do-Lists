@@ -1,4 +1,6 @@
+// Import react and dependencies
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,8 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { connect } from 'react-redux';
 
-import { setInStorage } from '../../utils/storage';
+// Import local dependencies
+import { signIn, closeDialogs } from '../../redux/actions/userActions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -17,66 +21,55 @@ const errorStyle = {
     paddingTop: 10
 }
 
-// Exports Component
-export default class FormDialog extends React.Component {
-    // Creates State
+// Create Component
+class SignInDialog extends React.Component {
+    // Create Value States for Form
     constructor(props) {
         super(props);
-    
         this.state = {
-            signedIn: false,
-            signInError: '',
-            token: null
+            emailValue: '',
+            passwordValue: ''
         };
+    
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+    };
+
+    // Handles form value change for email input
+    handleChangeEmail = (event) => {
+        this.setState({emailValue: event.target.value});
+    };
+
+    // Handles form value change for password input
+    handleChangePassword = (event) => {
+        this.setState({passwordValue: event.target.value});
+    };
+
+    // Handles Closing Dialog
+    handleDialogClose = () =>{
+        // Sets value states back to empty strings
+        this.setState({
+            emailValue: '',
+            passwordValue: ''
+        });
+
+        // Envokes closeDialogs
+        this.props.closeDialogs();
     };
 
     // Handle User Sign In
-    handleUserSignIn = () => {
+    handleUserSignIn = (e) => {
+        // Prevent form submittion from refreshing page
+        e.preventDefault();
 
-        // Target input fields
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        // Target user information
+        const email = this.state.emailValue;
+        const password = this.state.passwordValue;
 
-        // Posts new user info to DB
-        fetch('api/account/signin', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-            email: email,
-            password: password
-            }),
-        }).then(res => res.json())
-        .then(json => {
-        // If Sign In is successful,
-        if (json.success) {
-            // save user token in localStorage
-            setInStorage('the_main_app', { token: json.token, expires: json.expires });
+        console.log(email, password);
 
-            // Set states
-            this.setState({
-            signInError: '',
-            token: json.token,
-            signedIn: true
-            });
-
-            // This is to target the signed in user's info for later use
-            const user = json.userData
-            console.log(`Hello ${user.firstName}!`);
-
-            // Changes Button From 'Sign In' to 'Sign Out'
-            this.props.button('Sign Out');
-
-            // Closes Dialog After Successful Sign In
-            this.props.close();
-        } else {
-        // Else log out Server error message.
-            this.setState({
-            signInError: json.message
-            });
-        
-        }});
+        // Run signIn function with arguments email and password
+        this.props.signIn(email, password);
     };
 
     // Renders Component
@@ -85,45 +78,64 @@ export default class FormDialog extends React.Component {
             <div>
                 {/* Creates Sign In Dialog */}
                 <Dialog
-                open={this.props.open}
-                onClose={this.props.close}
+                open={this.props.openSignInDialog}
+                onClose={this.props.closeDialogs}
                 aria-labelledby="form-dialog-title"
                 >
-                <DialogTitle id="form-dialog-title">Sign In</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                    Please enter your user email and password.<br />
-                    If you do not have an account please sign up.<br /><br />
-                    </DialogContentText>
-                    <TextField
-                    autoFocus
-                    margin="dense"
-                    id="email"
-                    label="Email Address"
-                    type="email"
-                    fullWidth
-                    />
-                    <TextField
-                    margin="dense"
-                    id="password"
-                    label="Password"
-                    type="password"
-                    fullWidth
-                    />
-                    <DialogContentText style={errorStyle}>
-                    {this.state.signInError}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.props.close} color="primary">
-                    Cancel
-                    </Button>
-                    <Button color="primary" onClick={this.handleUserSignIn}>
-                    Sign In
-                    </Button>
-                </DialogActions>
+                    <form onSubmit={this.handleUserSignIn}>
+                        <DialogTitle id="form-dialog-title">Sign In</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                            Please enter your user email and password.<br />
+                            If you do not have an account please sign up.<br /><br />
+                            </DialogContentText>
+                            <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Email Address"
+                            type="email"
+                            fullWidth
+                            onChange={this.handleChangeEmail}
+                            />
+                            <TextField
+                            margin="dense"
+                            label="Password"
+                            type="password"
+                            fullWidth
+                            onChange={this.handleChangePassword}
+                            />
+                            <DialogContentText style={errorStyle}>
+                            {this.props.errorMessage}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.props.closeDialogs} color="primary">
+                            Cancel
+                            </Button>
+                            <Button type="Submit" color="primary">
+                            Sign In
+                            </Button>
+                        </DialogActions>
+                    </form>
                 </Dialog>
             </div>
         );
     };
 };
+
+// Create PropTypes
+SignInDialog.propTypes = {
+    signIn: PropTypes.func.isRequired,
+    closeDialogs: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    openSignInDialog: PropTypes.bool
+}
+  
+// Map State to Props
+const mapStateToProps = state => ({
+    errorMessage: state.user.errorMessage,
+    openSignInDialog: state.user.openSignInDialog,
+});
+  
+// Export Component
+export default connect(mapStateToProps, { signIn, closeDialogs })(SignInDialog);

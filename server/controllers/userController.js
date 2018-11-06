@@ -246,7 +246,7 @@ module.exports = {
 
             return res.send({
                 success: true,
-                message: 'Good'
+                message: 'User Signed Out'
             });         
         });
     },
@@ -277,7 +277,7 @@ module.exports = {
             };
 
             return res.send({
-                success: true,
+                success: false,
                 message: 'Token Expired'
             })
         });
@@ -305,7 +305,7 @@ module.exports = {
             } else {
                 return res.send({
                     success: true,
-                    message: 'Good'
+                    message: 'Session Current'
                 });
             };
         });
@@ -404,7 +404,10 @@ module.exports = {
                 console.err(err);
             };
 
-            console.log(user);
+            // Makes the first letter of the Name capital to send in email
+            const userName = user[0].firstName.replace(/^\w/, function (chr) {
+                return chr.toUpperCase();
+            });
 
             // Create email text
             const verificationEmail = `Hello ${user[0].firstName},
