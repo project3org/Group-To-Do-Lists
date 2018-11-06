@@ -32,7 +32,7 @@ const styles = {
 // Create Componenet
 class Navbar extends React.Component {
   state = {
-    signedInOrOutButton: ''
+    buttonTitle: ''
   };
 
   // Checks for user token on component mount
@@ -42,10 +42,10 @@ class Navbar extends React.Component {
 ;
     // If signed in, set button to say 'Sign Out'
     if(this.props.signedIn) {
-      this.setState({signedInOrOutButton: 'Sign Out'}); 
+      this.setState({buttonTitle: 'Sign Out'}); 
     } else {
       // Else, set button to say 'Sign In'
-      this.setState({signedInOrOutButton: 'Sign In'});
+      this.setState({buttonTitle: 'Sign In'});
     };
 
   };
@@ -55,23 +55,12 @@ class Navbar extends React.Component {
     this.props.openSignIn();
   };
 
-  // Changes Button and sign in states from 'Signed In' to 'Signed Out' and Vice Versa
-  signInOrOut = (string) => {
-    if(this.props.signedIn) {
-      this.props.signOut();
-    } else {
-      this.setState({
-        signedIn: true,
-        signedInOrOutButton: string
-      });
-    };
-  };
-
   // Switches Functionality of Sign In/Sign Out Button
-  // I tried to combine this with the above function, but it wouldn't work properly.
   signInSignOutButton = () => {
+    // If user is signed in, button will sign them out
     if(this.props.signedIn) {
       return this.handleUserSignOut();
+    // Else button will open sign in dialog
     } else {
       return this.openSignInDialog();
     }
@@ -79,6 +68,10 @@ class Navbar extends React.Component {
 
   // User Sign Out
   handleUserSignOut = () =>{
+    // Set button to say 'Sign In'
+    this.setState({buttonTitle: 'Sign In'});
+
+    // Run signOut function
     this.props.signOut();
   };
 
@@ -90,12 +83,12 @@ class Navbar extends React.Component {
         <AppBar position="static" className='appBar' style={styles.appBar}>
           <Toolbar>
             {/* App Title */}
-            <Typography variant="display1" color="inherit" className='grow' style={styles.grow}>
+            <Typography variant="h3" color="inherit" className='grow' style={styles.grow}>
               Gratify
             </Typography>
 
             {/* Sign In/Sign Out Button */}
-            <Button color="inherit" onClick={this.signInSignOutButton}>{this.state.signedInOrOutButton}</Button>
+            <Button color="inherit" onClick={this.signInSignOutButton}>{this.state.buttonTitle}</Button>
 
             {/* Sign Up Button */}
             <Button color="inherit" onClick={this.props.openSignUp}>Sign Up</Button>
