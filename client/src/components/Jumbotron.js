@@ -100,7 +100,7 @@ class Jumbotron extends React.Component {
                     </div>
                 </div>
             );
-        };
+        }
     };
 };
 

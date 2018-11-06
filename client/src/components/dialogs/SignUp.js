@@ -1,4 +1,6 @@
+// Import react and dependencies
 import React from 'react';
+import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -7,6 +9,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { connect } from 'react-redux';
+
+// Import local dependencies
+import { closeDialogs } from '../../actions/userActions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -17,21 +23,14 @@ const errorStyle = {
 };
 
 // Exports Component
-export default class FormDialog extends React.Component {
-  // Creates States
-  state = {
-    signedIn: false,
-    signUpError: '',
-    token: null
-  };
-
+class SignUpDialog extends React.Component {
   // Handle Submit New User
   handleUserSubmit = () => {
     // Target input fields
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('emailSignUp').value;
+    const password = document.getElementById('passwordSignUp').value;
     const passwordVerification = document.getElementById('passwordVerification').value;
 
     // Posts new user info to DB
@@ -96,8 +95,8 @@ export default class FormDialog extends React.Component {
       <div>
         {/* Creates Sign Up Dialog */}
         <Dialog
-          open={this.props.open}
-          onClose={this.props.close}
+          open={this.props.openSignUpDialog}
+          onClose={this.props.closeDialogs}
           aria-labelledby="form-dialog-title"
           onEnter={this.validateForm}
           >
@@ -125,7 +124,7 @@ export default class FormDialog extends React.Component {
             />
             <TextField
             margin="dense"
-            id="email"
+            id="emailSignUp"
             label="Email Address"
             type="email"
             fullWidth
@@ -133,7 +132,7 @@ export default class FormDialog extends React.Component {
             />
             <TextField
             margin="dense"
-            id="password"
+            id="passwordSignUp"
             label="Password"
             type="password"
             fullWidth
@@ -148,11 +147,11 @@ export default class FormDialog extends React.Component {
             required
             />
             <DialogContentText style={errorStyle}>
-            {this.state.signUpError}
+            {this.props.errorMessage}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.close} color="primary">
+            <Button onClick={this.props.closeDialogs} color="primary">
             Cancel
             </Button>
             <Button onClick={this.handleUserSubmit} color="primary">
@@ -164,3 +163,19 @@ export default class FormDialog extends React.Component {
     );
   };
 };
+
+// Create PropTypes
+SignUpDialog.propTypes = {
+  closeDialogs: PropTypes.func.isRequired,
+  openSignUpDialog: PropTypes.bool,
+  errorMessage: PropTypes.string,
+}
+
+// Map State to Props
+const mapStateToProps = state => ({
+  openSignUpDialog: state.user.openSignUpDialog,
+  errorMessage: state.user.errorMessage,
+});
+
+// Export Component
+export default connect(mapStateToProps, { closeDialogs })(SignUpDialog);

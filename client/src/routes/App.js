@@ -1,34 +1,37 @@
-// Import React
+// Import React and Dependencies
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+
 // Import Components
+import store from '../store';
+import SignUp from '../components/dialogs/SignUp';
+import SignIn from '../components/dialogs/SignIn';
 import Navbar from '../components/Navbar';
 import Jumbotron from '../components/Jumbotron';
 import Footer from '../components/Footer';
 
 class App extends Component {
-  // Set States
-  constructor(props) {
-    super(props);
-    this.state = {
-      signInButtonMessage: 'Sign In'
-    };    
-  }
-
   // Renders Data to page
   render() {
     return (
-      <div className="App">
-        {/* I Pass in the Sign In/Sign Up dialogs thru the Navbar */}
-        <Navbar />
+      <Provider store={store}>
+        <div className="App">
+          {/* Render Closed Dialogs With the AppBar for Sign In/Sign Up function*/}
+          <SignIn />
+          <SignUp />
 
-        <Jumbotron />
+          {/* I Pass in the Sign In/Sign Up dialogs thru the Navbar */}
+          <Navbar />
 
-        {/* Main Content */}
-        <h1>We puts the stuffs here!</h1>
+          <Jumbotron />
 
-        {/* Footer */}
-        <Footer />
-      </div>
+          {/* Main Content */}
+          <h1>We puts the stuffs here!</h1>
+
+          {/* Footer */}
+          <Footer />
+        </div>
+      </Provider>
     );
   }
 }
