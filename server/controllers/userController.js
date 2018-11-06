@@ -246,7 +246,7 @@ module.exports = {
 
             return res.send({
                 success: true,
-                message: 'Good'
+                message: 'User Signed Out'
             });         
         });
     },
@@ -277,7 +277,7 @@ module.exports = {
             };
 
             return res.send({
-                success: true,
+                success: false,
                 message: 'Token Expired'
             })
         });
@@ -305,7 +305,7 @@ module.exports = {
             } else {
                 return res.send({
                     success: true,
-                    message: 'Good'
+                    message: 'Session Current'
                 });
             };
         });

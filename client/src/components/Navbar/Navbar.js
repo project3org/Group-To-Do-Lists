@@ -36,18 +36,18 @@ class Navbar extends React.Component {
   };
 
   // Checks for user token on component mount
-  componentDidMount() {
+  componentWillMount() {
     // Verifies user session
     this.props.verifySession();
-;
-    // If signed in, set button to say 'Sign Out'
-    if(this.props.signedIn) {
-      this.setState({buttonTitle: 'Sign Out'}); 
-    } else {
-      // Else, set button to say 'Sign In'
-      this.setState({buttonTitle: 'Sign In'});
-    };
 
+    // console.log(this.props.signedIn);
+    // // If signed in, set button to say 'Sign Out'
+    // if(this.props.signedIn) {
+    //   this.setState({buttonTitle: 'Sign Out'}); 
+    // } else {
+    //   // Else, set button to say 'Sign In'
+    //   this.setState({buttonTitle: 'Sign In'});
+    // };
   };
 
   // Opens Sign In Dialog
@@ -88,7 +88,7 @@ class Navbar extends React.Component {
             </Typography>
 
             {/* Sign In/Sign Out Button */}
-            <Button color="inherit" onClick={this.signInSignOutButton}>{this.state.buttonTitle}</Button>
+            <Button color="inherit" onClick={this.signInSignOutButton}>{this.props.buttonTitle}</Button>
 
             {/* Sign Up Button */}
             <Button color="inherit" onClick={this.props.openSignUp}>Sign Up</Button>
@@ -110,12 +110,14 @@ Navbar.propTypes = {
   openSignIn: PropTypes.func.isRequired,
   openSignUp: PropTypes.func.isRequired,
   verifySession: PropTypes.func.isRequired,
-  signedIn: PropTypes.bool
+  signedIn: PropTypes.bool.isRequired,
+  buttonTitle: PropTypes.string.isRequired
 }
 
 // Maps States to Component Props
 const mapStateToProps = state => ({
   signedIn: state.user.signedIn,
+  buttonTitle: state.user.buttonTitle
 });
 
 // Export Component

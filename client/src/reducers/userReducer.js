@@ -18,6 +18,7 @@ const initialState = {
     openSignUpDialog: false,
     errorMessage: '',
     signedIn: false,
+    buttonTitle: 'Sign In',
     currentUser: {}
 };
 
@@ -52,29 +53,42 @@ export default function(state = initialState, action)  {
 
         // Sign Out Action
         case SIGN_OUT:
+        if (action.payload.success) {
             // Return States
             return {
                 ...state,
                 signedIn: false,
+                buttonTitle: 'Sign In',
+                errorMessage: '',
+                currentUser: {}
+            };
+        } else {
+            // Return States
+            return {
+                ...state,
+                signedIn: false,
+                buttonTitle: 'Sign In',
                 errorMessage: action.payload.message,
                 currentUser: {}
             };
+        }
 
         // Sign In Action
         case SIGN_IN:
             // If Sign in was successfull
             if (action.payload.success) {
                 // save user token in localStorage
-                setInStorage('the_main_app', { token: this.props.serverPayload.token, expires: this.props.serverPayload.expires });
+                setInStorage('the_main_app', { token: action.payload.token, expires: action.payload.expires });
 
                 // Return States
                 return {
                     ...state,
                     serverPayload: action.payload,
                     signedIn: true,
-                    errorMessage: action.payload.message,
+                    buttonTitle: 'Sign Out',
+                    errorMessage: '',
                     currentUser: action.payload.userData,
-                    openSignIn: false
+                    openSignInDialog: false
                 };
             // Else
             } else {
@@ -92,17 +106,20 @@ export default function(state = initialState, action)  {
         case VERIFY_SESSION:
             // If Session is Still Active
             if(action.payload.success) {
+                console.log(action.payload);
                 // Return States with signedIn set to true
                 return {
                     ...state,
-                    signedIn: true
+                    signedIn: true,
+                    buttonTitle: 'Sign Out'
                 };
             // Else
             } else {
                 // Return States with signedIn set to false
                 return {
                     ...state,
-                    signedIn: false
+                    signedIn: false,
+                    buttonTitle: 'Sign In'
                 }
             }
 

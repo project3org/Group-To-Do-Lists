@@ -23,18 +23,46 @@ const errorStyle = {
 
 // Create Component
 class SignInDialog extends React.Component {
+    // Create Value States for Form
+    constructor(props) {
+        super(props);
+        this.state = {
+            emailValue: '',
+            passwordValue: ''
+        };
+    
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+    };
+
+    // Handles form value change for email input
+    handleChangeEmail = (event) => {
+        this.setState({emailValue: event.target.value});
+    };
+
+    // Handles form value change for password input
+    handleChangePassword = (event) => {
+        this.setState({passwordValue: event.target.value});
+    };
+
     // Handle User Sign In
     handleUserSignIn = (e) => {
         // Prevent form submittion from refreshing page
         e.preventDefault();
 
-        // Target input fields
-        const email = document.getElementsByName('signInEmail');
-        // const password = document.getElementById('signInPassword').value;
+        // Target user information
+        const email = this.state.emailValue;
+        const password = this.state.passwordValue;
 
-        console.log(email);
+        // Run signIn function with arguments email and password
+        this.props.signIn(email, password);
 
-        // this.props.signIn(email, password);
+        if (this.props.errorMessage === '') {
+            this.setState({
+                emailValue: '',
+                passwordValue: ''
+            });
+        };
     };
 
     // Renders Component
@@ -47,31 +75,34 @@ class SignInDialog extends React.Component {
                 onClose={this.props.closeDialogs}
                 aria-labelledby="form-dialog-title"
                 >
-                    <form id='signInForm' onSubmit={this.handleUserSignIn}>
-                    <DialogTitle id="form-dialog-title">Sign In</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                        Please enter your user email and password.<br />
-                        If you do not have an account please sign up.<br /><br />
-                        </DialogContentText>
-                        <TextField
-                        autoFocus
-                        margin="dense"
-                        name="signInEmail"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        />
-                        <TextField
-                        margin="dense"
-                        label="Password"
-                        type="password"
-                        fullWidth
-                        />
-                        <DialogContentText style={errorStyle}>
-                        {this.props.errorMessage}
-                        </DialogContentText>
-                    </DialogContent>
+                    <form onSubmit={this.handleUserSignIn}>
+                        <DialogTitle id="form-dialog-title">Sign In</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                            Please enter your user email and password.<br />
+                            If you do not have an account please sign up.<br /><br />
+                            </DialogContentText>
+                            <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Email Address"
+                            type="email"
+                            fullWidth
+                            value={this.state.emailValue}
+                            onChange={this.handleChangeEmail}
+                            />
+                            <TextField
+                            margin="dense"
+                            label="Password"
+                            type="password"
+                            fullWidth
+                            value={this.state.passwordValue}
+                            onChange={this.handleChangePassword}
+                            />
+                            <DialogContentText style={errorStyle}>
+                            {this.props.errorMessage}
+                            </DialogContentText>
+                        </DialogContent>
                         <DialogActions>
                             <Button onClick={this.props.closeDialogs} color="primary">
                             Cancel
