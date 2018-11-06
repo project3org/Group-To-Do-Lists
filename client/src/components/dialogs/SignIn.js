@@ -24,26 +24,18 @@ const errorStyle = {
 // Create Component
 class SignInDialog extends React.Component {
     // Handle User Sign In
-    handleUserSignIn = () => {
-        // Target input fields
-        const email = document.getElementsByClassName('emailSignIn')[0].value;
-        const password = document.getElementsByClassName('passwordSignIn').value;
+    handleUserSignIn = (e) => {
+        // Prevent form submittion from refreshing page
+        e.preventDefault();
 
-        console.log(email, password);
+        // Target input fields
+        const email = document.getElementsByName('signInEmail');
+        // const password = document.getElementById('signInPassword').value;
+
+        console.log(email);
 
         // this.props.signIn(email, password);
-
-
-        // this.saveToken();
     };
-
-    // saveToken = () => {
-    //     if(this.props.success) {
-
-    //         // Close Dialog
-    //         this.props.close();
-    //     };
-    // }
 
     // Renders Component
     render() {
@@ -55,39 +47,40 @@ class SignInDialog extends React.Component {
                 onClose={this.props.closeDialogs}
                 aria-labelledby="form-dialog-title"
                 >
-                <DialogTitle id="form-dialog-title">Sign In</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                    Please enter your user email and password.<br />
-                    If you do not have an account please sign up.<br /><br />
-                    </DialogContentText>
-                    <TextField
-                    autoFocus
-                    margin="dense"
-                    id="emailSignIn"
-                    label="Email Address"
-                    type="email"
-                    fullWidth
-                    />
-                    <TextField
-                    margin="dense"
-                    id="passwordSignIn"
-                    label="Password"
-                    type="password"
-                    fullWidth
-                    />
-                    <DialogContentText style={errorStyle}>
-                    {this.props.errorMessage}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.props.closeDialogs} color="primary">
-                    Cancel
-                    </Button>
-                    <Button color="primary" onClick={this.handleUserSignIn}>
-                    Sign In
-                    </Button>
-                </DialogActions>
+                    <form id='signInForm' onSubmit={this.handleUserSignIn}>
+                    <DialogTitle id="form-dialog-title">Sign In</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                        Please enter your user email and password.<br />
+                        If you do not have an account please sign up.<br /><br />
+                        </DialogContentText>
+                        <TextField
+                        autoFocus
+                        margin="dense"
+                        name="signInEmail"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                        />
+                        <TextField
+                        margin="dense"
+                        label="Password"
+                        type="password"
+                        fullWidth
+                        />
+                        <DialogContentText style={errorStyle}>
+                        {this.props.errorMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.props.closeDialogs} color="primary">
+                            Cancel
+                            </Button>
+                            <Button type="Submit" color="primary">
+                            Sign In
+                            </Button>
+                        </DialogActions>
+                    </form>
                 </Dialog>
             </div>
         );

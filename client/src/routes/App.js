@@ -10,6 +10,9 @@ import Navbar from '../components/Navbar';
 import Jumbotron from '../components/Jumbotron';
 import Footer from '../components/Footer';
 
+// Alerts me to material-ui variants that are about to be depreciated
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+
 class App extends Component {
   // Renders Data to page
   render() {
