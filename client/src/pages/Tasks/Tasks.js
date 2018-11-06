@@ -47,10 +47,10 @@ class Tasks extends Component {
   };
 
   // When the form is submitted, use the API.saveTask method to save the task data
-  // Then reload books from the database
+  // Then reload tasks from the database
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.name && this.state.weight && this.state.dueDate) {
+    if (this.state.name) {
       API.saveTask({
         name: this.state.name,
         weight: this.state.weight,
@@ -68,51 +68,34 @@ class Tasks extends Component {
       <Container fluid>
         <Row>
           <Col size="md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
             <form>
               <Input
-                value={this.state.title}
+                value={this.state.name}
                 onChange={this.handleInputChange}
-                name="title"
+                name="name"
                 placeholder="Title (required)"
               />
-              <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.name)}
                 onClick={this.handleFormSubmit}
               >
-                Submit Book
+                Submit Task
               </FormBtn>
             </form>
           </Col>
           <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
-            {this.state.books.length ? (
+            <Card>
+            {this.state.tasks.length ? (
               <List>
-                {this.state.books.map(book => {
+                {this.state.tasks.map(task => {
                   return (
-                    <ListItem key={book._id}>
-                      <a href={"/books/" + book._id}>
+                    <ListItem key={task._id}>
+                      <a href={"/tasks/" + task._id}>
                         <strong>
-                          {book.title} by {book.author}
+                          {task.name} due {task.dueDate}
                         </strong>
                       </a>
-                      <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                      <DeleteBtn onClick={() => this.deleteBook(task._id)} />
                     </ListItem>
                   );
                 })}
@@ -120,6 +103,7 @@ class Tasks extends Component {
             ) : (
               <h3>No Results to Display</h3>
             )}
+            </Card>
           </Col>
         </Row>
       </Container>

@@ -24,8 +24,10 @@ const styles = {
   },
 };
 
+
 function SimpleCard(props) {
   const { classes } = props;
+
 
   return (
     <Card className={classes.card}>
@@ -38,7 +40,7 @@ function SimpleCard(props) {
         <Typography component="p">
           Task list generated here <br />
           <ul>
-          <li> {TASKS TO LIST HERE} <br />
+          <li> {Children} <br />
           </li>
           </ul>
         </Typography>
