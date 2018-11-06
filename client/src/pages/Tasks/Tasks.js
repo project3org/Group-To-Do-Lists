@@ -67,8 +67,8 @@ class Tasks extends Component {
     return (
       <Container fluid>
         <Row>
-          <Col size="md-6">
-            <form>
+          {/* <Col size="md-6"> */}
+            {/* <form>
               <Input
                 value={this.state.name}
                 onChange={this.handleInputChange}
@@ -81,9 +81,9 @@ class Tasks extends Component {
               >
                 Submit Task
               </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
+            </form> */}
+          {/* </Col> */}
+          <Col size="md-2 sm-4">
             <Card>
             {this.state.tasks.length ? (
               <List>

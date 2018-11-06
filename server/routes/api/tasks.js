@@ -3,8 +3,8 @@ const tasksController = require("../../controllers/tasksController");
 
 // Matches with "/api/tasks"
 router.route("/")
-  .get(booksController.findAll)
-  .post(booksController.create);
+  .get(tasksController.findAll)
+  .post(tasksController.create);
 
 // Matches with "/api/tasks/:id"
 router

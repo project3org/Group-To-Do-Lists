@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 const styles = {
   card: {
     minWidth: 275,
+    marginTop: 18
   },
   bullet: {
     display: 'inline-block',
@@ -35,18 +36,21 @@ function SimpleCard(props) {
         <Typography className={classes.title} color="textSecondary" gutterBottom>
         </Typography>
         <Typography variant="h5" component="h2">
-         List Title
+         Task List Header
+        </Typography>
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+        Task list generated here
         </Typography>
         <Typography component="p">
-          Task list generated here <br />
           <ul>
-          <li> {Children} <br />
-          </li>
+          <li>Task name </li>
+          <li>Task name </li>
+          <li>Task name </li>
           </ul>
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">List Info</Button>
+        <Button size="small">More Info</Button>
       </CardActions>
     </Card>
   );
