@@ -1,5 +1,5 @@
 // Import Local Dependencies
-import { getFromStorage } from '../utils/storage';
+import { getFromStorage } from '../../utils/storage';
 
 // Import Action Types
 import {

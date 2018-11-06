@@ -2,5 +2,6 @@
 module.exports = {
     // Create a new Model.js file in this folder and link the paths here. Example below.
     User: require('./User'),
-    UserSession: require('./UserSession')
+    UserSession: require('./UserSession'),
+    Task: require("./Task")
 };

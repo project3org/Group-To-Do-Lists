@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 
 // Import local dependencies
-import { signUp, closeDialogs } from '../../actions/userActions';
+import { signUp, closeDialogs } from '../../redux/actions/userActions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -95,7 +95,7 @@ class SignUpDialog extends React.Component {
 
     // Rund signUp function with arguments firstName, lastName, email, password and passwordVerification
     this.props.signUp(firstName, lastName, email, password, passwordVerification);
-
+    
     if (this.props.errorMessage === '') {
       this.setState({
         firstNameValue: '',
@@ -127,6 +127,7 @@ class SignUpDialog extends React.Component {
               <TextField
               autoFocus
               margin="dense"
+              id="firstName"
               label="First Name"
               type="text"
               fullWidth
@@ -165,7 +166,7 @@ class SignUpDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.closeDialog} color="primary">
+              <Button onClick={this.handleDialogClose} color="primary">
               Cancel
               </Button>
               <Button type="Submit" color="primary">

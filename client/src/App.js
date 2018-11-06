@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 
 // Import Components
-import store from '../redux/store';
-import SignUp from '../components/dialogs/SignUp';
-import SignIn from '../components/dialogs/SignIn';
-import Navbar from '../components/Navbar';
-import Jumbotron from '../components/Jumbotron';
-import Footer from '../components/Footer';
+import store from './redux/store';
+import SignUp from './components/dialogs/SignUp';
+import SignIn from './components/dialogs/SignIn';
+import Navbar from './components/Navbar/Navbar';
+import Jumbotron from './components/Jumbotron';
+import Footer from './components/Footer/Footer';
+import Tasks from './pages/Tasks';
 
 // Alerts me to material-ui variants that are about to be depreciated
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
@@ -28,8 +29,8 @@ class App extends Component {
 
           <Jumbotron />
 
-          {/* Main Contents will go here */}
-          <h1>We puts the stuffs here!</h1>
+        {/* Main Content */}
+        <Tasks />
 
           {/* Render Footer */}
           <Footer />

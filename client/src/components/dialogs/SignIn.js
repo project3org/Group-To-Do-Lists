@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 
 // Import local dependencies
-import { signIn, closeDialogs } from '../../actions/userActions';
+import { signIn, closeDialogs } from '../../redux/actions/userActions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -66,15 +66,10 @@ class SignInDialog extends React.Component {
         const email = this.state.emailValue;
         const password = this.state.passwordValue;
 
+        console.log(email, password);
+
         // Run signIn function with arguments email and password
         this.props.signIn(email, password);
-
-        if (this.props.errorMessage === '') {
-            this.setState({
-                emailValue: '',
-                passwordValue: ''
-            });
-        };
     };
 
     // Renders Component

@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 // Import Local Dependencies
-import { signOut, openSignIn, openSignUp, verifySession } from '../actions/userActions';
+import { signOut, openSignIn, openSignUp, verifySession } from '../../redux/actions/userActions';
 
 // Create Custom Styles
 const styles = {
