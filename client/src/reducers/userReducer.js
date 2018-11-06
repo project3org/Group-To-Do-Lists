@@ -1,6 +1,8 @@
 // Import Local Dependencies
 import { setInStorage } from '../utils/storage';
 
+import toastr from 'toastr';
+
 // Import action types
 import { 
     SIGN_UP,
@@ -17,7 +19,7 @@ const initialState = {
     serverPayload: {},
     openSignInDialog: false,
     openSignUpDialog: false,
-    errorMessage: '',
+    errorMessage: ' ',
     signedIn: false,
     buttonTitle: 'Sign In',
     currentUser: {}
@@ -49,13 +51,32 @@ export default function(state = initialState, action)  {
             return {
                 ...state,
                 openSignInDialog: false,
-                openSignUpDialog: false
+                openSignUpDialog: false,
+                errorMessage: ''
             };
 
         // Sign Up Action
         case SIGN_UP:
             // If Sign Up was successful
             if(action.payload.success) {
+                // Display a success message telling user to check their email
+                // Creates toastr options
+                toastr.options = {
+                    "closeButton": true,
+                    "positionClass": "toast-top-right",
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            
+                // Sends toastr success message to user
+                toastr.success("Please follow the link sent to your email.", "Account successfully created!");
                 // return states with signUpDialog set to false
                 return {
                     ...state,

@@ -45,6 +45,18 @@ class SignInDialog extends React.Component {
         this.setState({passwordValue: event.target.value});
     };
 
+    // Handles Closing Dialog
+    handleDialogClose = () =>{
+        // Sets value states back to empty strings
+        this.setState({
+            emailValue: '',
+            passwordValue: ''
+        });
+
+        // Envokes closeDialogs
+        this.props.closeDialogs();
+    };
+
     // Handle User Sign In
     handleUserSignIn = (e) => {
         // Prevent form submittion from refreshing page

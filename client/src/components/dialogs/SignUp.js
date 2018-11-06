@@ -1,7 +1,6 @@
 // Import react and dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import toastr from 'toastr';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -67,6 +66,21 @@ class SignUpDialog extends React.Component {
     this.setState({passwordVerificationValue: event.target.value});
   };
 
+  // Handles Closing Dialog
+  handleDialogClose = () =>{
+    // Sets value states back to empty strings
+    this.setState({
+        firstNameValue: '',
+        lastNameValue: '',
+        emailValue: '',
+        passwordValue: '',
+        passwordVerificationValue: ''
+    });
+
+    // Envokes closeDialogs
+    this.props.closeDialogs();
+  };
+
   // Handle Submit New User
   handleUserSubmit = (e) => {
     // Prevent default submit function
@@ -82,24 +96,15 @@ class SignUpDialog extends React.Component {
     // Rund signUp function with arguments firstName, lastName, email, password and passwordVerification
     this.props.signUp(firstName, lastName, email, password, passwordVerification);
 
-    //       // Display a success message telling user to check their email
-    //       // Creates toastr options
-    //       toastr.options = {
-    //         "closeButton": true,
-    //         "positionClass": "toast-top-right",
-    //         "onclick": null,
-    //         "showDuration": "300",
-    //         "hideDuration": "1000",
-    //         "timeOut": "5000",
-    //         "extendedTimeOut": "1000",
-    //         "showEasing": "swing",
-    //         "hideEasing": "linear",
-    //         "showMethod": "fadeIn",
-    //         "hideMethod": "fadeOut"
-    //       };
-
-    //       // Sends toastr success message to user
-    //       toastr.success("Please follow the link sent to your email.", "Account successfully created!");
+    if (this.props.errorMessage === '') {
+      this.setState({
+        firstNameValue: '',
+        lastNameValue: '',
+        emailValue: '',
+        passwordValue: '',
+        passwordVerificationValue: ''
+      });
+    };
   };
 
   // Renders Component
@@ -160,7 +165,7 @@ class SignUpDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.props.closeDialogs} color="primary">
+              <Button onClick={this.closeDialog} color="primary">
               Cancel
               </Button>
               <Button type="Submit" color="primary">
@@ -178,8 +183,8 @@ class SignUpDialog extends React.Component {
 SignUpDialog.propTypes = {
   signUp: PropTypes.func.isRequired,
   closeDialogs: PropTypes.func.isRequired,
-  openSignUpDialog: PropTypes.bool,
-  errorMessage: PropTypes.string,
+  openSignUpDialog: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string.isRequired,
 }
 
 // Map State to Props
