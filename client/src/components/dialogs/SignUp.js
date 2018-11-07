@@ -64,7 +64,7 @@ class SignUpDialog extends React.Component {
   // Handles form value change for passwordVerification input
   handleChangePasswordVerification = (event) => {
     this.setState({passwordVerificationValue: event.target.value});
-  };
+  }; 
 
   // Handles Closing Dialog
   handleDialogClose = () =>{
