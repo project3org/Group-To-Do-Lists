@@ -27,25 +27,27 @@ class MenuDrawer extends React.Component {
 
     // Create Side Drawer components
     const sideList = (
-      <div>
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text} onClick={this.props.closeDialogs}>
-              {/* <ListItemIcon>{}</ListItemIcon> */}
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              {/* <ListItemIcon>{}</ListItemIcon> */}
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </div>
+        <div>
+            <List>Menu</List>
+            <Divider />
+            <List>
+                {['Your Lists', 'Starred Lists', 'Create List'].map((text, index) => (
+                <ListItem button key={text} onClick={this.props.closeDialogs}>
+                    {/* <ListItemIcon>{}</ListItemIcon> */}
+                    <ListItemText primary={text} />
+                </ListItem>
+                ))}
+            </List>
+            <Divider />
+            <List>
+                {['Your Profile', 'Sign Out'].map((text, index) => (
+                <ListItem button key={text}>
+                    {/* <ListItemIcon>{}</ListItemIcon> */}
+                    <ListItemText primary={text} />
+                </ListItem>
+                ))}
+            </List>
+        </div>
     );
 
     return (
