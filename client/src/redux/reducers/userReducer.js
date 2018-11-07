@@ -10,6 +10,7 @@ import {
     SIGN_OUT,
     OPEN_SIGNIN_DIALOG,
     OPEN_SIGNUP_DIALOG, 
+    OPEN_DRAWER,
     CLOSE_DIALOGS, 
     VERIFY_SESSION 
 } from '../actions/types';
@@ -19,6 +20,7 @@ const initialState = {
     serverPayload: {},
     openSignInDialog: false,
     openSignUpDialog: false,
+    openDrawer: false,
     errorMessage: ' ',
     signedIn: false,
     buttonTitle: 'Sign In',
@@ -45,6 +47,14 @@ export default function(state = initialState, action)  {
                 openSignUpDialog: true
             };
 
+        // Open Drawer Action
+        case OPEN_DRAWER: 
+            // Return States
+            return {
+                ...state,
+                openDrawer: true
+            };
+
         // Close Dialogs Action
         case CLOSE_DIALOGS:
             // Return States
@@ -52,6 +62,7 @@ export default function(state = initialState, action)  {
                 ...state,
                 openSignInDialog: false,
                 openSignUpDialog: false,
+                openDrawer: false,
                 errorMessage: ''
             };
 
@@ -122,7 +133,6 @@ export default function(state = initialState, action)  {
             };
         }
     
-
         // Sign Out Action
         case SIGN_OUT:
         if (action.payload.success) {
