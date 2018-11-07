@@ -104,14 +104,16 @@ Navbar.propTypes = {
   verifySession: PropTypes.func.isRequired,
   signedIn: PropTypes.bool.isRequired,
   buttonTitle: PropTypes.string.isRequired,
-  openDrawer: PropTypes.bool.isRequired
+  openDrawer: PropTypes.bool.isRequired,
+  currentUser: PropTypes.object.isRequired
 }
 
 // Maps States to Component Props
 const mapStateToProps = state => ({
   signedIn: state.user.signedIn,
   buttonTitle: state.user.buttonTitle,
-  openDrawer: state.user.openDrawer
+  openDrawer: state.user.openDrawer,
+  currentUser: state.user.currentUser
 });
 
 // Export Component

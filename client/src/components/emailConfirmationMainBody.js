@@ -26,7 +26,7 @@ const newToken = () => {
   const currentToken = window.location.pathname.substr(22);
 
   // Locates user associated with current token
-  fetch(`/api/account/user?token=${currentToken}`)
+  fetch(`/api/account/secret?token=${currentToken}`)
     .then(res => res.json())
     .then(json => {
       if (json.success) {

@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const moment = require('moment');
 
-const UserSchema = new mongoose.Schema({
+// Save a reference to the Schema constructor
+const Schema = mongoose.Schema;
+
+const UserSchema = new Schema({
     firstName: {
         type: String,
         default: ''
@@ -34,7 +37,13 @@ const UserSchema = new mongoose.Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    }
+    },
+    lists: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "List"
+        }
+    ]
 });
 
 UserSchema.methods.generateHash = function(password) {

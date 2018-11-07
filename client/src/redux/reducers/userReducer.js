@@ -12,7 +12,7 @@ import {
     OPEN_SIGNUP_DIALOG, 
     OPEN_DRAWER,
     CLOSE_DIALOGS, 
-    VERIFY_SESSION 
+    VERIFY_SESSION
 } from '../actions/types';
 
 // Set Initial States
@@ -109,7 +109,11 @@ export default function(state = initialState, action)  {
         // If Sign in was successful
         if (action.payload.success) {
             // save user token in localStorage
-            setInStorage('the_main_app', { token: action.payload.token, expires: action.payload.expires });
+            setInStorage('the_main_app', { 
+                id: action.payload.userData._id, 
+                token: action.payload.token, 
+                expires: action.payload.expires 
+            });
 
             // Return States
             return {
@@ -156,14 +160,15 @@ export default function(state = initialState, action)  {
         }
 
         // Verify Session Action
-        case VERIFY_SESSION:
+        case VERIFY_SESSION:           
             // If Session is Still Active
             if(action.payload.success) {
                 // Return States with signedIn set to true
                 return {
                     ...state,
                     signedIn: true,
-                    buttonTitle: 'Sign Out'
+                    buttonTitle: 'Sign Out',
+                    currentUser: action.user
                 };
             // Else
             } else {

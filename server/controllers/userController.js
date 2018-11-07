@@ -137,6 +137,25 @@ module.exports = {
         });
     },
 
+    // Handles Retrieving User Info
+    getUser: (req, res) => {
+        // Find user by ID
+        db.User.find({_id: req.params.id}, (err, user) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            };
+
+            // Return User info
+            return res.send({
+                success: true,
+                data: user
+            });
+        });
+    },
+
     // Handles User Sign In
     signin:(req, res) => {
         // Place information in variables
