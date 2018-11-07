@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 // Import Local Dependencies
-import { signOut, openSignIn, openSignUp, verifySession } from '../actions/userActions';
+import { signOut, openSignIn, openSignUp, openMenuDrawer, verifySession } from '../../redux/actions/userActions';
 
 // Create Custom Styles
 const styles = {
@@ -95,7 +95,7 @@ class Navbar extends React.Component {
 
             {/* Icon for a menu button */}
             <IconButton className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
+              <MenuIcon onClick={this.props.openMenuDrawer}/>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -109,6 +109,7 @@ Navbar.propTypes = {
   signOut: PropTypes.func.isRequired,
   openSignIn: PropTypes.func.isRequired,
   openSignUp: PropTypes.func.isRequired,
+  openMenuDrawer: PropTypes.func.isRequired,
   verifySession: PropTypes.func.isRequired,
   signedIn: PropTypes.bool.isRequired,
   buttonTitle: PropTypes.string.isRequired
@@ -121,4 +122,4 @@ const mapStateToProps = state => ({
 });
 
 // Export Component
-export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, verifySession })(Navbar);
+export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, openMenuDrawer, verifySession })(Navbar);
