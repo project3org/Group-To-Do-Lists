@@ -1,6 +1,7 @@
 // Import react and dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -20,27 +21,16 @@ const styles = {
 };
 
 // Create Component
-class Drawer extends React.Component {
-  state = {
-    right: false,
-  };
-
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open,
-    });
-  };
-    
+class MenuDrawer extends React.Component {
   // Render Component   
   render() {
-    const { classes } = this.props;
 
     // Create Side Drawer components
     const sideList = (
-      <div className={classes.list}>
+      <div>
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text} onClick={console.log('clicked')}>
+            <ListItem button key={text} onClick={this.props.closeDialogs}>
               {/* <ListItemIcon>{}</ListItemIcon> */}
               <ListItemText primary={text} />
             </ListItem>
@@ -59,15 +49,13 @@ class Drawer extends React.Component {
     );
 
     return (
-    
-      
       <div>
         <Drawer anchor="right" open={this.props.openDrawer} onClose={this.props.closeDialogs}>
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer('right', false)}
-            onKeyDown={this.toggleDrawer('right', false)}
+            onClick={this.props.closeDialogs}
+            onKeyDown={this.props.closeDialogs}
           >
             {sideList}
           </div>
@@ -78,8 +66,9 @@ class Drawer extends React.Component {
 }
 
 // Create PropTypes
-Drawer.propTypes = {
-    closeDialogs: PropTypes.func.isRequired
+MenuDrawer.propTypes = {
+    closeDialogs: PropTypes.func.isRequired,
+    openDrawer: PropTypes.bool.isRequired
 };
 
 // Maps States to Component Props
@@ -88,4 +77,4 @@ const mapStateToProps = state => ({
 });
 
 // Export Component
-export default connect(mapStateToProps, { closeDialogs })(Drawer);
+export default connect(mapStateToProps, { closeDialogs })(MenuDrawer);
