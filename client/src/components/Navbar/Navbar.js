@@ -35,6 +35,8 @@ class Navbar extends React.Component {
   componentWillMount() {
     // Verifies user session
     this.props.verifySession();
+
+    console.log(this.props.currentUser)
   };
 
   // Opens Sign In Dialog

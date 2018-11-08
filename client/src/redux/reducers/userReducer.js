@@ -163,6 +163,7 @@ export default function(state = initialState, action)  {
         case VERIFY_SESSION:           
             // If Session is Still Active
             if(action.payload.success) {
+                console.log(action.user);
                 // Return States with signedIn set to true
                 return {
                     ...state,
