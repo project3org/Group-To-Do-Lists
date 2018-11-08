@@ -16,7 +16,7 @@ module.exports = {
             })
             .catch((err)=>{
                 // If an error occurs, send the err to the client instead
-                res.json(err);
+                res.status(422).json(err);
             });
     },
     // Saves/Updates Users's associated Lists
@@ -37,7 +37,7 @@ module.exports = {
             })
             .catch((err)=>{
                 // If an error occurred, send it to the client
-                res.json(err);
+                res.status(422).json(err);
             });        
     },
     // Trades List id for List body
@@ -49,7 +49,7 @@ module.exports = {
             })
             .catch((err)=>{
                 // If an error occurs, send the err to the client
-                res.json(err);
+                res.status(422).json(err);
             });
     },
     // Deletes List
@@ -62,7 +62,7 @@ module.exports = {
             })
             .catch((err)=>{
                 // If an error occurs, send the err to the client
-                res.json(err);
+                res.status(422).json(err);
             });
     }
 };

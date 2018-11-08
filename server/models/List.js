@@ -6,12 +6,10 @@ const Schema = mongoose.Schema;
 
 // Create a new List Schema
 const ListSchema = new Schema({
-    creatorId: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    ],
+    creatorId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     date: {
         type: Date,
         default: Date.now
@@ -24,6 +22,12 @@ const ListSchema = new Schema({
         {
             type: Schema.Types.ObjectId,
             ref: 'User'
+        }
+    ],
+    tasks: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Task"
         }
     ]
 });
