@@ -2,11 +2,25 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
-  name: { type: String, required: true },
+  listId: {
+    type: Schema.Types.ObjectId,
+    ref: 'List'
+  },
+  name: { 
+    type: String, 
+    required: true 
+  },
+  description: {
+    type: String,
+    required: true
+  },
   weight: String,
   assignedTo: Array,
   dueDate: Date,
-  completed: Boolean
+  isCompleted: {
+    type: Boolean,
+    default: false
+  }
 },
 {
   timestamps: true

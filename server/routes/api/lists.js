@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const listController = require("../../controllers/listController");
 
-// Matches with "/api/lists/user/:id"
-router.route("/user/:id")
+// :id param needs to be the User ObjectId
+
+// Matches with "/api/lists/all/:id"
+router.route("/all/:id")
     // Route for getting all Lists
     .get(listController.openLists)
 
@@ -13,6 +15,9 @@ router.route("/:id")
 
     // Route for passing List ID to DB for List body
     .get(listController.getList)
+
+    // Route for updating list information
+    .put(listController.updateList)
 
     // Route for deleting List
     .delete(listController.deleteList);

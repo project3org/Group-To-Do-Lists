@@ -16,16 +16,13 @@ module.exports = {
             })
             .catch((err)=>{
                 // If an error occurs, send the err to the client instead
-                res.json(err);
+                res.status(422).json(err);
             });
     },
     // Saves/Updates Users's associated Lists
     saveList: (req, res)=>{
         // Creates List in DB
-        db.List.create({
-            "creatorId": req.params.id,
-            "name": req.body.name
-        })
+        db.List.create(req.body)
             .then((dbList)=>{
                 // If a List was created successfully, find one User with an `_id` equal to `req.params.id`.
                 // Update the User to be associated with the new List
@@ -37,7 +34,7 @@ module.exports = {
             })
             .catch((err)=>{
                 // If an error occurred, send it to the client
-                res.json(err);
+                res.status(422).json(err);
             });        
     },
     // Trades List id for List body
@@ -49,8 +46,14 @@ module.exports = {
             })
             .catch((err)=>{
                 // If an error occurs, send the err to the client
-                res.json(err);
+                res.status(422).json(err);
             });
+    },
+    // Updates List
+    updateList: (req, res) => {
+        db.List.findOneAndUpdate({_id: req.params.id}, req.body)
+            .then(dbList => res.json(dbList))
+            .catch(err => res.status(422).json(err));
     },
     // Deletes List
     deleteList: (req, res)=>{
@@ -62,7 +65,7 @@ module.exports = {
             })
             .catch((err)=>{
                 // If an error occurs, send the err to the client
-                res.json(err);
+                res.status(422).json(err);
             });
     }
 };
