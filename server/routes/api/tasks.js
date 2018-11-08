@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const tasksController = require("../../controllers/tasksController");
 
-// :id param needs to be the list ObjectId
+// :id param needs to be the List ObjectId
 
 // Matches with "/api/tasks/all/:id"
 router.route("/all/:id")
