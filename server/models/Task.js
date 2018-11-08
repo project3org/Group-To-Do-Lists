@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
+  listId: {
+    type: Schema.Types.ObjectId,
+    ref: 'List'
+  },
   name: { 
     type: String, 
     required: true 
@@ -16,11 +20,7 @@ const taskSchema = new Schema({
   isCompleted: {
     type: Boolean,
     default: false
-  },
-  listId: {
-    type: Schema.Types.ObjectId,
-    ref: 'List'
-  },
+  }
 },
 {
   timestamps: true

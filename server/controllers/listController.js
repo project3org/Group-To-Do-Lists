@@ -22,10 +22,7 @@ module.exports = {
     // Saves/Updates Users's associated Lists
     saveList: (req, res)=>{
         // Creates List in DB
-        db.List.create({
-            "creatorId": req.params.id,
-            "name": req.body.name
-        })
+        db.List.create(req.body)
             .then((dbList)=>{
                 // If a List was created successfully, find one User with an `_id` equal to `req.params.id`.
                 // Update the User to be associated with the new List
@@ -51,6 +48,12 @@ module.exports = {
                 // If an error occurs, send the err to the client
                 res.status(422).json(err);
             });
+    },
+    // Updates List
+    updateList: (req, res) => {
+        db.List.findOneAndUpdate({_id: req.params.id}, req.body)
+            .then(dbList => res.json(dbList))
+            .catch(err => res.status(422).json(err));
     },
     // Deletes List
     deleteList: (req, res)=>{
