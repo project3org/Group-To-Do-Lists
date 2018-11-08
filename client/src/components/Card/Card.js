@@ -41,7 +41,7 @@ function SimpleCard(props) {
         <Typography className={classes.title} color="textSecondary" gutterBottom>
         Task list generated here
         </Typography>
-        <Typography component="p">
+        <Typography component="h6">
           <ul>
           <li>Task name </li>
           <li>Task name </li>
