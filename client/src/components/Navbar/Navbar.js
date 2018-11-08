@@ -40,14 +40,7 @@ class Navbar extends React.Component {
     // Verifies user session
     this.props.verifySession();
 
-    // console.log(this.props.signedIn);
-    // // If signed in, set button to say 'Sign Out'
-    // if(this.props.signedIn) {
-    //   this.setState({buttonTitle: 'Sign Out'}); 
-    // } else {
-    //   // Else, set button to say 'Sign In'
-    //   this.setState({buttonTitle: 'Sign In'});
-    // };
+    console.log(this.props.currentUser)
   };
 
   // Opens Sign In Dialog
