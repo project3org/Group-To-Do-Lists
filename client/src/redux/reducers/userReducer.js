@@ -10,6 +10,7 @@ import {
     SIGN_OUT,
     OPEN_SIGNIN_DIALOG,
     OPEN_SIGNUP_DIALOG, 
+    OPEN_PROFILE_DIALOG,
     OPEN_DRAWER,
     CLOSE_DIALOGS, 
     VERIFY_SESSION
@@ -20,10 +21,10 @@ const initialState = {
     serverPayload: {},
     openSignInDialog: false,
     openSignUpDialog: false,
+    openProfileDialog: false,
     openDrawer: false,
     errorMessage: ' ',
     signedIn: false,
-    buttonTitle: 'Sign In',
     currentUser: {}
 };
 
@@ -47,6 +48,14 @@ export default function(state = initialState, action)  {
                 openSignUpDialog: true
             };
 
+        // Open Profile Dialog Action
+        case OPEN_PROFILE_DIALOG:
+            // Return States
+            return {
+                ...state,
+                openProfileDialog: true
+            };
+
         // Open Drawer Action
         case OPEN_DRAWER: 
             // Return States
@@ -62,6 +71,7 @@ export default function(state = initialState, action)  {
                 ...state,
                 openSignInDialog: false,
                 openSignUpDialog: false,
+                openProfileDialog: false,
                 openDrawer: false,
                 errorMessage: ''
             };
@@ -160,15 +170,13 @@ export default function(state = initialState, action)  {
         }
 
         // Verify Session Action
-        case VERIFY_SESSION:           
+        case VERIFY_SESSION:       
             // If Session is Still Active
             if(action.payload.success) {
-                console.log(action.user);
                 // Return States with signedIn set to true
                 return {
                     ...state,
                     signedIn: true,
-                    buttonTitle: 'Sign Out',
                     currentUser: action.user
                 };
             // Else
@@ -176,8 +184,7 @@ export default function(state = initialState, action)  {
                 // Return States with signedIn set to false
                 return {
                     ...state,
-                    signedIn: false,
-                    buttonTitle: 'Sign In'
+                    signedIn: false
                 }
             }
 

@@ -74,7 +74,7 @@ class SignInDialog extends React.Component {
                 {/* Creates Sign In Dialog */}
                 <Dialog
                 open={this.props.openSignInDialog}
-                onClose={this.props.closeDialogs}
+                onClose={this.handleDialogClose}
                 aria-labelledby="form-dialog-title"
                 >
                     <form onSubmit={this.handleUserSignIn}>
@@ -106,7 +106,7 @@ class SignInDialog extends React.Component {
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={this.props.closeDialogs} color="primary">
+                            <Button onClick={this.handleDialogClose} color="primary">
                             Cancel
                             </Button>
                             <Button type="Submit" color="primary">

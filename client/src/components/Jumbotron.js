@@ -24,9 +24,9 @@ class Jumbotron extends React.Component {
                             <h5 className="h5 orange-text"><i className="fa fa-list"></i> Task Managing Made Easy</h5>
                             <h2 className="card-title h1 my-4 py-2">Welcome to Gratify!</h2>
                             <p className="mb-4 pb-2 px-md-5 mx-md-5">Gratify is a task managing system designed to simplify group assignments by assigning users the tasks they would prefer to do the most. We utilize a very simple equation, MORE work should get done FASTER when people perform tasks that they enjoy doing.</p>
-                            <a className="btn peach-gradient" onClick={this.props.openSignIn}><i className="fa fa-clone left"></i>Sign In</a>
+                            <a className="btn peach-gradient" href="#!" onClick={this.props.openSignIn}><i className="fa fa-clone left"></i>Sign In</a>
                             <br /><br />
-                            <p>If you do not have an account, please <a onClick={this.props.openSignUp}>Sign Up.</a></p>
+                            <p>If you do not have an account, please <a href="#!" onClick={this.props.openSignUp}>Sign Up.</a></p>
                     
                         </div>
                     </div>

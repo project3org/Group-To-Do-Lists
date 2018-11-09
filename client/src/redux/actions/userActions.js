@@ -8,6 +8,7 @@ import {
     SIGN_OUT, 
     OPEN_SIGNIN_DIALOG, 
     OPEN_SIGNUP_DIALOG, 
+    OPEN_PROFILE_DIALOG,
     OPEN_DRAWER,
     CLOSE_DIALOGS, 
     VERIFY_SESSION
@@ -21,6 +22,11 @@ export const openSignIn = () => dispatch => {
 // Export openSignUp function
 export const openSignUp = () => dispatch => {
     dispatch({type: OPEN_SIGNUP_DIALOG});
+};
+
+// Export openProfile function
+export const openProfile = () => dispatch => {
+    dispatch({type: OPEN_PROFILE_DIALOG});
 };
 
 // Export openDrawer function
