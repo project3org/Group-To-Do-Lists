@@ -155,6 +155,7 @@ class SignUpDialog extends React.Component {
               label="Password"
               type="password"
               fullWidth
+              autoComplete='no'
               onChange={e => this.handleChangePassword(e)}
               />
               <TextField
@@ -162,6 +163,7 @@ class SignUpDialog extends React.Component {
               label="Password Verification"
               type="password"
               fullWidth
+              autoComplete='no'
               onChange={e => this.handleChangePasswordVerification(e)}
               />
               <DialogContentText style={errorStyle}>
