@@ -1,3 +1,5 @@
+// Ask TA about the auto fill with react
+
 // Import react and dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -33,12 +35,6 @@ class SignUpDialog extends React.Component {
       passwordValue: '',
       passwordVerificationValue: ''
     };
-
-    this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
-    this.handleChangeLastName = this.handleChangeLastName.bind(this);
-    this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleChangePasswordVerification = this.handleChangePasswordVerification.bind(this);
   };
 
   // Handles form value change for firstName input
@@ -54,6 +50,11 @@ class SignUpDialog extends React.Component {
   // Handles form value change for email input
   handleChangeEmail = (event) => {
     this.setState({emailValue: event.target.value});
+  };
+
+  onBlur = (event) => {
+    this.setState({emailValue: event.target.value});
+    console.log(event.target)
   };
 
   // Handles form value change for password input
@@ -127,35 +128,38 @@ class SignUpDialog extends React.Component {
               label="First Name"
               type="text"
               fullWidth
-              onChange={this.handleChangeFirstName}
+              autoComplete='no'
+              onChange={e => this.handleChangeFirstName(e)}
               />
               <TextField
               margin="dense"
               label="Last Name"
               type="text"
               fullWidth
-              onChange={this.handleChangeLastName}
+              autoComplete='no'
+              onChange={e => this.handleChangeLastName(e)}
               />
               <TextField
               margin="dense"
               label="Email Address"
               type="email"
               fullWidth
-              onChange={this.handleChangeEmail}
+              autoComplete='no'
+              onChange={e => this.handleChangeEmail(e)}
               />
               <TextField
               margin="dense"
               label="Password"
               type="password"
               fullWidth
-              onChange={this.handleChangePassword}
+              onChange={e => this.handleChangePassword(e)}
               />
               <TextField
               margin="dense"
               label="Password Verification"
               type="password"
               fullWidth
-              onChange={this.handleChangePasswordVerification}
+              onChange={e => this.handleChangePasswordVerification(e)}
               />
               <DialogContentText style={errorStyle}>
               {this.props.errorMessage}
