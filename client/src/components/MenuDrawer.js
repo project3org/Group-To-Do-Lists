@@ -62,8 +62,7 @@ class MenuDrawer extends React.Component {
 
       // Close Drawer by Default
       default:
-      console.log('hmm')
-        // this.props.closeDialogs();
+        this.props.closeDialogs();
         break;
     }
   };
@@ -73,7 +72,7 @@ class MenuDrawer extends React.Component {
     // Create Buttons for Signed In users
     const signedInList = (
       <div>
-        <List>
+        <List style={styles.list}>
           <ListItem>
             Menu
           </ListItem>
@@ -110,7 +109,7 @@ class MenuDrawer extends React.Component {
     // Create Buttons for Signed Out users
     const signedOutList = (
       <div>
-        <List>
+        <List style={styles.list}>
           <ListItem>
             Menu
           </ListItem>
@@ -155,7 +154,7 @@ class MenuDrawer extends React.Component {
           </Drawer>
         </div>
       );
-    };
+    }
   };
 };
 

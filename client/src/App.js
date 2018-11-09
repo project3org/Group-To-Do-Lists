@@ -42,10 +42,11 @@ class App extends Component {
           {/* I Pass in the Sign In/Sign Up dialogs thru the Navbar */}
           <Navbar />
 
+          {/* Render JumboTron */}
           <Jumbotron />
 
-        {/* Main Content */}
-        <Tasks />
+          {/* Main Content */}
+          <Tasks />
 
           {/* Footer */}
           <Footer />

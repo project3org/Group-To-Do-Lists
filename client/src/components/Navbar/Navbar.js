@@ -41,70 +41,60 @@ class Navbar extends React.Component {
     this.props.verifySession();
   };
 
-  // Opens Sign In Dialog
-  openSignInDialog = () => {
-    this.props.openSignIn();
-  };
-
   handleDrawerOpen = () => {
     this.props.openMenuDrawer();
   };
 
-  // User Sign Out
-  handleUserSignOut = () =>{
-    // Set button to say 'Sign In'
-    this.setState({buttonTitle: 'Sign In'});
-
-    // Run signOut function
-    this.props.signOut();
-  };
-
-  // Switches Functionality of Sign In/Sign Out Button
-  signInSignOutButton = () => {
-    // If user is signed in, button will sign them out
-    if(this.props.signedIn) {
-      return this.handleUserSignOut();
-    // Else button will open sign in dialog
-    } else {
-      return this.openSignInDialog();
-    }
-  };
-
-  // User Sign Out
-  handleUserSignOut = () =>{
-    // Set button to say 'Sign In'
-    this.setState({buttonTitle: 'Sign In'});
-
-    // Run signOut function
-    this.props.signOut();
-  };
-
   // Renders Component to DOM
   render() {
-    return (
-      <div className='root' style={styles.root}>
-        {/* Render AppBar */}
-        <AppBar position="static" className='appBar' style={styles.appBar}>
-          <Toolbar>
-            {/* App Title */}
-            <Typography variant="h3" color="inherit" className='grow' style={styles.grow}>
-              Gratify
-            </Typography>
+    if(!this.props.signedIn) {
+      return (
+        <div className='root' style={styles.root}>
+          {/* Render AppBar */}
+          <AppBar position="static" className='appBar' style={styles.appBar}>
+            <Toolbar>
+              {/* App Title */}
+              <Typography variant="h3" color="inherit" className='grow' style={styles.grow}>
+                Gratify
+              </Typography>
 
-            {/* Sign In/Sign Out Button */}
-            <Button color="inherit" onClick={this.signInSignOutButton}>{this.props.buttonTitle}</Button>
+              {/* Sign In/Sign Out Button */}
+              <Button color="inherit" onClick={this.props.openSignIn}>Sign In</Button>
 
-            {/* Sign Up Button */}
-            <Button color="inherit" onClick={this.props.openSignUp}>Sign Up</Button>
+              {/* Sign Up Button */}
+              <Button color="inherit" onClick={this.props.openSignUp}>Sign Up</Button>
 
-            {/* Icon for a menu button */}
-            <IconButton onClick={this.handleDrawerOpen}className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu" >
-              <MenuIcon/>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
+              {/* Icon for a menu button */}
+              <IconButton onClick={this.handleDrawerOpen}className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu" >
+                <MenuIcon/>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+        </div>
+      );
+    } else {
+      return (
+        <div className='root' style={styles.root}>
+          {/* Render AppBar */}
+          <AppBar position="static" className='appBar' style={styles.appBar}>
+            <Toolbar>
+              {/* App Title */}
+              <Typography variant="h3" color="inherit" className='grow' style={styles.grow}>
+                Gratify
+              </Typography>
+
+              {/* Sign Out Button */}
+              <Button color="inherit" onClick={this.props.signOut}>Sign Out</Button>
+
+              {/* Icon for a menu button */}
+              <IconButton onClick={this.handleDrawerOpen}className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu" >
+                <MenuIcon/>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+        </div>
+      );
+    }
   };
 };
 
@@ -116,14 +106,12 @@ Navbar.propTypes = {
   openMenuDrawer: PropTypes.func.isRequired,
   verifySession: PropTypes.func.isRequired,
   signedIn: PropTypes.bool.isRequired,
-  buttonTitle: PropTypes.string.isRequired,
   openDrawer: PropTypes.bool.isRequired
 }
 
 // Maps States to Component Props
 const mapStateToProps = state => ({
   signedIn: state.user.signedIn,
-  buttonTitle: state.user.buttonTitle,
   openDrawer: state.user.openDrawer
 });
 
