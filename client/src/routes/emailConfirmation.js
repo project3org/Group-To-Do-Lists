@@ -37,8 +37,33 @@ class App extends Component {
             serverMessage: json.message
           });
 
-          // Redirect user back to homepage
-          return window.location.href = "/";
+          // Send toastr message to user
+
+          // Creates toastr options
+          toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          };
+
+          // Sends toastr success message to user
+          toastr.success("Redirecting to homepage... You may now sign in!", `${json.message}`);
+
+          // Function for handling page redirect
+          const redirect = () => {
+            window.location.href = "/"
+          };
+
+          // Redirect user back to homepage after a moment so they can read toastr message
+          setTimeout(redirect, 3000);
 
         } else {
           // Else log out error message

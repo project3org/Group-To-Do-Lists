@@ -29,10 +29,11 @@ class App extends Component {
           {/* Render Navbar */}
           <Navbar />
 
+          {/* Render JumboTron */}
           <Jumbotron />
 
-        {/* Main Content */}
-        <Tasks />
+          {/* Main Content */}
+          <Tasks />
 
           {/* Render Footer */}
           <Footer />

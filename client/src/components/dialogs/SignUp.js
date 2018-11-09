@@ -96,16 +96,6 @@ class SignUpDialog extends React.Component {
 
     // Rund signUp function with arguments firstName, lastName, email, password and passwordVerification
     this.props.signUp(firstName, lastName, email, password, passwordVerification);
-    
-    if (this.props.errorMessage === '') {
-      this.setState({
-        firstNameValue: '',
-        lastNameValue: '',
-        emailValue: '',
-        passwordValue: '',
-        passwordVerificationValue: ''
-      });
-    };
   };
 
   // Renders Component
