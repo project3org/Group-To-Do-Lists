@@ -13,7 +13,8 @@ import {
     OPEN_PROFILE_DIALOG,
     OPEN_DRAWER,
     CLOSE_DIALOGS, 
-    VERIFY_SESSION
+    VERIFY_SESSION,
+    DELETE_USER
 } from '../actions/types';
 
 // Set Initial States
@@ -111,63 +112,64 @@ export default function(state = initialState, action)  {
                     ...state,
                     serverPayload: action.payload,
                     errorMessage: action.payload.message
-                }
+                };
             }
 
         // Sign In Action
         case SIGN_IN:
-        // If Sign in was successful
-        if (action.payload.success) {
-            // save user token in localStorage
-            setInStorage('the_main_app', { 
-                id: action.payload.userData._id, 
-                token: action.payload.token, 
-                expires: action.payload.expires 
-            });
+            // If Sign in was successful
+            if (action.payload.success) {
+                // save user token in localStorage
+                setInStorage('the_main_app', { 
+                    id: action.payload.userData._id, 
+                    token: action.payload.token, 
+                    expires: action.payload.expires 
+                });
 
-            // Return States
-            return {
-                ...state,
-                serverPayload: action.payload,
-                signedIn: true,
-                buttonTitle: 'Sign Out',
-                errorMessage: '',
-                currentUser: action.payload.userData,
-                openSignInDialog: false
-            };
-        // Else
-        } else {
-            // Return States
-            return {
-                ...state,
-                serverPayload: action.payload,
-                signedIn: true,
-                errorMessage: action.payload.message,
-                currentUser: action.payload.userData,
-            };
-        }
-    
+                // Return States
+                return {
+                    ...state,
+                    serverPayload: action.payload,
+                    signedIn: true,
+                    buttonTitle: 'Sign Out',
+                    errorMessage: '',
+                    currentUser: action.payload.userData,
+                    openSignInDialog: false
+                };
+            // Else
+            } else {
+                // Return States
+                return {
+                    ...state,
+                    serverPayload: action.payload,
+                    signedIn: true,
+                    errorMessage: action.payload.message,
+                    currentUser: action.payload.userData,
+                };
+            }
+        
         // Sign Out Action
         case SIGN_OUT:
-        if (action.payload.success) {
-            // Return States
-            return {
-                ...state,
-                signedIn: false,
-                buttonTitle: 'Sign In',
-                errorMessage: '',
-                currentUser: {}
-            };
-        } else {
-            // Return States
-            return {
-                ...state,
-                signedIn: false,
-                buttonTitle: 'Sign In',
-                errorMessage: action.payload.message,
-                currentUser: {}
-            };
-        }
+            // If Sign Out was successfull
+            if (action.payload.success) {
+                // Return States
+                return {
+                    ...state,
+                    signedIn: false,
+                    buttonTitle: 'Sign In',
+                    errorMessage: '',
+                    currentUser: {}
+                };
+            } else {
+                // Return States
+                return {
+                    ...state,
+                    signedIn: false,
+                    buttonTitle: 'Sign In',
+                    errorMessage: action.payload.message,
+                    currentUser: {}
+                };
+            }
 
         // Verify Session Action
         case VERIFY_SESSION:       
@@ -185,8 +187,17 @@ export default function(state = initialState, action)  {
                 return {
                     ...state,
                     signedIn: false
-                }
+                };
             }
+
+        case DELETE_USER:
+            return {
+                ...state,
+                signedIn: false,
+                currentUser: {}, 
+                openProfileDialog: false,
+                openDrawer: false
+            };
 
         // Export Initial States By Default
         default:

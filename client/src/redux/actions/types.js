@@ -7,3 +7,4 @@ export const OPEN_PROFILE_DIALOG = "OPEN_PROFILE_DIALOG";
 export const OPEN_DRAWER = "OPEN_DRAWER";
 export const CLOSE_DIALOGS = "CLOSE_DIALOGS";
 export const VERIFY_SESSION = "VERIFY_SESSION";
+export const DELETE_USER = "DELETE_USER";

@@ -457,5 +457,14 @@ module.exports = {
             .catch((err) => {
                 res.status(422).json(err);
             });
+    },
+
+    // Handles deleting user current session
+    deleteSession: (req, res) => {
+        db.UserSession.deleteOne({_id: req.params.id})
+            .then(dbUser => res.json(dbUser))
+            .catch((err) => {
+                res.status(422).json(err);
+            });
     }
 };

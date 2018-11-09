@@ -11,18 +11,47 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 
 // Import local dependencies
-import { closeDialogs } from '../../redux/actions/userActions';
+import { closeDialogs, deleteUser } from '../../redux/actions/userActions';
+import { getFromStorage } from '../../utils/storage';
 
 // Creates Style for Error Messages
-const errorStyle = {
-    color: 'red',
-    fontSize: 13,
-    textAlign: 'right',
-    paddingTop: 10
-}
+const styles = {
+    errorStyle: {
+        color: 'red',
+        fontSize: 13,
+        textAlign: 'right',
+        paddingTop: 10
+    },
+    deleteProfBtnStyle: {
+        marginRight: "auto"
+    }
+};
 
 // Create Component
 class ProfileDialog extends React.Component {
+    // Handles Profile delete
+    deleteProfile = () => {
+        const confirmation = window.confirm("Are you sure you would like to delete your profile?");
+
+        if(confirmation) {
+            // Targets User Id
+            const userId = this.props.currentUser._id
+
+            // Deletes User
+            this.props.deleteUser(userId);
+
+            // Target user's current session
+            const obj = getFromStorage('the_main_app');
+
+            // Delete user's current session
+            fetch(`/api/account/session/delete/${obj.token}`, {
+                method: 'DELETE'
+            }).then(res => res.json());
+        } else {
+            console.log('Whew, that was a close one.');
+        };
+    };
+
     // Renders Component
     render() {
         return (
@@ -33,26 +62,26 @@ class ProfileDialog extends React.Component {
                 onClose={this.props.closeDialogs}
                 aria-labelledby="form-dialog-title"
                 >
-                        <DialogTitle id="form-dialog-title">Your Profile</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                            Update or delete your profile information.<br /><br />
-                            </DialogContentText>
-                            <DialogContentText style={errorStyle}>
-                            {this.props.errorMessage}
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button margin-right="auto" color="secondary">
-                            Delete Profile
-                            </Button>
-                            <Button onClick={this.props.closeDialogs} color="primary">
-                            Close
-                            </Button>
-                            <Button type="Submit" color="primary">
-                            Edit
-                            </Button>
-                        </DialogActions>
+                    <DialogTitle id="form-dialog-title">Your Profile</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                        Update or delete your profile information.<br /><br />
+                        </DialogContentText>
+                        <DialogContentText style={styles.errorStyle}>
+                        {this.props.errorMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogContent>
+                        Add User info here with option to edit.
+                    </DialogContent>
+                    <DialogActions>
+                        <Button style={styles.deleteProfBtnStyle} onClick={this.deleteProfile} color="secondary">
+                        Delete Profile
+                        </Button>
+                        <Button onClick={this.props.closeDialogs} color="primary">
+                        Close
+                        </Button>
+                    </DialogActions>
                 </Dialog>
             </div>
         );
@@ -62,10 +91,11 @@ class ProfileDialog extends React.Component {
 // Create PropTypes
 ProfileDialog.propTypes = {
     closeDialogs: PropTypes.func.isRequired,
+    deleteUser: PropTypes.func.isRequired,
     errorMessage: PropTypes.string.isRequired,
     openProfileDialog: PropTypes.bool.isRequired,
     currentUser: PropTypes.object.isRequired
-}
+};
   
 // Map State to Props
 const mapStateToProps = state => ({
@@ -75,4 +105,4 @@ const mapStateToProps = state => ({
 });
   
 // Export Component
-export default connect(mapStateToProps, { closeDialogs })(ProfileDialog);
+export default connect(mapStateToProps, { closeDialogs, deleteUser })(ProfileDialog);
