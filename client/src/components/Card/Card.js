@@ -27,7 +27,7 @@ const styles = {
 
 
 function SimpleCard(props) {
-  const { classes } = props;
+  const { classes, children } = props;
 
 
   return (
@@ -42,11 +42,7 @@ function SimpleCard(props) {
         Task list generated here
         </Typography>
         <Typography component="p">
-          <ul>
-          <li>Task name </li>
-          <li>Task name </li>
-          <li>Task name </li>
-          </ul>
+          {children}
         </Typography>
       </CardContent>
       <CardActions>

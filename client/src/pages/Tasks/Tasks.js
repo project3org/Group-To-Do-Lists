@@ -82,7 +82,6 @@ class Tasks extends Component {
                 Submit Task
               </FormBtn>
             </form> */}
-          {/* </Col> */}
           <Col size="md-2 sm-4">
             <Card>
             {this.state.tasks.length ? (
@@ -101,7 +100,7 @@ class Tasks extends Component {
                 })}
               </List>
             ) : (
-              <h3>No Results to Display</h3>
+              <h4><i>No Results to Display</i></h4>
             )}
             </Card>
           </Col>
