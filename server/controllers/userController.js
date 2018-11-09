@@ -445,5 +445,14 @@ module.exports = {
             // Send email
             mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', user[0].email, 'Gratify Email Verification', verificationEmail);
         });
+    },
+
+    // Handles deleting user
+    deleteUser: (req, res) => {
+        db.User.deleteOne({_id: req.params.id})
+            .then(dbUser => res.json(dbUser))
+            .catch((err) => {
+                res.status(422).json(err);
+            });
     }
 };

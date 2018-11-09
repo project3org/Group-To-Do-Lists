@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 // Import Local Dependencies
-import { signOut, openSignIn, openSignUp, openMenuDrawer, verifySession } from '../../redux/actions/userActions';
+import { signOut, openSignIn, openSignUp, openMenuDrawer } from '../../redux/actions/userActions';
 
 // Create Custom Styles
 const styles = {
@@ -36,9 +36,8 @@ class Navbar extends React.Component {
   };
 
   // Checks for user token on component mount
-  componentWillMount() {
-    // Verifies user session
-    this.props.verifySession();
+  componentDidMount() {
+    console.log(this.props.currentUser);
   };
 
   handleDrawerOpen = () => {
@@ -104,16 +103,17 @@ Navbar.propTypes = {
   openSignIn: PropTypes.func.isRequired,
   openSignUp: PropTypes.func.isRequired,
   openMenuDrawer: PropTypes.func.isRequired,
-  verifySession: PropTypes.func.isRequired,
   signedIn: PropTypes.bool.isRequired,
-  openDrawer: PropTypes.bool.isRequired
+  openDrawer: PropTypes.bool.isRequired,
+  currentUser: PropTypes.object.isRequired
 }
 
 // Maps States to Component Props
 const mapStateToProps = state => ({
   signedIn: state.user.signedIn,
-  openDrawer: state.user.openDrawer
+  openDrawer: state.user.openDrawer,
+  currentUser: state.user.currentUser
 });
 
 // Export Component
-export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, openMenuDrawer, verifySession })(Navbar);
+export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, openMenuDrawer })(Navbar);

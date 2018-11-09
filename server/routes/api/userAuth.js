@@ -26,5 +26,8 @@ router.route('/secret')
 router.route('/user/:id')
     .get(userController.getUser);
 
+router.route('/delete/:id')
+    .delete(userController.deleteUser);
+
 // Exports Router
 module.exports = router;
