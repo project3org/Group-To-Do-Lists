@@ -87,7 +87,7 @@ class Tasks extends Component {
             <Card>
             {this.state.tasks.length ? (
               <List>
-                {this.state.tasks.map(task => {
+                {/* {this.state.tasks.map(task => {
                   return (
                     <ListItem key={task._id}>
                       <a href={"/tasks/" + task._id}>
@@ -98,7 +98,7 @@ class Tasks extends Component {
                       <DeleteBtn onClick={() => this.deleteBook(task._id)} />
                     </ListItem>
                   );
-                })}
+                })} */}
               </List>
             ) : (
               <h3>No Results to Display</h3>

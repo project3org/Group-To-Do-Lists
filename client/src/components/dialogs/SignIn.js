@@ -30,9 +30,6 @@ class SignInDialog extends React.Component {
             emailValue: '',
             passwordValue: ''
         };
-    
-        this.handleChangeEmail = this.handleChangeEmail.bind(this);
-        this.handleChangePassword = this.handleChangePassword.bind(this);
     };
 
     // Handles form value change for email input
@@ -93,14 +90,14 @@ class SignInDialog extends React.Component {
                             label="Email Address"
                             type="email"
                             fullWidth
-                            onChange={this.handleChangeEmail}
+                            onChange={e => this.handleChangeEmail(e)}
                             />
                             <TextField
                             margin="dense"
                             label="Password"
                             type="password"
                             fullWidth
-                            onChange={this.handleChangePassword}
+                            onChange={e => this.handleChangePassword(e)}
                             />
                             <DialogContentText style={errorStyle}>
                             {this.props.errorMessage}

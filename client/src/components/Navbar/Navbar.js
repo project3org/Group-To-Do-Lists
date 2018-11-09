@@ -35,8 +35,6 @@ class Navbar extends React.Component {
   componentWillMount() {
     // Verifies user session
     this.props.verifySession();
-
-    console.log(this.props.currentUser)
   };
 
   // Opens Sign In Dialog
@@ -106,16 +104,14 @@ Navbar.propTypes = {
   verifySession: PropTypes.func.isRequired,
   signedIn: PropTypes.bool.isRequired,
   buttonTitle: PropTypes.string.isRequired,
-  openDrawer: PropTypes.bool.isRequired,
-  currentUser: PropTypes.object.isRequired
+  openDrawer: PropTypes.bool.isRequired
 }
 
 // Maps States to Component Props
 const mapStateToProps = state => ({
   signedIn: state.user.signedIn,
   buttonTitle: state.user.buttonTitle,
-  openDrawer: state.user.openDrawer,
-  currentUser: state.user.currentUser
+  openDrawer: state.user.openDrawer
 });
 
 // Export Component
