@@ -17,6 +17,9 @@ router.route('/signout')
 router.route('/verify')
     .get(userController.verifySession);
 
+router.route('/session/delete/:id')
+    .delete(userController.deleteSession);
+
 router.route('/confirmation/:token')
     .get(userController.emailVerification);
 

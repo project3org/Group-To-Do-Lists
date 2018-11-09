@@ -10,7 +10,8 @@ import {
     OPEN_PROFILE_DIALOG,
     OPEN_DRAWER,
     CLOSE_DIALOGS, 
-    VERIFY_SESSION
+    VERIFY_SESSION,
+    DELETE_USER
 } from './types';
 
 // Export openSignIn function
@@ -80,7 +81,7 @@ export const verifySession = () => dispatch => {
     // Get obj from storage
     const obj = getFromStorage('the_main_app');
 
-    // I do a double fetch here to make sure I can access user data on a reload.
+    // I do a double fetch here to make sure I can access user data after a refresh/reopen.
 
     // Fetch user info from DB to pass result into next fetch
     fetch(`/api/account/user/${obj.id}`)
@@ -99,4 +100,16 @@ export const verifySession = () => dispatch => {
             }));
         };
     });
+};
+
+// Export deleteUser function
+export const deleteUser = (userId) => dispatch => {
+    fetch(`/api/account/delete/${userId}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(json => dispatch({
+        type: DELETE_USER,
+        payload: json
+    }));
 };
