@@ -1,16 +1,16 @@
 // Import react and dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 // Import Local Dependencies
-import { signOut, openSignIn, openSignUp, verifySession } from '../../redux/actions/userActions';
+import { signOut, openSignIn, openSignUp, openMenuDrawer, verifySession } from '../../redux/actions/userActions';
 
 // Create Custom Styles
 const styles = {
@@ -35,11 +35,17 @@ class Navbar extends React.Component {
   componentWillMount() {
     // Verifies user session
     this.props.verifySession();
+
+    console.log(this.props.currentUser)
   };
 
   // Opens Sign In Dialog
   openSignInDialog = () => {
     this.props.openSignIn();
+  };
+
+  handleDrawerOpen = () => {
+    this.props.openMenuDrawer();
   };
 
   // User Sign Out
@@ -81,8 +87,8 @@ class Navbar extends React.Component {
             <Button color="inherit" onClick={this.props.openSignUp}>Sign Up</Button>
 
             {/* Icon for a menu button */}
-            <IconButton className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
+            <IconButton onClick={this.handleDrawerOpen}className='menuButton' style={styles.menuButton} color="inherit" aria-label="Menu" >
+              <MenuIcon/>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -96,16 +102,21 @@ Navbar.propTypes = {
   signOut: PropTypes.func.isRequired,
   openSignIn: PropTypes.func.isRequired,
   openSignUp: PropTypes.func.isRequired,
+  openMenuDrawer: PropTypes.func.isRequired,
   verifySession: PropTypes.func.isRequired,
   signedIn: PropTypes.bool.isRequired,
-  buttonTitle: PropTypes.string.isRequired
+  buttonTitle: PropTypes.string.isRequired,
+  openDrawer: PropTypes.bool.isRequired,
+  currentUser: PropTypes.object.isRequired
 }
 
 // Maps States to Component Props
 const mapStateToProps = state => ({
   signedIn: state.user.signedIn,
-  buttonTitle: state.user.buttonTitle
+  buttonTitle: state.user.buttonTitle,
+  openDrawer: state.user.openDrawer,
+  currentUser: state.user.currentUser
 });
 
 // Export Component
-export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, verifySession })(Navbar);
+export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, openMenuDrawer, verifySession })(Navbar);

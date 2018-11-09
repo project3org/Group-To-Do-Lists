@@ -66,8 +66,6 @@ class SignInDialog extends React.Component {
         const email = this.state.emailValue;
         const password = this.state.passwordValue;
 
-        console.log(email, password);
-
         // Run signIn function with arguments email and password
         this.props.signIn(email, password);
     };

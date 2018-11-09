@@ -8,8 +8,9 @@ import {
     SIGN_OUT, 
     OPEN_SIGNIN_DIALOG, 
     OPEN_SIGNUP_DIALOG, 
+    OPEN_DRAWER,
     CLOSE_DIALOGS, 
-    VERIFY_SESSION 
+    VERIFY_SESSION
 } from './types';
 
 // Export openSignIn function
@@ -20,6 +21,11 @@ export const openSignIn = () => dispatch => {
 // Export openSignUp function
 export const openSignUp = () => dispatch => {
     dispatch({type: OPEN_SIGNUP_DIALOG});
+};
+
+// Export openDrawer function
+export const openMenuDrawer = () => dispatch => {
+    dispatch({type: OPEN_DRAWER});
 };
 
 // Export closeDialogs function
@@ -90,15 +96,23 @@ export const verifySession = () => dispatch => {
     // Get obj from storage
     const obj = getFromStorage('the_main_app');
 
-    // If token exists in obj...
-    if (obj && obj.token) {
-    // ...verify token
-    const { token, expires } = obj;
-    fetch(`/api/account/verify?token=${token}&expires=${expires}`)
-      .then(res => res.json())
-      .then(json => dispatch({
-          type: VERIFY_SESSION,
-          payload: json
-      }));
-    };
+    // I do a double fetch here to make sure I can access user data on a reload.
+
+    // Fetch user info from DB to pass result into next fetch
+    fetch(`/api/account/user/${obj.id}`)
+    .then(res => res.json())
+    .then(result => {
+        // If token exists in obj...
+        if (obj && obj.token) {
+            // ...verify token
+            const { token, expires } = obj;
+            fetch(`/api/account/verify?token=${token}&expires=${expires}`)
+            .then(res => res.json())
+            .then(json => dispatch({
+                type: VERIFY_SESSION,
+                payload: json,
+                user: result.data[0]
+            }));
+        };
+    });
 };
