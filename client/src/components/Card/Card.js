@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -24,45 +23,47 @@ const styles = {
   },
 };
 
-function SimpleCard(props) {
-  const { classes, children } = props;
+// Just holding my fetch request for the moment
+// componentWillMount() {
+//   // For each list user has
+//   currentUser.lists.forEach(id => {
+//     // Fetch list body using list id
+//     fetch(`/api/lists/${id}`)
+//       .then(res => res.json())
+//       .then(listBody => {
+//         console.log(listBody);
+//       });
+//   });
+// };
 
-  return (
-    <Card className={classes.card}>
-      <CardContent>
-<<<<<<< HEAD
-        {/* <Typography variant="h5" component="h2">
-          {props.listTitle} // leaving this commented out for now. 
-        </Typography> */}
-        <Typography component="p">
-          {children}
-=======
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-        </Typography>
-        <Typography variant="h5" component="h2">
-         Task List Header
-        </Typography>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-        Task list generated here
-        </Typography>
-        <Typography component="h6">
-          <ul>
-          <li>Task name </li>
-          <li>Task name </li>
-          <li>Task name </li>
-          </ul>
->>>>>>> 69159c716e2da0f28c6849625c4ab146eb9b7cc2
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">List Info</Button>
-      </CardActions>
-    </Card>
-  );
-}
+class SimpleCard extends Component {
 
-SimpleCard.propTypes = {
-  classes: PropTypes.object.isRequired,
+  render () {
+    return (
+      <Card className="text-center">
+        <CardContent>
+          <Typography color="textSecondary" gutterBottom>
+          </Typography>
+          <Typography variant="h5" component="h2">
+          Task List Header
+          </Typography>
+          <Typography color="textSecondary" gutterBottom>
+          Task list generated here
+          </Typography>
+          <Typography component="h6">
+            <ul>
+            <li>Task name </li>
+            <li>Task name </li>
+            <li>Task name </li>
+            </ul>
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">List Info</Button>
+        </CardActions>
+      </Card>
+    );
+  };
 };
 
-export default withStyles(styles)(SimpleCard);
+export default SimpleCard;

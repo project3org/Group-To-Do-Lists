@@ -142,7 +142,7 @@ export default function(state = initialState, action)  {
                 return {
                     ...state,
                     serverPayload: action.payload,
-                    signedIn: true,
+                    signedIn: false,
                     errorMessage: action.payload.message,
                     currentUser: action.payload.userData,
                 };
