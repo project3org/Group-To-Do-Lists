@@ -3,8 +3,8 @@ import { getFromStorage } from '../../utils/storage';
 
 // Import Action Types
 import {
-    SIGN_IN, 
     SIGN_UP,
+    SIGN_IN, 
     SIGN_OUT, 
     OPEN_SIGNIN_DIALOG, 
     OPEN_SIGNUP_DIALOG, 
@@ -40,6 +40,46 @@ export const closeDialogs = () => dispatch => {
     dispatch({type: CLOSE_DIALOGS});
 };
 
+export const signUp = (firstName, lastName, email, password, passwordVerification) => dispatch => {
+    // Posts new user info to DB
+    fetch('api/account/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        passwordVerification: passwordVerification
+      }),
+    }).then(res => res.json())
+      .then(json => dispatch({
+          type: SIGN_UP,
+          payload: json
+      }));
+};
+
+// Export signIn function
+export const signIn = (email, password) => dispatch => {
+    // Posts new user info to DB
+    fetch('api/account/signin', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        email: email,
+        password: password
+        }),
+    }).then(res => res.json())
+    .then(json => dispatch({
+        type: SIGN_IN,
+        payload: json
+    }));
+};
+
 // Export signOut function
 export const signOut = () => dispatch => {
     // Get obj from storage
@@ -56,46 +96,6 @@ export const signOut = () => dispatch => {
         payload: json
       }));
     };
-};
-
-// Export signIn function
-export const signIn = (email, password) => dispatch => {
-    // Posts new user info to DB
-    fetch('/api/account/signin', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-        email: email,
-        password: password
-        }),
-    }).then(res => res.json())
-    .then(json => dispatch({
-        type: SIGN_IN,
-        payload: json
-    }));
-};
-
-// Export signUp function
-export const signUp = (firstName, lastName, email, password, passwordVerification) => dispatch => {
-    fetch(`/api/account/signup`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password,
-            passwordVerification: passwordVerification
-        })
-    }).then(res => res.json())
-    .then(json => dispatch({
-        type: SIGN_UP,
-        payload: json
-    }));
 };
 
 // Export verifySession function

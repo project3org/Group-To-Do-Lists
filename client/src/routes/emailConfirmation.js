@@ -1,8 +1,10 @@
-// Import React
+// Import React and Dependencies
 import React, { Component } from 'react';
-// Import Dependencies
+import { Provider } from 'react-redux';
 import toastr from 'toastr';
+
 // Import Components
+import store from '../redux/store';
 import Navbar from '../components/Navbar';
 import MainBody from '../components/emailConfirmationMainBody';
 import Footer from '../components/Footer';
@@ -94,16 +96,18 @@ class App extends Component {
   // Renders Data to page
   render() {
     return (
-      <div className="App">
-        {/* I Pass in the Sign In/Sign Up dialogs thru the Navbar */}
-        <Navbar />
+      <Provider store={store}>
+        <div className="App">
+          {/* I Pass in the Sign In/Sign Up dialogs thru the Navbar */}
+          <Navbar />
 
-        {/* Main Content */}
-        <MainBody verify={this.verifyEmail}/>
+          {/* Main Content */}
+          <MainBody verify={this.verifyEmail}/>
 
-        {/* Footer */}
-        <Footer />
-      </div>
+          {/* Footer */}
+          <Footer />
+        </div>
+      </Provider>
     );
   }
 }

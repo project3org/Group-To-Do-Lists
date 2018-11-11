@@ -77,7 +77,9 @@ class SignUpDialog extends React.Component {
 
   // Handle Submit New User
   handleUserSubmit = (e) => {
+    // Prevent default submit function
     e.preventDefault();
+
     // Target input fields
     const firstName = this.state.firstNameValue
     const lastName = this.state.lastNameValue
@@ -152,7 +154,7 @@ class SignUpDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.closeDialog} color="primary">
+              <Button onClick={this.handleDialogClose} color="primary">
               Cancel
               </Button>
               <Button type="Submit" color="primary">
@@ -168,6 +170,7 @@ class SignUpDialog extends React.Component {
 
 // Create PropTypes
 SignUpDialog.propTypes = {
+  signUp: PropTypes.func.isRequired,
   closeDialogs: PropTypes.func.isRequired,
   openSignUpDialog: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string.isRequired,

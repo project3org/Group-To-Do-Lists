@@ -5,8 +5,8 @@ import toastr from 'toastr';
 
 // Import action types
 import { 
-    SIGN_IN, 
     SIGN_UP,
+    SIGN_IN, 
     SIGN_OUT,
     OPEN_SIGNIN_DIALOG,
     OPEN_SIGNUP_DIALOG, 
