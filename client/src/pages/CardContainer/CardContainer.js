@@ -6,7 +6,7 @@ import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 
-class Tasks extends Component {
+class CardContainer extends Component {
   // Setting our component's initial state
   state = {
     tasks: [],
@@ -67,22 +67,6 @@ class Tasks extends Component {
     return (
       <Container fluid>
         <Row>
-          {/* <Col size="md-6"> */}
-            {/* <form>
-              <Input
-                value={this.state.name}
-                onChange={this.handleInputChange}
-                name="name"
-                placeholder="Title (required)"
-              />
-              <FormBtn
-                disabled={!(this.state.name)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Task
-              </FormBtn>
-            </form> */}
-          {/* </Col> */}
           <Col size="md-2 sm-4">
             <Card>
             {this.state.tasks.length ? (
@@ -92,7 +76,7 @@ class Tasks extends Component {
                     <ListItem key={task._id}>
                       <a href={"/tasks/" + task._id}>
                         <strong>
-                          {task.name} due {task.dueDate}
+                          {task.name}
                         </strong>
                       </a>
                       <DeleteBtn onClick={() => this.deleteBook(task._id)} />
@@ -101,8 +85,22 @@ class Tasks extends Component {
                 })}
               </List>
             ) : (
-              <h3>No Results to Display</h3>
+              <h4><i>No Results to Display</i></h4>
             )}
+            <form>
+              <Input
+                value={this.state.name}
+                onChange={this.handleInputChange}
+                name="name"
+                placeholder="Task name (required)"
+              />
+              <FormBtn
+                disabled={!(this.state.name)}
+                onClick={this.handleFormSubmit}
+              >
+                Submit Task
+              </FormBtn>
+            </form>
             </Card>
           </Col>
         </Row>
@@ -111,4 +109,4 @@ class Tasks extends Component {
   }
 }
 
-export default Tasks;
+export default CardContainer;

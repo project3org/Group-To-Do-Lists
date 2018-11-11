@@ -2,14 +2,16 @@
 
 // Require dependencies
 const nodemailer = require('nodemailer');
-const config = require('./config');
+// const config = require('./config');
 
 // Create Transport
 const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: config.USER,
-        pass: config.PASS                            
+        user: "test",
+        // config.USER,
+        pass: "test"
+        // config.PASS                            
     },
     tls: {
         rejectedUnauthorized: false
