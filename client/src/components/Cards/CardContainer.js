@@ -4,22 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import ListCard from '../../components/Card';
-import DeleteBtn from "../../components/DeleteBtn";
-import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import ListCard from './ListCard';
+import { Col, Row, Container } from "../Grid";
 
 // Import Local dependencies
 import { openSignUp } from '../../redux/actions/userActions';
 
 // Create Component
 class CardContainer extends Component {
-  // Create state
-  state = {
-    lists: []
-  };
-
   // Handles Creating List
   handleCreateList = () => {
     console.log("Button Clicked.");
@@ -39,10 +31,9 @@ class CardContainer extends Component {
 
     // Else output card for each list
     } else {
-      // Return all the list cards to the DOM
       return (
         <div>
-          {this.props.currentUser.lists.map(id => <ListCard key={id} />)}
+          {this.props.currentUser.lists.map(listId => <ListCard key={listId} listId={listId} />)}
         </div>
       )
     }

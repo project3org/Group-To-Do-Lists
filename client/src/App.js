@@ -7,14 +7,14 @@ import { connect } from 'react-redux';
 import { verifySession } from './redux/actions/userActions';
 
 // Import Components
-import SignUp from './components/dialogs/SignUp';
-import SignIn from './components/dialogs/SignIn';
+import SignUpDialog from './components/Dialogs/SignUpDialog';
+import SignInDialog from './components/Dialogs/SignInDialog';
 import MenuDrawer from './components/MenuDrawer';
-import Profile from './components/dialogs/Profile';
-import Navbar from './components/Navbar/Navbar';
+import ProfileDialog from './components/Dialogs/ProfileDialog';
+import Navbar from './components/Navbar';
 import Jumbotron from './components/Jumbotron';
-import Footer from './components/Footer/Footer';
-import CardContainer from './pages/CardContainer';
+import Footer from './components/Footer';
+import CardContainer from './components/Cards/CardContainer';
 
 // Alerts me to material-ui variants that are about to be depreciated
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
@@ -30,10 +30,10 @@ class App extends Component {
     return (
         <div className="App">
           {/* Render Closed Dialogs for Sign In/Sign Up function as well as closed side drawer for menu*/}
-          <SignIn />
-          <SignUp />
+          <SignInDialog />
+          <SignUpDialog />
           <MenuDrawer />
-          <Profile />
+          <ProfileDialog />
 
           {/* Render Navbar */}
           <Navbar />

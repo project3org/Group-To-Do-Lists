@@ -1,11 +1,15 @@
+// Import Dependencies
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+// Import Local Dependencies
+import TaskCard from './TaskCard';
+
+// Create Styles
 const styles = {
   card: {
     minWidth: 275,
@@ -23,38 +27,43 @@ const styles = {
   },
 };
 
-// Just holding my fetch request for the moment
-// componentWillMount() {
-//   // For each list user has
-//   currentUser.lists.forEach(id => {
-//     // Fetch list body using list id
-//     fetch(`/api/lists/${id}`)
-//       .then(res => res.json())
-//       .then(listBody => {
-//         console.log(listBody);
-//       });
-//   });
-// };
+// Create Component
+class ListCard extends Component {
+  // Create States
+  state = {
+    listName: '',
+    tasks: [],
+  };
 
-class SimpleCard extends Component {
+  // Get list information on component mount
+  componentWillMount() {
+    // Fetch list body using list id
+    fetch(`/api/lists/${this.props.listId}`)
+      .then(res => res.json())
+      .then(listBody => {
+        this.setState({
+          listName: listBody.name,
+          tasks: listBody.tasks
+        })
+      });
+  };
 
+  // Render Component
   render () {
     return (
-      <Card className="text-center">
+      <Card className="text-center" style={styles.card}>
         <CardContent>
           <Typography color="textSecondary" gutterBottom>
           </Typography>
           <Typography variant="h5" component="h2">
-          Task List Header
+          {this.state.listName}
           </Typography>
           <Typography color="textSecondary" gutterBottom>
           Task list generated here
           </Typography>
           <Typography component="h6">
             <ul>
-            <li>Task name </li>
-            <li>Task name </li>
-            <li>Task name </li>
+              {this.state.tasks.map(taskId => <TaskCard key={taskId} taskId={taskId} />)}
             </ul>
           </Typography>
         </CardContent>
@@ -66,4 +75,5 @@ class SimpleCard extends Component {
   };
 };
 
-export default SimpleCard;
+// Export Component
+export default ListCard;

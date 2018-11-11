@@ -41,6 +41,7 @@ module.exports = {
     getList: (req, res)=>{
         // Targets List by ID
         db.List.findOne({_id: req.params.id})
+            .populate('task')
             .then((dbList)=>{
                 res.json(dbList);
             })
