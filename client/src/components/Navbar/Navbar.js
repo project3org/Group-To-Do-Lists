@@ -31,15 +31,6 @@ const styles = {
 
 // Create Componenet
 class Navbar extends React.Component {
-  state = {
-    buttonTitle: ''
-  };
-
-  // Checks for user token on component mount
-  componentDidMount() {
-    console.log(this.props.currentUser);
-  };
-
   handleDrawerOpen = () => {
     this.props.openMenuDrawer();
   };

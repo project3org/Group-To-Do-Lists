@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 // Import Dependencies
 import toastr from 'toastr';
 // Import Components
-import store from '../redux/store';
 import Navbar from '../components/Navbar';
 import MainBody from '../components/emailConfirmationMainBody';
 import Footer from '../components/Footer';

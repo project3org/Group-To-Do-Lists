@@ -1,5 +1,3 @@
-// Ask TA about the auto fill with react
-
 // Import react and dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -13,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 
 // Import local dependencies
-import { closeDialogs } from '../../actions/userActions';
+import { signUp, closeDialogs } from '../../redux/actions/userActions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -52,11 +50,6 @@ class SignUpDialog extends React.Component {
     this.setState({emailValue: event.target.value});
   };
 
-  onBlur = (event) => {
-    this.setState({emailValue: event.target.value});
-    console.log(event.target)
-  };
-
   // Handles form value change for password input
   handleChangePassword = (event) => {
     this.setState({passwordValue: event.target.value});
@@ -83,7 +76,8 @@ class SignUpDialog extends React.Component {
   };
 
   // Handle Submit New User
-  handleUserSubmit = () => {
+  handleUserSubmit = (e) => {
+    e.preventDefault();
     // Target input fields
     const firstName = this.state.firstNameValue
     const lastName = this.state.lastNameValue
@@ -186,4 +180,4 @@ const mapStateToProps = state => ({
 });
 
 // Export Component
-export default connect(mapStateToProps, { closeDialogs })(SignUpDialog);
+export default connect(mapStateToProps, { signUp, closeDialogs })(SignUpDialog);

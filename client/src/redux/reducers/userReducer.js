@@ -6,6 +6,7 @@ import toastr from 'toastr';
 // Import action types
 import { 
     SIGN_IN, 
+    SIGN_UP,
     SIGN_OUT,
     OPEN_SIGNIN_DIALOG,
     OPEN_SIGNUP_DIALOG, 
@@ -167,35 +168,6 @@ export default function(state = initialState, action)  {
                     buttonTitle: 'Sign In',
                     errorMessage: action.payload.message,
                     currentUser: {}
-                };
-            }
-
-        // Sign In Action
-        case SIGN_IN:
-            // If Sign in was successfull
-            if (action.payload.success) {
-                // save user token in localStorage
-                setInStorage('the_main_app', { token: action.payload.token, expires: action.payload.expires });
-
-                // Return States
-                return {
-                    ...state,
-                    serverPayload: action.payload,
-                    signedIn: true,
-                    buttonTitle: 'Sign Out',
-                    errorMessage: '',
-                    currentUser: action.payload.userData,
-                    openSignInDialog: false
-                };
-            // Else
-            } else {
-                // Return States
-                return {
-                    ...state,
-                    serverPayload: action.payload,
-                    signedIn: true,
-                    errorMessage: action.payload.message,
-                    currentUser: action.payload.userData,
                 };
             }
 

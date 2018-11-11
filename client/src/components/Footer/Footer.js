@@ -53,19 +53,19 @@ class FooterPagePro extends React.Component {
               </h5>
               <ul className="list-unstyled">
                 <li>
-                  <a href="https://github.com/project3org/Group-To-Do-Lists" target="_blank">
+                  <a href="https://github.com/project3org/Group-To-Do-Lists" target="_blank" rel="noopener noreferrer">
                     Gratify's GitHub Rep
                     <i className="fa fa-github"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#!"  target="_blank">Link 2</a>
+                  <a href="#!"  target="_blank" rel="noopener noreferrer">Link 2</a>
                 </li>
                 <li>
-                  <a href="#!"  target="_blank">Link 3</a>
+                  <a href="#!"  target="_blank" rel="noopener noreferrer">Link 3</a>
                 </li>
                 <li>
-                <div>Flavicon made by <a href="http://www.freepik.com" title="Freepik"  target="_blank">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"  target="_blank">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">CC 3.0 BY</a></div>
+                <div>Flavicon made by <a href="http://www.freepik.com" title="Freepik"  target="_blank" rel="noopener noreferrer">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"  target="_blank" rel="noopener noreferrer">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">CC 3.0 BY</a></div>
                 </li>
               </ul>
             </Col>

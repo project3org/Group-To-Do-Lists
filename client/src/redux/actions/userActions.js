@@ -1,9 +1,10 @@
 // Import Local Dependencies
-import { getFromStorage } from '../utils/storage';
+import { getFromStorage } from '../../utils/storage';
 
 // Import Action Types
 import {
     SIGN_IN, 
+    SIGN_UP,
     SIGN_OUT, 
     OPEN_SIGNIN_DIALOG, 
     OPEN_SIGNUP_DIALOG, 
@@ -60,7 +61,7 @@ export const signOut = () => dispatch => {
 // Export signIn function
 export const signIn = (email, password) => dispatch => {
     // Posts new user info to DB
-    fetch('api/account/signin', {
+    fetch('/api/account/signin', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
@@ -72,6 +73,27 @@ export const signIn = (email, password) => dispatch => {
     }).then(res => res.json())
     .then(json => dispatch({
         type: SIGN_IN,
+        payload: json
+    }));
+};
+
+// Export signUp function
+export const signUp = (firstName, lastName, email, password, passwordVerification) => dispatch => {
+    fetch(`/api/account/signup`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            passwordVerification: passwordVerification
+        })
+    }).then(res => res.json())
+    .then(json => dispatch({
+        type: SIGN_UP,
         payload: json
     }));
 };
