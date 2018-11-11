@@ -72,7 +72,7 @@ class ProfileDialog extends React.Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogContent>
-                        Add User info here with option to edit.
+                        Ability to edit profile comming soon!
                     </DialogContent>
                     <DialogActions>
                         <Button style={styles.deleteProfBtnStyle} onClick={this.deleteProfile} color="secondary">

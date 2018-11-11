@@ -14,7 +14,7 @@ const taskSchema = new Schema({
     type: String,
     required: true
   },
-  weight: String,
+  weight: Number,
   assignedTo: Array,
   dueDate: Date,
   isCompleted: {
