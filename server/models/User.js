@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const moment = require('moment');
 
-// Save a reference to the Schema constructor
-const Schema = mongoose.Schema;
-
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
         default: ''

@@ -26,5 +26,5 @@ mongoose.connect(MONGODB_URI);
 
 // Start the API server
 app.listen(PORT, function() {
-  console.log(`🌎  ==> API server running on PORT ${PORT}!`);
+  console.log(`🌎  ==> http://localhost:${PORT}/!`);
 });

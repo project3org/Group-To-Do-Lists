@@ -137,25 +137,6 @@ module.exports = {
         });
     },
 
-    // Handles Retrieving User Info
-    getUser: (req, res) => {
-        // Find user by ID
-        db.User.find({_id: req.params.id}, (err, user) => {
-            if (err) {
-                return res.send({
-                    success: false,
-                    message: 'Error: Server Error'
-                });
-            };
-
-            // Return User info
-            return res.send({
-                success: true,
-                data: user
-            });
-        });
-    },
-
     // Handles User Sign In
     signin:(req, res) => {
         // Place information in variables
@@ -265,7 +246,7 @@ module.exports = {
 
             return res.send({
                 success: true,
-                message: 'User Signed Out'
+                message: 'Good'
             });         
         });
     },
@@ -296,7 +277,7 @@ module.exports = {
             };
 
             return res.send({
-                success: false,
+                success: true,
                 message: 'Token Expired'
             })
         });
@@ -324,7 +305,7 @@ module.exports = {
             } else {
                 return res.send({
                     success: true,
-                    message: 'Session Current'
+                    message: 'Good'
                 });
             };
         });
@@ -423,10 +404,7 @@ module.exports = {
                 console.err(err);
             };
 
-            // Makes the first letter of the Name capital to send in email
-            const userName = user[0].firstName.replace(/^\w/, function (chr) {
-                return chr.toUpperCase();
-            });
+            console.log(user);
 
             // Create email text
             const verificationEmail = `Hello ${user[0].firstName},

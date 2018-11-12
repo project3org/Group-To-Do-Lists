@@ -1,6 +1,5 @@
-// Import react and dependencies
 import React from 'react';
-import PropTypes from 'prop-types';
+import toastr from 'toastr';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,10 +7,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { connect } from 'react-redux';
-
-// Import local dependencies
-import { signUp, closeDialogs } from '../../redux/actions/userActions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -76,10 +71,7 @@ class SignUpDialog extends React.Component {
   };
 
   // Handle Submit New User
-  handleUserSubmit = (e) => {
-    // Prevent default submit function
-    e.preventDefault();
-
+  handleUserSubmit = () => {
     // Target input fields
     const firstName = this.state.firstNameValue
     const lastName = this.state.lastNameValue
@@ -97,8 +89,8 @@ class SignUpDialog extends React.Component {
       <div>
         {/* Creates Sign Up Dialog */}
         <Dialog
-          open={this.props.openSignUpDialog}
-          onClose={this.props.closeDialogs}
+          open={this.props.open}
+          onClose={this.props.close}
           aria-labelledby="form-dialog-title"
           onEnter={this.validateForm}
         >
@@ -167,20 +159,3 @@ class SignUpDialog extends React.Component {
     );
   };
 };
-
-// Create PropTypes
-SignUpDialog.propTypes = {
-  signUp: PropTypes.func.isRequired,
-  closeDialogs: PropTypes.func.isRequired,
-  openSignUpDialog: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-}
-
-// Map State to Props
-const mapStateToProps = state => ({
-  openSignUpDialog: state.user.openSignUpDialog,
-  errorMessage: state.user.errorMessage,
-});
-
-// Export Component
-export default connect(mapStateToProps, { signUp, closeDialogs })(SignUpDialog);
