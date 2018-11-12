@@ -423,8 +423,6 @@ module.exports = {
                 console.err(err);
             };
 
-            console.log(user[0]);
-
             // Makes the first letter of the Name capital to send in email
             const userName = user[0].firstName.replace(/^\w/, function (chr) {
                 return chr.toUpperCase();
