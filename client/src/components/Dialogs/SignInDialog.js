@@ -1,4 +1,6 @@
+// Import react and dependencies
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,8 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { connect } from 'react-redux';
 
-import { setInStorage } from '../../utils/storage';
+// Import local dependencies
+import { signIn, closeDialogs } from '../../redux/actions/userActions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -17,66 +21,50 @@ const errorStyle = {
     paddingTop: 10
 }
 
-// Exports Component
-export default class FormDialog extends React.Component {
-    // Creates State
+// Create Component
+class SignInDialog extends React.Component {
+    // Create Value States for Form
     constructor(props) {
         super(props);
-    
         this.state = {
-            signedIn: false,
-            signInError: '',
-            token: null
+            emailValue: '',
+            passwordValue: ''
         };
     };
 
+    // Handles form value change for email input
+    handleChangeEmail = (event) => {
+        this.setState({emailValue: event.target.value});
+    };
+
+    // Handles form value change for password input
+    handleChangePassword = (event) => {
+        this.setState({passwordValue: event.target.value});
+    };
+
+    // Handles Closing Dialog
+    handleDialogClose = () =>{
+        // Sets value states back to empty strings
+        this.setState({
+            emailValue: '',
+            passwordValue: ''
+        });
+
+        // Envokes closeDialogs
+        this.props.closeDialogs();
+    };
+
     // Handle User Sign In
-    handleUserSignIn = () => {
+    handleUserSignIn = (e) => {
+        // Prevent form submittion from refreshing page
+        e.preventDefault();
 
-        // Target input fields
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        // Target user information
+        const email = this.state.emailValue;
+        const password = this.state.passwordValue;
 
-        // Posts new user info to DB
-        fetch('api/account/signin', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-            email: email,
-            password: password
-            }),
-        }).then(res => res.json())
-        .then(json => {
-        // If Sign In is successful,
-        if (json.success) {
-            // save user token in localStorage
-            setInStorage('the_main_app', { token: json.token, expires: json.expires });
-
-            // Set states
-            this.setState({
-            signInError: '',
-            token: json.token,
-            signedIn: true
-            });
-
-            // This is to target the signed in user's info for later use
-            const user = json.userData
-            console.log(`Hello ${user.firstName}!`);
-
-            // Changes Button From 'Sign In' to 'Sign Out'
-            this.props.button('Sign Out');
-
-            // Closes Dialog After Successful Sign In
-            this.props.close();
-        } else {
-        // Else log out Server error message.
-            this.setState({
-            signInError: json.message
-            });
-        
-        }});
+        // Run signIn function with arguments email and password
+        this.props.signIn(email, password);
     };
 
     // Renders Component
@@ -131,3 +119,20 @@ export default class FormDialog extends React.Component {
         );
     };
 };
+
+// Create PropTypes
+SignInDialog.propTypes = {
+    signIn: PropTypes.func.isRequired,
+    closeDialogs: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    openSignInDialog: PropTypes.bool
+}
+  
+// Map State to Props
+const mapStateToProps = state => ({
+    errorMessage: state.user.errorMessage,
+    openSignInDialog: state.user.openSignInDialog,
+});
+  
+// Export Component
+export default connect(mapStateToProps, { signIn, closeDialogs })(SignInDialog);

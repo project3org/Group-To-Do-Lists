@@ -137,6 +137,25 @@ module.exports = {
         });
     },
 
+    // Handles Retrieving User Info
+    getUser: (req, res) => {
+        // Find user by ID
+        db.User.find({_id: req.params.id}, (err, user) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Server Error'
+                });
+            };
+
+            // Return User info
+            return res.send({
+                success: true,
+                data: user
+            });
+        });
+    },
+
     // Handles User Sign In
     signin:(req, res) => {
         // Place information in variables
@@ -246,7 +265,7 @@ module.exports = {
 
             return res.send({
                 success: true,
-                message: 'Good'
+                message: 'User Signed Out'
             });         
         });
     },
@@ -277,7 +296,7 @@ module.exports = {
             };
 
             return res.send({
-                success: true,
+                success: false,
                 message: 'Token Expired'
             })
         });
@@ -305,7 +324,7 @@ module.exports = {
             } else {
                 return res.send({
                     success: true,
-                    message: 'Good'
+                    message: 'Session Current'
                 });
             };
         });
@@ -404,10 +423,15 @@ module.exports = {
                 console.err(err);
             };
 
-            console.log(user);
+            console.log(user[0]);
+
+            // Makes the first letter of the Name capital to send in email
+            const userName = user[0].firstName.replace(/^\w/, function (chr) {
+                return chr.toUpperCase();
+            });
 
             // Create email text
-            const verificationEmail = `Hello ${user[0].firstName},
+            const verificationEmail = `Hello ${userName},
             <br />
             Thank you for registering with Gratify!
             In order to log in to your account, we need to verify your email address.

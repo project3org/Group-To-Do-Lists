@@ -30,7 +30,6 @@ router.route('/session/delete/:id')
 router.route('/confirmation/:token')
     .get(userController.emailVerification);
 
-<<<<<<< HEAD
 // Route for creating a new secret email token
 router.route('/secret')
     .get(userController.createNewSecretToken);
@@ -47,10 +46,5 @@ router.route('/user/:userId/:listId')
 router.route('/delete/:id')
     .delete(userController.deleteUser);
 
-=======
-router.route('/user')
-    .get(userController.createNewSecretToken);
-
->>>>>>> master
 // Exports Router
 module.exports = router;

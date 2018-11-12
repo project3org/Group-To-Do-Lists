@@ -94,7 +94,7 @@ class FooterPagePro extends React.Component {
         </Container>
         <div className="footer-copyright text-center py-3">
           <Container fluid>
-            &copy; {new Date().getFullYear()} Copyright: {"Corey Mitchell and Tyrell Bopp"}
+            &copy; {new Date().getFullYear()} Copyright: {"Nacho Man Sandy Ravage"}
           </Container>
         </div>
       </Footer>
