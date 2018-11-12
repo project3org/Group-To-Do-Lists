@@ -19,9 +19,8 @@ module.exports = {
   create: function(req, res) {
     db.Task
       .create(req.body)
-      // Create association with List collection
       .then((dbTask)=>{
-        return db.List.findOneAndUpdate({ _id: req.params.id }, { $push:{tasks: dbTask._id }}, { safe: true, upsert: true, new: true });
+          return db.List.findOneAndUpdate({ _id: req.params.id }, { $push:{tasks: dbTask._id }}, { safe: true, upsert: true, new: true });
       })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));

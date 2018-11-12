@@ -40,11 +40,9 @@ class ListCard extends Component {
       });
   };
 
-  // Handle Adding Task
-  handleAddTask = () => {
-    console.log('Add Task Here');
-
-    this.props.openCreateTask()
+  // Handle Creating Task
+  handleCreateTask = () => {
+    this.props.openCreateTask(this.props.listId);
   };
 
   // Handle Deleting List
@@ -57,33 +55,35 @@ class ListCard extends Component {
         // Then Delete List Association from User 'Lists' Array
         fetch(`api/account/user/${this.props.currentUser._id}/${this.props.listId}`, {
           method: 'POST'
-        }).then(res => res.json())
         // Then Reload Window to reflect the changes.
-        .then(window.location.reload());
+        }).then(window.location.reload());
     });
   };
 
   // Render Component
   render () {
     return (
-      <Card className="text-center" style={styles.card}>
-        <CardContent>
-          <Typography color="textSecondary" gutterBottom>
-          </Typography>
-          <Typography variant="h5" component="h2">
-          {this.state.listName}
-          </Typography>
-          <Typography component="h6">
-            <ul>
-              {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} />)}
-            </ul>
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
-          <Button color="primary" size="small" onClick={this.handleAddTask} style={{marginLeft: 'auto'}}>Add Task</Button>
-        </CardActions>
-      </Card>
+      <div>
+        {/* Render List Card */}
+        <Card className="text-center" style={styles.card}>
+          <CardContent>
+            <Typography color="textSecondary" gutterBottom>
+            </Typography>
+            <Typography variant="h5" component="h2">
+            {this.state.listName}
+            </Typography>
+            <Typography component="h6">
+              <ul>
+                {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} listId={this.props.listId}/>)}
+              </ul>
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
+            <Button color="primary" size="small" onClick={this.handleCreateTask} style={{marginLeft: 'auto'}}>Add Task</Button>
+          </CardActions>
+        </Card>
+      </div>
     );
   };
 };

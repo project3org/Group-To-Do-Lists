@@ -1,3 +1,4 @@
+// Import Dependencies
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -5,7 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+// Create Component
 class TaskCard extends Component {
+  // Create State 
   state = {
       taskId: '',
       taskName: '',
@@ -28,22 +31,27 @@ class TaskCard extends Component {
       });
   };
 
+  // Handle Completing Task   
   handleCompleteTask = () => {
     console.log('Task Completed!');
   }; 
 
+  // Handle Deleting Task   
   handleDeleteTask = () => {
-    console.log('Task Deleted'); 
-    console.log(this.state.taskId);
-    
+    // Delete Task from DB
     fetch(`api/tasks/${this.state.taskId}`, {
         method: 'DELETE'
     }).then(res => res.json())
     .then(dbTask => {
-        console.log(`${dbTask.name} deleted.`);
+        // Then Delete Task Association from List 'Task' Array
+        fetch(`api/lists/${this.props.listId}/${this.props.taskId}`, {
+            method: "POST"
+        // Then reload window to reflect changes.
+        }).then(window.location.reload());
     });
   }; 
 
+  // Render Component   
   render () {
     return (
         <li className="list-group-item">
@@ -55,4 +63,5 @@ class TaskCard extends Component {
   };
 };
 
+// Export Component
 export default TaskCard;

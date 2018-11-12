@@ -31,7 +31,7 @@ class App extends Component {
   render() {
     return (
         <div className="App">
-          {/* Render Closed Dialogs for Sign In/Sign Up function as well as closed side drawer for menu*/}
+          {/* Render Closed Dialogs and Drawers*/}
           <SignInDialog />
           <SignUpDialog />
           <MenuDrawer />

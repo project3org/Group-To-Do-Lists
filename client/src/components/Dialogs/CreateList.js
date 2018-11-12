@@ -13,14 +13,28 @@ import { connect } from 'react-redux';
 // Import local dependencies
 import { closeDialogs } from '../../redux/actions/userActions';
 
+// Creates Style for Error Messages
+const errorStyle = {
+    color: 'red',
+    fontSize: 13,
+    textAlign: 'right',
+    paddingTop: 10
+};
+
 // Create Component
 class CreateListDialog extends React.Component {
+    // Create State
+    state = {
+        errorMessage: ''
+    };
+
     // Handle Creating List
     handleCreateList = () => {
+        // Target List Name and Current User Id
         const listName = document.getElementById("listName").value
         const currentUserId = this.props.currentUser._id
-        console.log(currentUserId);
 
+        // POST request to server
         fetch(`/api/lists/${currentUserId}`, {
             method: "POST",
             headers: {
@@ -30,9 +44,32 @@ class CreateListDialog extends React.Component {
                 creatorId: currentUserId,
                 name: listName
             })
-        }).then(() => {
-            window.location.reload();
+        }).then(res => res.json())
+        .then(() => {
+            // If Errors, display error
+            if(!listName.length) {
+                this.setState({
+                    errorMessage: 'First name cannot be blank'
+                })
+            } else {
+                // Else clear error message
+                this.setState({
+                    errorMessage: ''
+                })
+
+                // Reload page to show changes
+                window.location.reload();
+            };
         });
+    };
+
+    // Handle Dialog Close
+    handleDialogClose = () => {
+        this.setState({
+            errorMessage: ''
+        });
+
+        this.props.closeDialogs()
     };
 
     // Renders Component
@@ -42,7 +79,7 @@ class CreateListDialog extends React.Component {
                 {/* Creates User Profile Dialog */}
                 <Dialog
                 open={this.props.openCreateListDialog}
-                onClose={this.props.closeDialogs}
+                onClose={this.handleDialogClose}
                 aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="form-dialog-title">Create List</DialogTitle>
@@ -51,25 +88,30 @@ class CreateListDialog extends React.Component {
                         List Name<br />
                         </DialogContentText>
                     </DialogContent>
-                    <DialogContent>
-                        <TextField 
-                            autoFocus
-                            margin="dense"
-                            id="listName"
-                            label="List Name"
-                            type="name"
-                            fullWidth
-                            autoComplete='no'
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.props.closeDialogs} color="primary">
-                        Close
-                        </Button>
-                        <Button onClick={this.handleCreateList} color="primary">
-                        Create
-                        </Button>
-                    </DialogActions>
+                    <form onSubmit={this.handleCreateList}>
+                        <DialogContent>
+                            <TextField 
+                                autoFocus
+                                margin="dense"
+                                id="listName"
+                                label="List Name"
+                                type="name"
+                                fullWidth
+                                autoComplete='no'
+                            />
+                        </DialogContent>
+                        <DialogContent style={errorStyle}>
+                            {this.state.errorMessage}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleDialogClose} color="primary">
+                            Close
+                            </Button>
+                            <Button type="Submit" color="primary">
+                            Create
+                            </Button>
+                        </DialogActions>
+                    </form>
                 </Dialog>
             </div>
         );
@@ -79,14 +121,12 @@ class CreateListDialog extends React.Component {
 // Create PropTypes
 CreateListDialog.propTypes = {
     closeDialogs: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string.isRequired,
     openCreateListDialog: PropTypes.bool.isRequired,
     currentUser: PropTypes.object.isRequired
 };
   
 // Map State to Props
 const mapStateToProps = state => ({
-    errorMessage: state.user.errorMessage,
     openCreateListDialog: state.user.openCreateListDialog,
     currentUser: state.user.currentUser
 });

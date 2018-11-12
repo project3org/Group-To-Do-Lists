@@ -67,5 +67,16 @@ module.exports = {
                 // If an error occurs, send the err to the client
                 res.status(422).json(err);
             });
+    },
+    // Handles deleting specific task from list's task array
+    deleteTasks: (req, res) => {
+        db.List.findOneAndUpdate({_id: req.params.listId}, {
+            $pull: {tasks: req.params.taskId}
+        }, {
+            new: true
+        }).then(res => res.json())
+        .catch(err => {
+            res.status(422).send(err);
+        });
     }
 };

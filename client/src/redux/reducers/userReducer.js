@@ -21,6 +21,8 @@ import {
 
 // Set Initial States
 const initialState = {
+    signedIn: false,
+    currentUser: {},
     serverPayload: {},
     openSignInDialog: false,
     openSignUpDialog: false,
@@ -29,8 +31,7 @@ const initialState = {
     openCreateListDialog: false,
     openCreateTaskDialog: false,
     errorMessage: ' ',
-    signedIn: false,
-    currentUser: {}
+    thisList: ''
 };
 
 // Export states
@@ -82,7 +83,8 @@ export default function(state = initialState, action)  {
             // Return States
             return {
                 ...state,
-                openCreateTaskDialog: true
+                openCreateTaskDialog: true,
+                thisList: action.payload
             };
 
         // Close Dialogs Action

@@ -43,8 +43,11 @@ export const openCreateList = () => dispatch => {
 };
 
 // Export openCreateListDialog funcion
-export const openCreateTask = () => dispatch => {
-    dispatch({type: OPEN_CREATETASK_DIALOG});
+export const openCreateTask = (listId) => dispatch => {
+    dispatch({
+        type: OPEN_CREATETASK_DIALOG,
+        payload: listId
+    });
 };
 
 // Export closeDialogs function

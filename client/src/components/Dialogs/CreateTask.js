@@ -13,27 +13,71 @@ import { connect } from 'react-redux';
 // Import local dependencies
 import { closeDialogs } from '../../redux/actions/userActions';
 
+// Creates Style for Error Messages
+const errorStyle = {
+    color: 'red',
+    fontSize: 13,
+    textAlign: 'right',
+    paddingTop: 10
+};
+
 // Create Component
 class CreateTaskDialog extends React.Component {
-    // Handle Creating List
-    handleCreateList = () => {
-        const taskName = document.getElementById("taskName").value;
-        const taskDescritption = document.getElementById("taskDescription").value;
-        const currentUserId = this.props.currentUser._id
-        console.log(currentUserId);
+    // Create State
+    state = {
+        errorMessage: ''
+    };
 
-        // fetch(`/api/lists/${currentUserId}`, {
-        //     method: "POST",
-        //     headers: {
-        //       'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         creatorId: currentUserId,
-        //         name: listName
-        //     })
-        // }).then(() => {
-        //     window.location.reload();
-        // });
+    // Handle Creating List
+    handleCreateTask = () => {
+        // Target List Id and body information
+        const listId = this.props.thisList
+        const taskName = document.getElementById("taskName").value;
+        const taskDescription = document.getElementById("taskDescription").value;
+
+        // POST task name and description
+        fetch(`/api/tasks/${listId}`, {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                listId: listId,
+                name: taskName,
+                description: taskDescription
+            })
+        }).then(res => res.json())
+        .then(() => {
+            // If task name is blank, display this message
+            if(!taskName.length) {
+                this.setState({
+                    errorMessage: 'Task name cannot be blank'
+                });
+
+            // Else if task description is blank, display this message
+            } else if (!taskDescription.length) {
+                this.setState({
+                    errorMessage: 'Description cannot be blank'
+                });
+
+            // Else reset errorMessage (in case any occured) and reload the window to show changes 
+            } else {
+                this.setState({
+                    errorMessage: ''
+                });
+
+                window.location.reload();
+            };
+        });
+    };
+
+    // Handle Dialog Close
+    handleDialogClose = () => {
+        this.setState({
+            errorMessage: ''
+        });
+
+        this.props.closeDialogs()
     };
 
     // Renders Component
@@ -43,7 +87,7 @@ class CreateTaskDialog extends React.Component {
                 {/* Creates User Profile Dialog */}
                 <Dialog
                 open={this.props.openCreateTaskDialog}
-                onClose={this.props.closeDialogs}
+                onClose={this.handleDialogClose}
                 aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="form-dialog-title">Create Task</DialogTitle>
@@ -52,33 +96,38 @@ class CreateTaskDialog extends React.Component {
                         Please provide a task and a task description.<br />
                         </DialogContentText>
                     </DialogContent>
-                    <DialogContent>
-                        <TextField 
-                            autoFocus
-                            margin="dense"
-                            id="taskName"
-                            label="Task Name"
-                            type="name"
-                            fullWidth
-                            autoComplete='no'
-                        />
-                        <TextField 
-                            margin="dense"
-                            id="taskDescription"
-                            label="Task Description"
-                            type="name"
-                            fullWidth
-                            autoComplete='no'
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.props.closeDialogs} color="primary">
-                        Close
-                        </Button>
-                        <Button onClick={this.handleCreateTask} color="primary">
-                        Create
-                        </Button>
-                    </DialogActions>
+                    <form onSubmit={this.handleCreateTask}>
+                        <DialogContent>
+                            <TextField 
+                                autoFocus
+                                margin="dense"
+                                id="taskName"
+                                label="Task Name"
+                                type="name"
+                                fullWidth
+                                autoComplete='no'
+                            />
+                            <TextField 
+                                margin="dense"
+                                id="taskDescription"
+                                label="Task Description"
+                                type="name"
+                                fullWidth
+                                autoComplete='no'
+                            />
+                        </DialogContent>
+                        <DialogContent style={errorStyle}>
+                            {this.state.errorMessage}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleDialogClose} color="primary">
+                            Close
+                            </Button>
+                            <Button type="Submit" color="primary">
+                            Create
+                            </Button>
+                        </DialogActions>
+                    </form>
                 </Dialog>
             </div>
         );
@@ -88,16 +137,16 @@ class CreateTaskDialog extends React.Component {
 // Create PropTypes
 CreateTaskDialog.propTypes = {
     closeDialogs: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string.isRequired,
     openCreateTaskDialog: PropTypes.bool.isRequired,
-    currentUser: PropTypes.object.isRequired
+    currentUser: PropTypes.object.isRequired,
+    thisList: PropTypes.string.isRequired
 };
   
 // Map State to Props
 const mapStateToProps = state => ({
-    errorMessage: state.user.errorMessage,
     openCreateTaskDialog: state.user.openCreateTaskDialog,
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    thisList: state.user.thisList
 });
   
 // Export Component
