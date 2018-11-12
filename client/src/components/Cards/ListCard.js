@@ -1,5 +1,7 @@
 // Import Dependencies
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -7,7 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 // Import Local Dependencies
-import TaskCard from './TaskCard';
+import Task from './Task';
+import { openCreateTask } from '../../redux/actions/userActions';
 
 // Create Styles
 const styles = {
@@ -40,20 +43,22 @@ class ListCard extends Component {
   // Handle Adding Task
   handleAddTask = () => {
     console.log('Add Task Here');
+
+    this.props.openCreateTask()
   };
 
-  // Handle Adding Task
+  // Handle Deleting List
   handleDeleteList = () => {
-    console.log('Deleting list');
-
+    // Delete List from DB
     fetch(`api/lists/${this.props.listId}`, {
       method: 'DELETE'
     }).then(res => res.json())
     .then(dbList => {
-        console.log(dbList);
+        // Then Delete List Association from User 'Lists' Array
         fetch(`api/account/user/${this.props.currentUser._id}/${this.props.listId}`, {
           method: 'POST'
         }).then(res => res.json())
+        // Then Reload Window to reflect the changes.
         .then(window.location.reload());
     });
   };
@@ -70,7 +75,7 @@ class ListCard extends Component {
           </Typography>
           <Typography component="h6">
             <ul>
-              {this.state.tasks.map(taskId => <TaskCard key={taskId} taskId={taskId} />)}
+              {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} />)}
             </ul>
           </Typography>
         </CardContent>
@@ -83,5 +88,17 @@ class ListCard extends Component {
   };
 };
 
+// Create PropTypes
+ListCard.propTypes = {
+  openCreateTask: PropTypes.func.isRequired,
+  currentUser: PropTypes.object.isRequired
+}
+
+// Maps States to Component Props
+const mapStateToProps = state => ({
+  signedIn: state.user.signedIn,
+  currentUser: state.user.currentUser
+});
+
 // Export Component
-export default ListCard;
+export default connect(mapStateToProps, { openCreateTask })(ListCard);

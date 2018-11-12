@@ -12,6 +12,7 @@ import SignInDialog from './components/Dialogs/SignInDialog';
 import MenuDrawer from './components/MenuDrawer';
 import ProfileDialog from './components/Dialogs/ProfileDialog';
 import CreateListDialog from './components/Dialogs/CreateList';
+import CreateTaskDialog from './components/Dialogs/CreateTask';
 import Navbar from './components/Navbar';
 import Jumbotron from './components/Jumbotron';
 import Footer from './components/Footer';
@@ -36,6 +37,7 @@ class App extends Component {
           <MenuDrawer />
           <ProfileDialog />
           <CreateListDialog />
+          <CreateTaskDialog />
 
           {/* Render Navbar */}
           <Navbar />

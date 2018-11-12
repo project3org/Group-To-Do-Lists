@@ -13,6 +13,7 @@ import {
     OPEN_PROFILE_DIALOG,
     OPEN_DRAWER,
     OPEN_CREATELIST_DIALOG,
+    OPEN_CREATETASK_DIALOG,
     CLOSE_DIALOGS, 
     VERIFY_SESSION,
     DELETE_USER
@@ -26,6 +27,7 @@ const initialState = {
     openProfileDialog: false,
     openDrawer: false,
     openCreateListDialog: false,
+    openCreateTaskDialog: false,
     errorMessage: ' ',
     signedIn: false,
     currentUser: {}
@@ -75,6 +77,14 @@ export default function(state = initialState, action)  {
                 openCreateListDialog: true
             };
 
+        // Open CreateTask Dialog Action
+        case OPEN_CREATETASK_DIALOG:
+            // Return States
+            return {
+                ...state,
+                openCreateTaskDialog: true
+            };
+
         // Close Dialogs Action
         case CLOSE_DIALOGS:
             // Return States
@@ -85,6 +95,7 @@ export default function(state = initialState, action)  {
                 openProfileDialog: false,
                 openDrawer: false,
                 openCreateListDialog: false,
+                openCreateTaskDialog: false,
                 errorMessage: ''
             };
 
