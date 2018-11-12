@@ -8,9 +8,13 @@ import {
     SIGN_OUT, 
     OPEN_SIGNIN_DIALOG, 
     OPEN_SIGNUP_DIALOG, 
+    OPEN_PROFILE_DIALOG,
     OPEN_DRAWER,
+    OPEN_CREATELIST_DIALOG,
+    OPEN_CREATETASK_DIALOG,
     CLOSE_DIALOGS, 
-    VERIFY_SESSION
+    VERIFY_SESSION,
+    DELETE_USER
 } from './types';
 
 // Export openSignIn function
@@ -23,9 +27,27 @@ export const openSignUp = () => dispatch => {
     dispatch({type: OPEN_SIGNUP_DIALOG});
 };
 
+// Export openProfile function
+export const openProfile = () => dispatch => {
+    dispatch({type: OPEN_PROFILE_DIALOG});
+};
+
 // Export openDrawer function
 export const openMenuDrawer = () => dispatch => {
     dispatch({type: OPEN_DRAWER});
+};
+
+// Export openCreateListDialog funcion
+export const openCreateList = () => dispatch => {
+    dispatch({type: OPEN_CREATELIST_DIALOG});
+};
+
+// Export openCreateListDialog funcion
+export const openCreateTask = (listId) => dispatch => {
+    dispatch({
+        type: OPEN_CREATETASK_DIALOG,
+        payload: listId
+    });
 };
 
 // Export closeDialogs function
@@ -96,7 +118,7 @@ export const verifySession = () => dispatch => {
     // Get obj from storage
     const obj = getFromStorage('the_main_app');
 
-    // I do a double fetch here to make sure I can access user data on a reload.
+    // I do a double fetch here to make sure I can access user data after a refresh/reopen.
 
     // Fetch user info from DB to pass result into next fetch
     fetch(`/api/account/user/${obj.id}`)
@@ -115,4 +137,16 @@ export const verifySession = () => dispatch => {
             }));
         };
     });
+};
+
+// Export deleteUser function
+export const deleteUser = (userId) => dispatch => {
+    fetch(`/api/account/delete/${userId}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(json => dispatch({
+        type: DELETE_USER,
+        payload: json
+    }));
 };

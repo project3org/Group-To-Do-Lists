@@ -10,21 +10,28 @@ import {
     SIGN_OUT,
     OPEN_SIGNIN_DIALOG,
     OPEN_SIGNUP_DIALOG, 
+    OPEN_PROFILE_DIALOG,
     OPEN_DRAWER,
+    OPEN_CREATELIST_DIALOG,
+    OPEN_CREATETASK_DIALOG,
     CLOSE_DIALOGS, 
-    VERIFY_SESSION
+    VERIFY_SESSION,
+    DELETE_USER
 } from '../actions/types';
 
 // Set Initial States
 const initialState = {
+    signedIn: false,
+    currentUser: {},
     serverPayload: {},
     openSignInDialog: false,
     openSignUpDialog: false,
+    openProfileDialog: false,
     openDrawer: false,
+    openCreateListDialog: false,
+    openCreateTaskDialog: false,
     errorMessage: ' ',
-    signedIn: false,
-    buttonTitle: 'Sign In',
-    currentUser: {}
+    thisList: ''
 };
 
 // Export states
@@ -47,12 +54,37 @@ export default function(state = initialState, action)  {
                 openSignUpDialog: true
             };
 
+        // Open Profile Dialog Action
+        case OPEN_PROFILE_DIALOG:
+            // Return States
+            return {
+                ...state,
+                openProfileDialog: true
+            };
+
         // Open Drawer Action
         case OPEN_DRAWER: 
             // Return States
             return {
                 ...state,
                 openDrawer: true
+            };
+
+        // Open CreateList Dialog Action
+        case OPEN_CREATELIST_DIALOG:
+            // Return States
+            return {
+                ...state,
+                openCreateListDialog: true
+            };
+
+        // Open CreateTask Dialog Action
+        case OPEN_CREATETASK_DIALOG:
+            // Return States
+            return {
+                ...state,
+                openCreateTaskDialog: true,
+                thisList: action.payload
             };
 
         // Close Dialogs Action
@@ -62,7 +94,10 @@ export default function(state = initialState, action)  {
                 ...state,
                 openSignInDialog: false,
                 openSignUpDialog: false,
+                openProfileDialog: false,
                 openDrawer: false,
+                openCreateListDialog: false,
+                openCreateTaskDialog: false,
                 errorMessage: ''
             };
 
@@ -101,74 +136,73 @@ export default function(state = initialState, action)  {
                     ...state,
                     serverPayload: action.payload,
                     errorMessage: action.payload.message
-                }
+                };
             }
 
         // Sign In Action
         case SIGN_IN:
-        // If Sign in was successful
-        if (action.payload.success) {
-            // save user token in localStorage
-            setInStorage('the_main_app', { 
-                id: action.payload.userData._id, 
-                token: action.payload.token, 
-                expires: action.payload.expires 
-            });
+            // If Sign in was successful
+            if (action.payload.success) {
+                // save user token in localStorage
+                setInStorage('the_main_app', { 
+                    id: action.payload.userData._id, 
+                    token: action.payload.token, 
+                    expires: action.payload.expires 
+                });
 
-            // Return States
-            return {
-                ...state,
-                serverPayload: action.payload,
-                signedIn: true,
-                buttonTitle: 'Sign Out',
-                errorMessage: '',
-                currentUser: action.payload.userData,
-                openSignInDialog: false
-            };
-        // Else
-        } else {
-            // Return States
-            return {
-                ...state,
-                serverPayload: action.payload,
-                signedIn: true,
-                errorMessage: action.payload.message,
-                currentUser: action.payload.userData,
-            };
-        }
-    
+                // Return States
+                return {
+                    ...state,
+                    serverPayload: action.payload,
+                    signedIn: true,
+                    buttonTitle: 'Sign Out',
+                    errorMessage: '',
+                    currentUser: action.payload.userData,
+                    openSignInDialog: false
+                };
+            // Else
+            } else {
+                // Return States
+                return {
+                    ...state,
+                    serverPayload: action.payload,
+                    signedIn: false,
+                    errorMessage: action.payload.message,
+                    currentUser: action.payload.userData,
+                };
+            }
+        
         // Sign Out Action
         case SIGN_OUT:
-        if (action.payload.success) {
-            // Return States
-            return {
-                ...state,
-                signedIn: false,
-                buttonTitle: 'Sign In',
-                errorMessage: '',
-                currentUser: {}
-            };
-        } else {
-            // Return States
-            return {
-                ...state,
-                signedIn: false,
-                buttonTitle: 'Sign In',
-                errorMessage: action.payload.message,
-                currentUser: {}
-            };
-        }
+            // If Sign Out was successfull
+            if (action.payload.success) {
+                // Return States
+                return {
+                    ...state,
+                    signedIn: false,
+                    buttonTitle: 'Sign In',
+                    errorMessage: '',
+                    currentUser: {}
+                };
+            } else {
+                // Return States
+                return {
+                    ...state,
+                    signedIn: false,
+                    buttonTitle: 'Sign In',
+                    errorMessage: action.payload.message,
+                    currentUser: {}
+                };
+            }
 
         // Verify Session Action
-        case VERIFY_SESSION:           
+        case VERIFY_SESSION:       
             // If Session is Still Active
             if(action.payload.success) {
-                console.log(action.user);
                 // Return States with signedIn set to true
                 return {
                     ...state,
                     signedIn: true,
-                    buttonTitle: 'Sign Out',
                     currentUser: action.user
                 };
             // Else
@@ -176,10 +210,18 @@ export default function(state = initialState, action)  {
                 // Return States with signedIn set to false
                 return {
                     ...state,
-                    signedIn: false,
-                    buttonTitle: 'Sign In'
-                }
+                    signedIn: false
+                };
             }
+
+        case DELETE_USER:
+            return {
+                ...state,
+                signedIn: false,
+                currentUser: {}, 
+                openProfileDialog: false,
+                openDrawer: false
+            };
 
         // Export Initial States By Default
         default:

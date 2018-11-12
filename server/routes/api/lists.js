@@ -22,4 +22,9 @@ router.route("/:id")
     // Route for deleting List
     .delete(listController.deleteList);
 
+// Matches with "/api/lists/:listId/:taskId"
+router.route("/:listId/:taskId")
+    // Route for deleting task association with list
+    .post(listController.deleteTasks)
+
 module.exports = router;

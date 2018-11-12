@@ -426,5 +426,35 @@ module.exports = {
             // Send email
             mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', user[0].email, 'Gratify Email Verification', verificationEmail);
         });
+    },
+
+    // Handles deleting user
+    deleteUser: (req, res) => {
+        db.User.deleteOne({_id: req.params.id})
+            .then(dbUser => res.json(dbUser))
+            .catch((err) => {
+                res.status(422).json(err);
+            });
+    },
+
+    // Handles deleting user current session
+    deleteSession: (req, res) => {
+        db.UserSession.deleteOne({_id: req.params.id})
+            .then(dbUser => res.json(dbUser))
+            .catch((err) => {
+                res.status(422).json(err);
+            });
+    },
+
+    // Handles deleting specific list from user's list array
+    deleteLists: (req, res) => {
+        db.User.findOneAndUpdate({_id: req.params.userId}, {
+            $pull: {lists: req.params.listId}
+        }, {
+            new: true
+        }).then(res => res.json())
+        .catch(err => {
+            res.status(422).send(err);
+        });
     }
 };

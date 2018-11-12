@@ -9,7 +9,7 @@ module.exports = {
         // ****Will have to update line 10 to include people in the 'listMembers category' ****
         db.List.find({creatorId: req.params.id})
             // ..and populate all of the lists associated with the user
-            .populate("user")
+            .populate("creatorId")
             .then((dbUser)=>{
                 // If we find User, they are sent back to the client with the Lists attached
                 res.json(dbUser);
@@ -67,5 +67,16 @@ module.exports = {
                 // If an error occurs, send the err to the client
                 res.status(422).json(err);
             });
+    },
+    // Handles deleting specific task from list's task array
+    deleteTasks: (req, res) => {
+        db.List.findOneAndUpdate({_id: req.params.listId}, {
+            $pull: {tasks: req.params.taskId}
+        }, {
+            new: true
+        }).then(res => res.json())
+        .catch(err => {
+            res.status(422).send(err);
+        });
     }
 };

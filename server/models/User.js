@@ -31,10 +31,12 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    isDeleted: {
-        type: Boolean,
-        default: false
-    }
+    lists: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "List"
+        }
+    ]
 });
 
 UserSchema.methods.generateHash = function(password) {

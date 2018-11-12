@@ -85,43 +85,47 @@ export default class FormDialog extends React.Component {
             <div>
                 {/* Creates Sign In Dialog */}
                 <Dialog
-                open={this.props.open}
-                onClose={this.props.close}
+                open={this.props.openSignInDialog}
+                onClose={this.handleDialogClose}
                 aria-labelledby="form-dialog-title"
                 >
-                <DialogTitle id="form-dialog-title">Sign In</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                    Please enter your user email and password.<br />
-                    If you do not have an account please sign up.<br /><br />
-                    </DialogContentText>
-                    <TextField
-                    autoFocus
-                    margin="dense"
-                    id="email"
-                    label="Email Address"
-                    type="email"
-                    fullWidth
-                    />
-                    <TextField
-                    margin="dense"
-                    id="password"
-                    label="Password"
-                    type="password"
-                    fullWidth
-                    />
-                    <DialogContentText style={errorStyle}>
-                    {this.state.signInError}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.props.close} color="primary">
-                    Cancel
-                    </Button>
-                    <Button color="primary" onClick={this.handleUserSignIn}>
-                    Sign In
-                    </Button>
-                </DialogActions>
+                    <form onSubmit={this.handleUserSignIn}>
+                        <DialogTitle id="form-dialog-title">Sign In</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                            Please enter your user email and password.<br />
+                            If you do not have an account please sign up.<br /><br />
+                            </DialogContentText>
+                            <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Email Address"
+                            type="email"
+                            fullWidth
+                            autoComplete='no'
+                            onChange={e => this.handleChangeEmail(e)}
+                            />
+                            <TextField
+                            margin="dense"
+                            label="Password"
+                            type="password"
+                            fullWidth
+                            autoComplete='no'
+                            onChange={e => this.handleChangePassword(e)}
+                            />
+                            <DialogContentText style={errorStyle}>
+                            {this.props.errorMessage}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleDialogClose} color="primary">
+                            Cancel
+                            </Button>
+                            <Button type="Submit" color="primary">
+                            Sign In
+                            </Button>
+                        </DialogActions>
+                    </form>
                 </Dialog>
             </div>
         );
