@@ -8,35 +8,35 @@ import ListCard from './ListCard';
 import { Col, Row, Container } from "../Grid";
 
 // Import Local dependencies
-import { openSignUp } from '../../redux/actions/userActions';
+import { openSignUp, openCreateList } from '../../redux/actions/userActions';
 
 // Create Component
 class CardContainer extends Component {
-  // Handles Creating List
-  handleCreateList = () => {
-    console.log("Button Clicked.");
-  };
-
   // Function outputs lists
   getLists = () => {
     // Target currentUser
     const currentUser = this.props.currentUser
 
-    // If user has no lists, output this
-    if(currentUser.lists.length === 0) {
-      return <div>
-        <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
-        <button className="btn peach-gradient center" onClick={this.handleCreateList}>Create List</button>
-      </div>
+    fetch(`/api/lists/all/${currentUser._id}`)
+      .then(res => res.json())
+      .then(userLists => {
+        console.log(userLists);
+        // If user has no lists, output this
+        if(userLists.length === 0) {
+          return <div>
+            <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
+            <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
+          </div>
 
-    // Else output card for each list
-    } else {
-      return (
-        <div>
-          {this.props.currentUser.lists.map(listId => <ListCard key={listId} listId={listId} />)}
-        </div>
-      )
-    }
+        // Else output card for each list
+        } else {
+          return (
+            <div>
+              {userLists.map(listId => <ListCard key={listId._id} listId={listId._id} />)}
+            </div>
+          )
+        }
+    });
   };
 
   // Render Component
@@ -63,7 +63,7 @@ class CardContainer extends Component {
       // If Signed In Component
     } else {
       return (
-        <Container fluid>
+        <Container className="cardContainer" fluid>
           <Row>
             <Col size="md-12">
               <Card>
@@ -84,6 +84,7 @@ class CardContainer extends Component {
 // Create PropTypes
 CardContainer.propTypes = {
   openSignUp: PropTypes.func.isRequired,
+  openCreateList: PropTypes.func.isRequired,
   signedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object.isRequired
 }
@@ -95,4 +96,4 @@ const mapStateToProps = state => ({
 });
 
 // Export Component
-export default connect(mapStateToProps, { openSignUp })(CardContainer);
+export default connect(mapStateToProps, { openSignUp, openCreateList })(CardContainer);

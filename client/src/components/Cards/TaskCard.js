@@ -7,20 +7,24 @@ import Typography from '@material-ui/core/Typography';
 
 class TaskCard extends Component {
   state = {
+      taskId: '',
       taskName: '',
       taskDescription: '',
       isCompleted: false
   };
 
   // Get list information on component mount
-  componentWillMount() {
-    fetch(`api/tasks/${this.props.taskId}`)
+  async componentWillMount() {
+    await fetch(`api/tasks/${this.props.taskId}`)
       .then(res => res.json())
       .then(dbTask => {
-        this.setState({
-            taskName: dbTask.name,
-            taskDescription: dbTask.description
-        });
+          if(dbTask){
+              this.setState({
+                taskId: dbTask._id,
+                taskName: dbTask.name,
+                taskDescription: dbTask.description
+            });
+          }
       });
   };
 
@@ -29,25 +33,24 @@ class TaskCard extends Component {
   }; 
 
   handleDeleteTask = () => {
-    console.log('Task Deleted');    
+    console.log('Task Deleted'); 
+    console.log(this.state.taskId);
+    
+    fetch(`api/tasks/${this.state.taskId}`, {
+        method: 'DELETE'
+    }).then(res => res.json())
+    .then(dbTask => {
+        console.log(`${dbTask.name} deleted.`);
+    });
   }; 
 
   render () {
     return (
-      <Card className="text-center">
-        <CardContent>
-          <Typography variant="h5" component="h2">
+        <li className="list-group-item">
             {this.state.taskName}
-          </Typography>
-          <Typography variant="h8" component="h6">
-            {this.state.taskDescription}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small" onClick={this.handleCompleteTask}>Task Complete</Button>
-          <Button size="small"onClick={this.handleDeleteTask}>Delete Task</Button>
-        </CardActions>
-      </Card>
+            <Button color="secondary" style={{marginLeft: 'auto'}} size="small"onClick={this.handleDeleteTask}>Delete Task</Button>
+            <Button color="primary" style={{marginLeft: 'auto'}} size="small" onClick={this.handleCompleteTask}>Task Complete</Button>
+        </li>
     );
   };
 };

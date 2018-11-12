@@ -11,6 +11,7 @@ import SignUpDialog from './components/Dialogs/SignUpDialog';
 import SignInDialog from './components/Dialogs/SignInDialog';
 import MenuDrawer from './components/MenuDrawer';
 import ProfileDialog from './components/Dialogs/ProfileDialog';
+import CreateListDialog from './components/Dialogs/CreateList';
 import Navbar from './components/Navbar';
 import Jumbotron from './components/Jumbotron';
 import Footer from './components/Footer';
@@ -34,6 +35,7 @@ class App extends Component {
           <SignUpDialog />
           <MenuDrawer />
           <ProfileDialog />
+          <CreateListDialog />
 
           {/* Render Navbar */}
           <Navbar />

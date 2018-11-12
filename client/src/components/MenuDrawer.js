@@ -10,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 // Import Local Dependencies
-import { signOut, openSignIn, openSignUp, openProfile, closeDialogs } from '../redux/actions/userActions';
+import { signOut, openSignIn, openSignUp, openProfile, openCreateList, closeDialogs } from '../redux/actions/userActions';
 
 // Create custome styles
 const styles = {
@@ -37,7 +37,7 @@ class MenuDrawer extends React.Component {
     
       // Create List Button
       case 'Create List':
-        console.log('Create List clicked, feature to come.');
+        this.props.openCreateList();
         break;
 
       // Your Profile Button
@@ -164,6 +164,7 @@ MenuDrawer.propTypes = {
   openSignIn: PropTypes.func.isRequired,
   openSignUp: PropTypes.func.isRequired,
   openProfile: PropTypes.func.isRequired,
+  openCreateList: PropTypes.func.isRequired,
   closeDialogs: PropTypes.func.isRequired,
   openDrawer: PropTypes.bool.isRequired
 };
@@ -175,4 +176,4 @@ const mapStateToProps = state => ({
 });
 
 // Export Component
-export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, openProfile, closeDialogs })(MenuDrawer);
+export default connect(mapStateToProps, { signOut, openSignIn, openSignUp, openProfile, openCreateList, closeDialogs })(MenuDrawer);

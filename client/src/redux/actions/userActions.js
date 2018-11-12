@@ -10,6 +10,7 @@ import {
     OPEN_SIGNUP_DIALOG, 
     OPEN_PROFILE_DIALOG,
     OPEN_DRAWER,
+    OPEN_CREATELIST_DIALOG,
     CLOSE_DIALOGS, 
     VERIFY_SESSION,
     DELETE_USER
@@ -33,6 +34,11 @@ export const openProfile = () => dispatch => {
 // Export openDrawer function
 export const openMenuDrawer = () => dispatch => {
     dispatch({type: OPEN_DRAWER});
+};
+
+// Export openCreateListDialog funcion
+export const openCreateList = () => dispatch => {
+    dispatch({type: OPEN_CREATELIST_DIALOG});
 };
 
 // Export closeDialogs function

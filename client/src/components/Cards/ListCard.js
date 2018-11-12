@@ -14,17 +14,6 @@ const styles = {
   card: {
     minWidth: 275,
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
 };
 
 // Create Component
@@ -36,16 +25,28 @@ class ListCard extends Component {
   };
 
   // Get list information on component mount
-  componentWillMount() {
+  async componentWillMount() {
     // Fetch list body using list id
-    fetch(`/api/lists/${this.props.listId}`)
+    await fetch(`/api/lists/${this.props.listId}`)
       .then(res => res.json())
       .then(listBody => {
         this.setState({
           listName: listBody.name,
-          tasks: listBody.tasks
-        })
+        });
       });
+
+    await fetch(`/api/tasks/all/${this.props.listId}`)
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({
+          tasks: data,
+        });
+      });
+  };
+
+  // Handle Adding Task
+  handleAddTask = () => {
+    console.log('Add Task Here');
   };
 
   // Render Component
@@ -58,9 +59,6 @@ class ListCard extends Component {
           <Typography variant="h5" component="h2">
           {this.state.listName}
           </Typography>
-          <Typography color="textSecondary" gutterBottom>
-          Task list generated here
-          </Typography>
           <Typography component="h6">
             <ul>
               {this.state.tasks.map(taskId => <TaskCard key={taskId} taskId={taskId} />)}
@@ -68,7 +66,7 @@ class ListCard extends Component {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">List Info</Button>
+          <Button color="primary" size="small" onClick={this.handleAddTask}>Add Task</Button>
         </CardActions>
       </Card>
     );

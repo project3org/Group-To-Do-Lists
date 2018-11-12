@@ -9,7 +9,7 @@ module.exports = {
         // ****Will have to update line 10 to include people in the 'listMembers category' ****
         db.List.find({creatorId: req.params.id})
             // ..and populate all of the lists associated with the user
-            .populate("user")
+            .populate("creatorId")
             .then((dbUser)=>{
                 // If we find User, they are sent back to the client with the Lists attached
                 res.json(dbUser);
@@ -41,7 +41,6 @@ module.exports = {
     getList: (req, res)=>{
         // Targets List by ID
         db.List.findOne({_id: req.params.id})
-            .populate('task')
             .then((dbList)=>{
                 res.json(dbList);
             })

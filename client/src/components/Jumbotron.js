@@ -7,10 +7,15 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 
 // Import Local Dependencies
-import { openSignIn, openSignUp } from '../redux/actions/userActions';
+import { openSignIn, openSignUp, openCreateList } from '../redux/actions/userActions';
 
 // Create component
 class Jumbotron extends React.Component {
+    // Handle Creating List
+    handleCreateList = () => {
+        console.log('Creating List');
+    };
+    
     // Render Component
     render() {
         // If signed out, prompt user to sign in or sign up
@@ -43,7 +48,7 @@ class Jumbotron extends React.Component {
                             <h5 className="h5 orange-text"><i className="fa fa-list"></i> Task Managing Made Easy</h5>
                             <h2 className="card-title h1 my-4 py-2">Welcome back to Gratify!</h2>
                             <p className="mb-4 pb-2 px-md-5 mx-md-5">Gratify is a task managing system designed to simplify group assignments by assigning users the tasks they would prefer to do the most. We utilize a very simple equation, MORE work should get done FASTER when people perform tasks that they enjoy doing.</p>
-                            <a className="btn peach-gradient" href="#!"><i className="fa fa-clone left"></i> View Your Lists</a>
+                            <a className="btn peach-gradient" href="#!" onClick={this.props.openCreateList}><i className="fa fa-clone left"></i> Create a List</a>
                     
                         </div>
                     </div>
@@ -57,6 +62,7 @@ class Jumbotron extends React.Component {
 Jumbotron.propTypes = {
     openSignIn: PropTypes.func.isRequired,
     openSignUp: PropTypes.func.isRequired,
+    openCreateList: PropTypes.func.isRequired
 };
 
 // Maps States to Component Props
@@ -65,4 +71,4 @@ const mapStateToProps = state => ({
 });
 
 // Export Component
-export default connect(mapStateToProps, { openSignIn, openSignUp })(Jumbotron);
+export default connect(mapStateToProps, { openSignIn, openSignUp, openCreateList })(Jumbotron);
