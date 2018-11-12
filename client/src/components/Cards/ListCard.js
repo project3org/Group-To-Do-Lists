@@ -32,14 +32,7 @@ class ListCard extends Component {
       .then(listBody => {
         this.setState({
           listName: listBody.name,
-        });
-      });
-
-    await fetch(`/api/tasks/all/${this.props.listId}`)
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({
-          tasks: data,
+          tasks: listBody.tasks
         });
       });
   };
@@ -47,6 +40,22 @@ class ListCard extends Component {
   // Handle Adding Task
   handleAddTask = () => {
     console.log('Add Task Here');
+  };
+
+  // Handle Adding Task
+  handleDeleteList = () => {
+    console.log('Deleting list');
+
+    fetch(`api/lists/${this.props.listId}`, {
+      method: 'DELETE'
+    }).then(res => res.json())
+    .then(dbList => {
+        console.log(dbList);
+        fetch(`api/account/user/${this.props.currentUser._id}/${this.props.listId}`, {
+          method: 'POST'
+        }).then(res => res.json())
+        .then(window.location.reload());
+    });
   };
 
   // Render Component
@@ -66,7 +75,8 @@ class ListCard extends Component {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button color="primary" size="small" onClick={this.handleAddTask}>Add Task</Button>
+          <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
+          <Button color="primary" size="small" onClick={this.handleAddTask} style={{marginLeft: 'auto'}}>Add Task</Button>
         </CardActions>
       </Card>
     );

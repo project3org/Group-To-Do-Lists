@@ -466,5 +466,17 @@ module.exports = {
             .catch((err) => {
                 res.status(422).json(err);
             });
+    },
+
+    // Handles deleting specific list from user's list array
+    deleteLists: (req, res) => {
+        db.User.findOneAndUpdate({_id: req.params.userId}, {
+            $pull: {lists: req.params.listId}
+        }, {
+            new: true
+        }).then(res => res.json())
+        .catch(err => {
+            res.status(422).send(err);
+        });
     }
 };

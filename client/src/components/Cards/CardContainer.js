@@ -17,26 +17,21 @@ class CardContainer extends Component {
     // Target currentUser
     const currentUser = this.props.currentUser
 
-    fetch(`/api/lists/all/${currentUser._id}`)
-      .then(res => res.json())
-      .then(userLists => {
-        console.log(userLists);
-        // If user has no lists, output this
-        if(userLists.length === 0) {
-          return <div>
-            <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
-            <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
-          </div>
+    // If user has no lists, output this
+    if(currentUser.lists.length === 0) {
+      return <div>
+        <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
+        <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
+      </div>
 
-        // Else output card for each list
-        } else {
-          return (
-            <div>
-              {userLists.map(listId => <ListCard key={listId._id} listId={listId._id} />)}
-            </div>
-          )
-        }
-    });
+    // Else output card for each list
+    } else {
+      return (
+        <div>
+          {currentUser.lists.map(listId => <ListCard key={listId} listId={listId} currentUser={this.props.currentUser}/>)}
+        </div>
+      )
+    }
   };
 
   // Render Component
