@@ -19,6 +19,9 @@ const styles = {
   },
   appBar: {
     background: '#323741',
+    overflow: "hidden",
+    position: "fixed",
+    top: 0
   },
   grow: {
     flexGrow: 1,
@@ -27,6 +30,7 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+
 };
 
 // Create Componenet

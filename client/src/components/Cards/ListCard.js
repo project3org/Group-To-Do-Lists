@@ -15,7 +15,8 @@ import { openCreateTask } from '../../redux/actions/userActions';
 // Create Styles
 const styles = {
   card: {
-    minWidth: 275,
+    minWidth: "275px",
+    maxWidth: "500px",
   },
 };
 

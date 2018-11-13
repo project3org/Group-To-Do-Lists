@@ -120,12 +120,12 @@ export const verifySession = () => dispatch => {
 
     // I do a double fetch here to make sure I can access user data after a refresh/reopen.
 
+// If token exists in obj...
+if (obj && obj.token) {
     // Fetch user info from DB to pass result into next fetch
     fetch(`/api/account/user/${obj.id}`)
     .then(res => res.json())
     .then(result => {
-        // If token exists in obj...
-        if (obj && obj.token) {
             // ...verify token
             const { token, expires } = obj;
             fetch(`/api/account/verify?token=${token}&expires=${expires}`)
@@ -135,8 +135,8 @@ export const verifySession = () => dispatch => {
                 payload: json,
                 user: result.data[0]
             }));
-        };
     });
+};
 };
 
 // Export deleteUser function
@@ -150,3 +150,4 @@ export const deleteUser = (userId) => dispatch => {
         payload: json
     }));
 };
+
