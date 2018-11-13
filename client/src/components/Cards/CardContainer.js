@@ -11,15 +11,6 @@ import "./Container.css";
 // Import Local dependencies
 import { openSignUp, openCreateList } from '../../redux/actions/userActions';
 
-// Create Styles
-const styles = {
-  card: {
-    minWidth: "275px",
-    maxWidth: "500px",
-    marginTop: 75
-  }
-};
-
 
 // Create Component
 class CardContainer extends Component {
@@ -51,7 +42,7 @@ class CardContainer extends Component {
     if(!this.props.signedIn) {
       return (
         <Container className="cardContainer" fluid>
-              <Card className="text-center" style={styles.card}>
+              <Card className="text-center">
                 <CardContent className="text-center">
                   <h1>Your Lists</h1><br />
                   <h3>Your lists will be here! But it looks like you arent signed in at the moment.</h3>
@@ -65,14 +56,8 @@ class CardContainer extends Component {
       // If Signed In Component
     } else {
       return (
-        <Container className="cardContainer" fluid>
-              <Card className="text-center" style={styles.card}>
-                <CardContent className="text-center">
-                  <h1>Your lists:</h1>
-
+        <Container className="cardContainer" fluid >
                   {this.getLists()}
-                </CardContent>
-              </Card>
         </Container>
       );
     }

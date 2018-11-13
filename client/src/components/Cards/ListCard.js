@@ -17,6 +17,7 @@ const styles = {
   card: {
     minWidth: "275px",
     maxWidth: "500px",
+    marginTop: 18
   },
 };
 
