@@ -8,10 +8,11 @@ import { Col, Container, Row, Footer } from "mdbreact";
 // Creating style to make footer sticky
 const styles = {
   footer: {
-    paddingTop: '50vh',
     width: '100%',
-    bottom: 0
-
+    left: 0,
+    bottom: 0,
+    top: 10,
+    position: "relative"
   }
 };
 

@@ -9,12 +9,17 @@ body {
   background-image: url('./images/background.png');
 }
 
+html, body {
+  height:100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
+/* Custome CSS for Jumbotrom background */
 .center-image {
   background-image: url('./images/checklist.jpg');
-  background-position: 0 -200px
+  background-position: 0 -200px;
 }

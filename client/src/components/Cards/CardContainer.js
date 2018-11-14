@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ListCard from './ListCard';
-import { Col, Row, Container } from "../Grid";
+import "./Container.css";
 
 // Import Local dependencies
 import { openSignUp, openCreateList } from '../../redux/actions/userActions';
+
 
 // Create Component
 class CardContainer extends Component {
@@ -27,7 +28,7 @@ class CardContainer extends Component {
     // Else output card for each list
     } else {
       return (
-        <div>
+        <div id="ChildCardContainer">
           {currentUser.lists.map(listId => <ListCard key={listId} listId={listId} currentUser={this.props.currentUser}/>)}
         </div>
       )
@@ -39,10 +40,8 @@ class CardContainer extends Component {
     // If Signed Out Component
     if(!this.props.signedIn) {
       return (
-        <Container fluid>
-          <Row>
-            <Col size="md-12">
-              <Card>
+        <div id="ParentCardContainer">
+              <Card className="text-center">
                 <CardContent className="text-center">
                   <h1>Your Lists</h1><br />
                   <h3>Your lists will be here! But it looks like you arent signed in at the moment.</h3>
@@ -51,26 +50,14 @@ class CardContainer extends Component {
                   <a className="btn peach-gradient center" href="#!" onClick={this.props.openSignUp}><i className="fa fa-clone left"></i>Get Started!</a>
                 </CardContent>
               </Card>
-            </Col>  
-          </Row>
-        </Container>
+        </div>
       );
       // If Signed In Component
     } else {
       return (
-        <Container className="cardContainer" fluid>
-          <Row>
-            <Col size="md-12">
-              <Card>
-                <CardContent className="text-center">
-                  <h1>Your lists:</h1>
-
-                  {this.getLists()}
-                </CardContent>
-              </Card>
-            </Col>  
-          </Row>
-        </Container>
+        <div id="ParentCardContainer">
+          {this.getLists()}
+        </div>
       );
     }
   };

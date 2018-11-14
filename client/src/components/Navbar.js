@@ -16,9 +16,14 @@ import { signOut, openSignIn, openSignUp, openMenuDrawer } from '../redux/action
 const styles = {
   root: {
     flexGrow: 1,
+    marginBottom: 20
   },
   appBar: {
     background: '#323741',
+    overflow: "hidden",
+    position: "fixed",
+    top: 0,
+    marginBottom: 20
   },
   grow: {
     flexGrow: 1,
@@ -27,6 +32,7 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+
 };
 
 // Create Componenet
