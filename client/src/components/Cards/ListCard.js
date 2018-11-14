@@ -12,15 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import Task from './Task';
 import { openCreateTask } from '../../redux/actions/userActions';
 
-// Create Styles
-const styles = {
-  card: {
-    Height: "600px",
-    Width: "500px",
-    margin: "5px"
-  },
-};
-
 // Create Component
 class ListCard extends Component {
   // Create States
@@ -65,9 +56,9 @@ class ListCard extends Component {
   // Render Component
   render () {
     return (
-      <div id="ListCard">
+      <div className="ListCard">
         {/* Render List Card */}
-        <Card className="text-center" style={styles.card}>
+        <Card className="text-center">
           <CardContent>
             <Typography color="textSecondary" gutterBottom>
             </Typography>

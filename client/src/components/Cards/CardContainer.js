@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ListCard from './ListCard';
-import { Col, Row, Container } from "../Grid";
 import "./Container.css";
 
 // Import Local dependencies
@@ -41,7 +40,7 @@ class CardContainer extends Component {
     // If Signed Out Component
     if(!this.props.signedIn) {
       return (
-        <Container className="cardContainer" fluid>
+        <div id="ParentCardContainer">
               <Card className="text-center">
                 <CardContent className="text-center">
                   <h1>Your Lists</h1><br />
@@ -51,7 +50,7 @@ class CardContainer extends Component {
                   <a className="btn peach-gradient center" href="#!" onClick={this.props.openSignUp}><i className="fa fa-clone left"></i>Get Started!</a>
                 </CardContent>
               </Card>
-        </Container>
+        </div>
       );
       // If Signed In Component
     } else {

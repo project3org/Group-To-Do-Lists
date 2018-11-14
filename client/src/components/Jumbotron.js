@@ -10,21 +10,6 @@ import "mdbreact/dist/css/mdb.css";
 import { openSignIn, openSignUp, openCreateList } from '../redux/actions/userActions';
 
 
-// const styles = {
-//     cardImage: {
-//         position: "fixed",
-//         top: 0,
-//         left: 0,
-//         bottom: 0,
-//         right: 0,
-//         overflow: "auto"
-//     },
-
-
-//   };
-
-
-
 // Create component
 class Jumbotron extends React.Component {
     // Handle Creating List
@@ -55,7 +40,8 @@ class Jumbotron extends React.Component {
             );
         } else {
             // else prompt them to go to their lists
-            return (null
+            return (null);
+            
                 // <div className="card card-image center-image">
                 //     <div className="text-white text-center rgba-stylish-strong py-5 px-4">
                 //         <div className="py-5">
@@ -69,7 +55,6 @@ class Jumbotron extends React.Component {
                 //         </div>
                 //     </div>
                 // </div>
-            );
         }
     };
 };

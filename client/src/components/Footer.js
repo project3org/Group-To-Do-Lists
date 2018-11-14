@@ -11,7 +11,8 @@ const styles = {
     width: '100%',
     left: 0,
     bottom: 0,
-    top: 0
+    top: 10,
+    position: "relative"
   }
 };
 
