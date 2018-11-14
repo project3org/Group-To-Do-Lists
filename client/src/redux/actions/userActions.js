@@ -120,7 +120,6 @@ export const verifySession = () => dispatch => {
 
     // I do a double fetch here to make sure I can access user data after a refresh/reopen.
 
-
     // If token exists in obj...
     if (obj && obj.token) {
         // Fetch user info from DB to pass result into next fetch
@@ -138,7 +137,6 @@ export const verifySession = () => dispatch => {
                 }));
         });
     };
-};
 };
 
 // Export deleteUser function
