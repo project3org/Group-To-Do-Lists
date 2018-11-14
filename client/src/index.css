@@ -20,5 +20,6 @@ code {
 
 .center-image {
   background-image: url('./images/checklist.jpg');
-  background-position: 0 -200px
+  background-position: 0 -200px;
+
 }

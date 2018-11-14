@@ -29,7 +29,7 @@ class CardContainer extends Component {
     // Else output card for each list
     } else {
       return (
-        <div>
+        <div id="ChildCardContainer">
           {currentUser.lists.map(listId => <ListCard key={listId} listId={listId} currentUser={this.props.currentUser}/>)}
         </div>
       )
@@ -56,9 +56,9 @@ class CardContainer extends Component {
       // If Signed In Component
     } else {
       return (
-        <Container className="cardContainer" fluid >
-                  {this.getLists()}
-        </Container>
+        <div id="ParentCardContainer">
+          {this.getLists()}
+        </div>
       );
     }
   };

@@ -11,8 +11,7 @@ const styles = {
     paddingTop: '50vh',
     width: '100%',
     left: 0,
-    bottom: 0,
-    position: "absolute"
+    bottom: 0
   }
 };
 

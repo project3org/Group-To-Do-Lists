@@ -15,9 +15,9 @@ import { openCreateTask } from '../../redux/actions/userActions';
 // Create Styles
 const styles = {
   card: {
-    minWidth: "275px",
-    maxWidth: "500px",
-    marginTop: 18
+    Height: "600px",
+    Width: "500px",
+    margin: "5px"
   },
 };
 
@@ -65,7 +65,7 @@ class ListCard extends Component {
   // Render Component
   render () {
     return (
-      <div>
+      <div id="ListCard">
         {/* Render List Card */}
         <Card className="text-center" style={styles.card}>
           <CardContent>

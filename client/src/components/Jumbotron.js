@@ -10,18 +10,18 @@ import "mdbreact/dist/css/mdb.css";
 import { openSignIn, openSignUp, openCreateList } from '../redux/actions/userActions';
 
 
-const styles = {
-    cardImage: {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        overflow: "auto"
-    },
+// const styles = {
+//     cardImage: {
+//         position: "fixed",
+//         top: 0,
+//         left: 0,
+//         bottom: 0,
+//         right: 0,
+//         overflow: "auto"
+//     },
 
 
-  };
+//   };
 
 
 
@@ -37,8 +37,8 @@ class Jumbotron extends React.Component {
         // If signed out, prompt user to sign in or sign up
         if(!this.props.signedIn) {
             return (
-                <div className="card card-image center-image" style={styles.cardImage}>
-                    <div className="text-white text-center rgba-stylish-strong py-5 px-4" style={styles.cardImage}>
+                <div className="card card-image center-image">
+                    <div className="text-white text-center rgba-stylish-strong py-5 px-4">
                         <div className="py-5">
                     
                             {/* Content */}

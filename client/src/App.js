@@ -14,7 +14,6 @@ import ProfileDialog from './components/Dialogs/ProfileDialog';
 import CreateListDialog from './components/Dialogs/CreateList';
 import CreateTaskDialog from './components/Dialogs/CreateTask';
 import Navbar from './components/Navbar';
-import Wrapper from './components/Wrapper';
 import Jumbotron from './components/Jumbotron';
 import Footer from './components/Footer';
 import CardContainer from './components/Cards/CardContainer';
@@ -44,12 +43,10 @@ class App extends Component {
           <Navbar />
 
           {/* Render JumboTron */}
-          <Wrapper>
           <Jumbotron />
 
           {/* Main Content */}
           <CardContainer />
-          </Wrapper>
 
           {/* Render Footer */}
           <Footer />
