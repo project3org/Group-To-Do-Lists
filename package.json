@@ -4,18 +4,18 @@
   "description": "Shared to-do list, where the list items are assigned to people who desire them most. With an option to outsource work that is not desired by any member of the list group.",
   "main": "server.js",
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start": "node server.js",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "install": "cd client && yarn install",
-    "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "build": "cd client && yarn run build",
+    "heroku-postbuild": "cd client && yarn install && yarn run build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^3.5.0",
+    "concurrently": "^4.0.1",
     "nodemon": "^1.11.0"
   },
   "dependencies": {
@@ -41,6 +41,8 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "toastr": "^2.1.4",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.1.6",
     "xoauth2": "^1.2.0"
   }
 }
