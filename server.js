@@ -20,7 +20,7 @@ app.use(routes);
 
 // Handles any requests that don't match the ones above
 app.get('/*', (req, res) =>{
-  res.sendFile(path.join(__dirname + 'client/build/index.html'));
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 // If deployed, use the deployed database. Otherwise use the local gratify database
