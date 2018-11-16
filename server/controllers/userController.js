@@ -120,8 +120,8 @@ module.exports = {
             In order to log in to your account, we need to verify your email address.
             Please follow this link as soon as possible, link expires in one hour:
             <br />
-            <a href='http://localhost:3000/account/confirmation/${secretToken}'>
-                http://localhost:3000/account/confirmation/${secretToken}
+            <a href='https://gratify-lists.herokuapp.com/account/confirmation/${secretToken}'>
+            https://gratify-lists.herokuapp.com/account/confirmation/${secretToken}
             </a>
             <br />
             We hope you enjoy the site.
