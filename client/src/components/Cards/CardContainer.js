@@ -38,11 +38,8 @@ class CardContainer extends Component {
 
   // Function to create list button if user has no available lists
   noLists = () => {
-    // Target currentUser
-    const currentUser = this.props.currentUser
-
     // If user has no lists, return this div
-    if(currentUser.lists.length === 0) {
+    if(this.state.lists.length === 0) {
       return (
         <div>
           <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
@@ -52,6 +49,14 @@ class CardContainer extends Component {
     } else {
       return null;
     };
+  };
+
+  // Refreshes component to show change
+  handleCreateList = (arr) => {
+    this.setState({lists: arr});
+
+    // Reruns this function to make sure it gets rid of header
+    this.noLists();
   };
 
   // Handles deleting list
@@ -78,11 +83,6 @@ class CardContainer extends Component {
           })
         );
     });
-  };
-
-  // Refreshes component to show change
-  handleCreateList = (arr) => {
-    this.setState({lists: arr});
   };
 
   handleCreateTask = (arr) => {
