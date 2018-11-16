@@ -16,7 +16,11 @@ const styles = theme => ({
     marginBottom: 100
   },
   button: {
-      margin: 50,
+    margin: "30px",
+  },
+  card: {
+    marginTop: 75,
+    // minHeight: "100%"
   }
 });
 
@@ -64,7 +68,7 @@ function PaperSheet(props) {
   const { classes } = props;
 
   return (
-    <div>
+    <div className={classes.card}>
       <Paper className={classes.root} elevation={1}>
         <Typography variant="h3" component="h3">
             Email Verification
@@ -73,11 +77,11 @@ function PaperSheet(props) {
         <Typography variant="h5" component="p">
             You're almost done!
             <br /><br />
-            Please click the 'Verify Email' button below to verify your email. If your token is expired, please click 'Request New Token'
+            Please click the 'Verify Email' button below to verify your email. If your token is expired, please click 'Request New Token'.
         </Typography>
         <br />
-        <div className="text-center" style={styles.button}>
-            <button className="btn btn-primary" onClick={props.verify}>Verify Email</button>
+        <div className={`text-center ${classes.button}`}>
+            <button className="btn btn-primary" onClick={props.verify} style={{marginRight: 100}}>Verify Email</button>
             <button className="btn btn-secondary" onClick={newToken}>Request New Token</button>
         </div>
       </Paper>
