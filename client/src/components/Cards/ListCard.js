@@ -17,7 +17,7 @@ class ListCard extends Component {
   // Create States
   state = {
     listName: '',
-    tasks: [],
+    tasks: []
   };
 
   // Get list information on component mount
@@ -49,7 +49,33 @@ class ListCard extends Component {
         fetch(`api/account/user/${this.props.currentUser._id}/${this.props.listId}`, {
           method: 'POST'
         // Then Reload Window to reflect the changes.
-        }).then(window.location.reload());
+        })
+        // .then(window.location.reload());
+    });
+  };
+  
+  // Handle Delete Task
+  handleDeleteTask = (taskId) => {
+    function arrayRemove(arr, value) {
+      return arr.filter(function(ele){
+          return ele !== value;
+      });
+    };
+
+    // Delete Task from DB
+    fetch(`/api/tasks/${taskId}`, {
+      method: 'DELETE'
+    }).then(res => res.json())
+    .then(dbTask => {
+        // Then Delete Task Association from List 'Task' Array
+        fetch(`/api/lists/${this.props.listId}/${taskId}`, {
+          method: "POST"
+        // Then reload window to reflect changes.
+        }).then(
+          this.setState({
+            tasks: arrayRemove(this.state.tasks, taskId)
+          })
+        );
     });
   };
 
@@ -67,7 +93,7 @@ class ListCard extends Component {
             </Typography>
             <Typography component="h6">
               <ul>
-                {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} listId={this.props.listId}/>)}
+                {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} listId={this.props.listId} handleDeleteTask={this.handleDeleteTask} />)}
               </ul>
             </Typography>
           </CardContent>

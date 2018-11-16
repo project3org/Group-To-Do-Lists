@@ -28,25 +28,14 @@ class TaskCard extends Component {
       });
   };
 
+  handleDeleteTask = () => {
+    this.props.handleDeleteTask(this.props.taskId)
+  };
+
   // Handle Completing Task   
   handleCompleteTask = () => {
     console.log('Task Completed!');
     console.log(this.state.taskId);
-  }; 
-
-  // Handle Deleting Task   
-  handleDeleteTask = () => {
-    // Delete Task from DB
-    fetch(`api/tasks/${this.state.taskId}`, {
-        method: 'DELETE'
-    }).then(res => res.json())
-    .then(dbTask => {
-        // Then Delete Task Association from List 'Task' Array
-        fetch(`api/lists/${this.props.listId}/${this.props.taskId}`, {
-            method: "POST"
-        // Then reload window to reflect changes.
-        }).then(window.location.reload());
-    });
   }; 
 
   // Render Component   
