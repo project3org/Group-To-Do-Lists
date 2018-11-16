@@ -7,7 +7,7 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 
 // Import Local Dependencies
-import { openSignIn, openSignUp, openCreateList } from '../redux/actions/userActions';
+import { openSignIn, openSignUp, openCreateList } from '../redux/actions/actions';
 
 
 // Create component

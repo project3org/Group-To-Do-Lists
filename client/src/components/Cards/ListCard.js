@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 // Import Local Dependencies
 import Task from './Task';
-import { openCreateTask } from '../../redux/actions/userActions';
+import { openCreateTask } from '../../redux/actions/actions';
 
 // Create Component
 class ListCard extends Component {
@@ -21,9 +21,9 @@ class ListCard extends Component {
   };
 
   // Get list information on component mount
-  async componentDidMount() {
+  componentDidMount() {
     // Fetch list body using list id
-    await fetch(`/api/lists/${this.props.listId}`)
+    fetch(`/api/lists/${this.props.listId}`)
       .then(res => res.json())
       .then(listBody => {
         this.setState({
@@ -73,7 +73,6 @@ class ListCard extends Component {
   render () {
     return (
       <div className="ListCard">
-        {/* Render List Card */}
         <Card className="text-center">
           <CardContent>
             <Typography variant="h5" component="h2">

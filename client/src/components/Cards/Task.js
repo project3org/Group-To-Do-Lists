@@ -17,14 +17,14 @@ class TaskCard extends Component {
     await fetch(`api/tasks/${this.props.taskId}`)
       .then(res => res.json())
       .then(dbTask => {
-          if(dbTask){
-              this.setState({
-                taskId: dbTask._id,
-                taskName: dbTask.name,
-                taskDescription: dbTask.description,
-                isCompleted: dbTask.isCompleted
-            });
-          }
+        if(dbTask){
+          this.setState({
+            taskId: dbTask._id,
+            taskName: dbTask.name,
+            taskDescription: dbTask.description,
+            isCompleted: dbTask.isCompleted
+          });
+        }
       });
   };
 
@@ -41,11 +41,11 @@ class TaskCard extends Component {
   // Render Component   
   render () {
     return (
-        <li className="list-group-item">
-            <Button color="secondary" style={{marginLeft: 'auto'}} size="small"onClick={this.handleDeleteTask}>x</Button>
-            {this.state.taskName}
-            <Button color="primary" style={{marginLeft: 'auto'}} size="small" onClick={this.handleCompleteTask}>Complete</Button>
-        </li>
+      <li className="list-group-item">
+        <Button color="secondary" style={{marginLeft: 'auto'}} size="small"onClick={this.handleDeleteTask}>x</Button>
+        {this.state.taskName}
+        <Button color="primary" style={{marginLeft: 'auto'}} size="small" onClick={this.handleCompleteTask}>Complete</Button>
+      </li>
     );
   };
 };

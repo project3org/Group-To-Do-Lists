@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 
 // Import local dependencies
-import { closeDialogs } from '../../redux/actions/userActions';
+import { closeDialogs } from '../../redux/actions/actions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -68,8 +68,6 @@ class CreateTaskDialog extends React.Component {
                 this.setState({
                     errorMessage: ''
                 });
-
-                window.location.reload();
             };
         });
     };

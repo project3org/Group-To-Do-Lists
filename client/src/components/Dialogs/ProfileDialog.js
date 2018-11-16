@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 
 // Import local dependencies
-import { closeDialogs, deleteUser } from '../../redux/actions/userActions';
+import { closeDialogs, deleteUser } from '../../redux/actions/actions';
 import { getFromStorage } from '../../utils/storage';
 
 // Creates Style for Error Messages
