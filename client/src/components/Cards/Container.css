@@ -12,28 +12,12 @@
     padding-right: 10px;
   }
 
-  .YourListsContainer {
-    display: flex;
-    display: -ms-flexbox;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -ms-flex-pack: wrap;
-    justify-content: center;
-    align-items: center;
-    padding-top: 35px;
-    padding-bottom: 25px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .YourListsContainer .MuiCardContent-root-147 {
-    align-content: center;
-  }
-
-  /* Setting material-ui card content height and width */
-  .MuiCardContent-root-147 {
-    Height: 500px;
-    Width: 500px;
+  /* Setting card to a fixed size with scrollable content */
+  .InsideCardContent {
+    display: block;
+    width: 500px;
+    height: 500px;
+    overflow: scroll
   }
 
   /* Setting margin on ListCard container div for each card */

@@ -118,28 +118,30 @@ class ListCard extends Component {
     return (
       <div className="ListCard">
         <Card className="text-center">
-          <CardContent>
-            <Typography variant="h5" component="h2">
-            {this.state.listName}
-            </Typography>
-            <Typography component="h6">
-              <ul>
-                {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} listId={this.props.listId} handleDeleteTask={this.handleDeleteTask} />)}
-              </ul>
-            </Typography>
-          </CardContent>
-          <form onSubmit={this.handleCreateTask}>
-            <CardActions>
-              <input type="name" id={this.props.listId + '-new-task'} placeholder='Enter Task Here' />
-            </CardActions>
-            <CardContent style={errorStyle}>
-              {this.state.errorMessage}
+          <div className="InsideCardContent">
+            <CardContent>
+              <Typography variant="h5" component="h2">
+              {this.state.listName}
+              </Typography>
+              <Typography component="h6">
+                <ul>
+                  {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} listId={this.props.listId} handleDeleteTask={this.handleDeleteTask} />)}
+                </ul>
+              </Typography>
             </CardContent>
-            <CardActions>
-              <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
-              <Button color="primary" size="small" type="Submit" style={{marginLeft: 'auto'}}>Add Task</Button>
-            </CardActions>
-          </form>
+            <form onSubmit={this.handleCreateTask}>
+              <CardActions>
+                <input type="name" id={this.props.listId + '-new-task'} placeholder='Enter Task Here' />
+              </CardActions>
+              <CardContent style={errorStyle}>
+                {this.state.errorMessage}
+              </CardContent>
+              <CardActions>
+                <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
+                <Button color="primary" size="small" type="Submit" style={{marginLeft: 'auto'}}>Add Task</Button>
+              </CardActions>
+            </form>
+          </div>
         </Card>
       </div>
     );
