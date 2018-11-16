@@ -16,7 +16,8 @@ import CreateListDialog from '../Dialogs/CreateList';
 class CardContainer extends Component {
   // Create State
   state = {
-    lists: []
+    lists: [],
+    listTasks: []
   };
 
   // Function to get user lists
@@ -79,9 +80,11 @@ class CardContainer extends Component {
 
   // Refreshes component to show change
   handleCreateList = (arr) => {
-    this.setState({
-      lists: arr
-    });
+    this.setState({lists: arr});
+  };
+
+  handleCreateTask = (arr) => {
+    this.setState({listTasks: arr});
   };
 
   // Render Component
@@ -112,7 +115,7 @@ class CardContainer extends Component {
           {this.getUserLists()}
           <div id="ChildCardContainer">
             {this.noLists()}
-            {this.state.lists.map(listId => <ListCard key={listId} listId={listId} currentUser={this.props.currentUser} handleDeleteList={this.handleDeleteList}/>)}
+            {this.state.lists.map(listId => <ListCard key={listId} listId={listId} currentUser={this.props.currentUser} handleDeleteList={this.handleDeleteList} tasks={this.state.listTasks} />)}
           </div>
         </div>
       );

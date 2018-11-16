@@ -31,7 +31,8 @@ const initialState = {
     openCreateListDialog: false,
     openCreateTaskDialog: false,
     errorMessage: ' ',
-    thisList: ''
+    thisList: '',
+    listTasks: []
 };
 
 // Export states
@@ -221,7 +222,7 @@ export default function(state = initialState, action)  {
                 currentUser: {}, 
                 openProfileDialog: false,
                 openDrawer: false
-            };
+            }
 
         // Export Initial States By Default
         default:

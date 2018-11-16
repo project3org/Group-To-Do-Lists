@@ -49,8 +49,6 @@ class CreateListDialog extends React.Component {
             })
         }).then(res => res.json())
         .then((dbUser) => {
-            console.log(dbUser.lists);
-
             // If Errors, display error
             if(!listName.length) {
                 this.setState({

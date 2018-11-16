@@ -12,12 +12,21 @@ import Typography from '@material-ui/core/Typography';
 import Task from './Task';
 import { openCreateTask } from '../../redux/actions/actions';
 
+// Creates Style for Error Messages
+const errorStyle = {
+  color: 'red',
+  fontSize: 13,
+  textAlign: 'right',
+  paddingTop: 10
+};
+
 // Create Component
 class ListCard extends Component {
   // Create States
   state = {
     listName: '',
-    tasks: []
+    tasks: [],
+    errorMessage: ''
   };
 
   // Get list information on component mount
@@ -33,14 +42,49 @@ class ListCard extends Component {
       });
   };
 
-  // Handle Creating Task
-  handleCreateTask = () => {
-    this.props.openCreateTask(this.props.listId);
-  };
-
   // Handle Deleting List
   handleDeleteList = () => {
     this.props.handleDeleteList(this.props.listId);
+  };
+
+  // Handle Creating Task
+  handleCreateTask = (event) => {
+    // Prevent page reload on submit
+    event.preventDefault();
+
+    // Target List Id and Task Name
+    const listId = this.props.listId;
+    const taskName = document.getElementById(`${this.props.listId}-new-task`).value;
+
+    // POST task name and description
+    fetch(`/api/tasks/${listId}`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        listId: listId,
+        name: taskName,
+        description: 'Default description'
+      })
+    }).then(res => res.json())
+    .then((dbList) => {
+      // If task name is blank, display this message
+      if(!taskName.length) {
+        this.setState({
+          errorMessage: 'Task name cannot be blank'
+        });
+      // Else reset errorMessage (in case any occured) and update taskList
+      } else {
+        this.setState({
+          errorMessage: '',
+          tasks: dbList.tasks
+        });
+
+        // Reset the input the an empty string
+        document.getElementById(`${this.props.listId}-new-task`).value = ''
+      };
+    });
   };
   
   // Handle Delete Task
@@ -84,10 +128,18 @@ class ListCard extends Component {
               </ul>
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
-            <Button color="primary" size="small" onClick={this.handleCreateTask} style={{marginLeft: 'auto'}}>Add Task</Button>
-          </CardActions>
+          <form onSubmit={this.handleCreateTask}>
+            <CardActions>
+              <input type="name" id={this.props.listId + '-new-task'} placeholder='Enter Task Here' />
+            </CardActions>
+            <CardContent style={errorStyle}>
+              {this.state.errorMessage}
+            </CardContent>
+            <CardActions>
+              <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
+              <Button color="primary" size="small" type="Submit" style={{marginLeft: 'auto'}}>Add Task</Button>
+            </CardActions>
+          </form>
         </Card>
       </div>
     );
