@@ -10,7 +10,15 @@ import Typography from '@material-ui/core/Typography';
 
 // Import Local Dependencies
 import Task from './Task';
-import { openCreateTask } from '../../redux/actions/userActions';
+import { openCreateTask } from '../../redux/actions/actions';
+
+// Creates Style for Error Messages
+const errorStyle = {
+  color: 'red',
+  fontSize: 13,
+  textAlign: 'right',
+  paddingTop: 10
+};
 
 // Create Component
 class ListCard extends Component {
@@ -18,12 +26,13 @@ class ListCard extends Component {
   state = {
     listName: '',
     tasks: [],
+    errorMessage: ''
   };
 
   // Get list information on component mount
-  async componentDidMount() {
+  componentDidMount() {
     // Fetch list body using list id
-    await fetch(`/api/lists/${this.props.listId}`)
+    fetch(`/api/lists/${this.props.listId}`)
       .then(res => res.json())
       .then(listBody => {
         this.setState({
@@ -33,23 +42,74 @@ class ListCard extends Component {
       });
   };
 
-  // Handle Creating Task
-  handleCreateTask = () => {
-    this.props.openCreateTask(this.props.listId);
-  };
-
   // Handle Deleting List
   handleDeleteList = () => {
-    // Delete List from DB
-    fetch(`api/lists/${this.props.listId}`, {
+    this.props.handleDeleteList(this.props.listId);
+  };
+
+  // Handle Creating Task
+  handleCreateTask = (event) => {
+    // Prevent page reload on submit
+    event.preventDefault();
+
+    // Target List Id and Task Name
+    const listId = this.props.listId;
+    const taskName = document.getElementById(`${this.props.listId}-new-task`).value;
+
+    // POST task name and description
+    fetch(`/api/tasks/${listId}`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        listId: listId,
+        name: taskName,
+        description: 'Default description'
+      })
+    }).then(res => res.json())
+    .then((dbList) => {
+      // If task name is blank, display this message
+      if(!taskName.length) {
+        this.setState({
+          errorMessage: 'Task name cannot be blank'
+        });
+      // Else reset errorMessage (in case any occured) and update taskList
+      } else {
+        this.setState({
+          errorMessage: '',
+          tasks: dbList.tasks
+        });
+
+        // Reset the input the an empty string
+        document.getElementById(`${this.props.listId}-new-task`).value = ''
+      };
+    });
+  };
+  
+  // Handle Delete Task
+  handleDeleteTask = (taskId) => {
+    // Function for removing item from array
+    function arrayRemove(arr, value) {
+      return arr.filter(function(ele){
+        return ele !== value;
+      });
+    };
+
+    // Delete Task from DB
+    fetch(`/api/tasks/${taskId}`, {
       method: 'DELETE'
     }).then(res => res.json())
-    .then(dbList => {
-        // Then Delete List Association from User 'Lists' Array
-        fetch(`api/account/user/${this.props.currentUser._id}/${this.props.listId}`, {
-          method: 'POST'
-        // Then Reload Window to reflect the changes.
-        }).then(window.location.reload());
+    .then(dbTask => {
+        // Then Delete Task Association from List 'Task' Array
+        fetch(`/api/lists/${this.props.listId}/${taskId}`, {
+          method: "POST"
+        // Then set state to reflect changes.
+        }).then(
+          this.setState({
+            tasks: arrayRemove(this.state.tasks, taskId)
+          })
+        );
     });
   };
 
@@ -57,24 +117,29 @@ class ListCard extends Component {
   render () {
     return (
       <div className="ListCard">
-        {/* Render List Card */}
         <Card className="text-center">
           <CardContent>
-            <Typography color="textSecondary" gutterBottom>
-            </Typography>
             <Typography variant="h5" component="h2">
             {this.state.listName}
             </Typography>
             <Typography component="h6">
               <ul>
-                {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} listId={this.props.listId}/>)}
+                {this.state.tasks.map(taskId => <Task key={taskId} taskId={taskId} listId={this.props.listId} handleDeleteTask={this.handleDeleteTask} />)}
               </ul>
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
-            <Button color="primary" size="small" onClick={this.handleCreateTask} style={{marginLeft: 'auto'}}>Add Task</Button>
-          </CardActions>
+          <form onSubmit={this.handleCreateTask}>
+            <CardActions>
+              <input type="name" id={this.props.listId + '-new-task'} placeholder='Enter Task Here' />
+            </CardActions>
+            <CardContent style={errorStyle}>
+              {this.state.errorMessage}
+            </CardContent>
+            <CardActions>
+              <Button color="secondary" size="small" onClick={this.handleDeleteList} style={{marginRigth: 'auto'}}>Delete List</Button>
+              <Button color="primary" size="small" type="Submit" style={{marginLeft: 'auto'}}>Add Task</Button>
+            </CardActions>
+          </form>
         </Card>
       </div>
     );

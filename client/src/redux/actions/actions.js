@@ -150,4 +150,3 @@ export const deleteUser = (userId) => dispatch => {
         payload: json
     }));
 };
-

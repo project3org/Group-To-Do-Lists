@@ -10,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 // Import Local Dependencies
-import { signOut, openSignIn, openSignUp, openProfile, openCreateList, closeDialogs } from '../redux/actions/userActions';
+import { signOut, openSignIn, openSignUp, openProfile, openCreateList, closeDialogs } from '../redux/actions/actions';
 
 // Create custome styles
 const styles = {

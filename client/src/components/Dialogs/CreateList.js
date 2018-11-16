@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 
 // Import local dependencies
-import { closeDialogs } from '../../redux/actions/userActions';
+import { closeDialogs } from '../../redux/actions/actions';
 
 // Creates Style for Error Messages
 const errorStyle = {
@@ -29,7 +29,10 @@ class CreateListDialog extends React.Component {
     };
 
     // Handle Creating List
-    handleCreateList = () => {
+    handleCreateList = (e) => {
+        // Prevent page from reloading by default
+        e.preventDefault();
+
         // Target List Name and Current User Id
         const listName = document.getElementById("listName").value
         const currentUserId = this.props.currentUser._id
@@ -45,7 +48,7 @@ class CreateListDialog extends React.Component {
                 name: listName
             })
         }).then(res => res.json())
-        .then(() => {
+        .then((dbUser) => {
             // If Errors, display error
             if(!listName.length) {
                 this.setState({
@@ -57,8 +60,11 @@ class CreateListDialog extends React.Component {
                     errorMessage: ''
                 })
 
-                // Reload page to show changes
-                window.location.reload();
+                // Pushes new array of lists to lists' containter
+                this.props.handleCreateList(dbUser.lists);
+
+                // Closes dialog after list is created
+                this.props.closeDialogs();
             };
         });
     };

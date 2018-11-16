@@ -104,7 +104,9 @@ class App extends Component {
           <MainBody verify={this.verifyEmail}/>
 
           {/* Footer */}
-          <Footer />
+          <div style={{position: "fixed", bottom: 10}}>
+            <Footer/>
+          </div>
         </div>
       </Provider>
     );

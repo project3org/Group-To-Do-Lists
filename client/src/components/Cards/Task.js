@@ -17,15 +17,19 @@ class TaskCard extends Component {
     await fetch(`api/tasks/${this.props.taskId}`)
       .then(res => res.json())
       .then(dbTask => {
-          if(dbTask){
-              this.setState({
-                taskId: dbTask._id,
-                taskName: dbTask.name,
-                taskDescription: dbTask.description,
-                isCompleted: dbTask.isCompleted
-            });
-          }
+        if(dbTask){
+          this.setState({
+            taskId: dbTask._id,
+            taskName: dbTask.name,
+            taskDescription: dbTask.description,
+            isCompleted: dbTask.isCompleted
+          });
+        }
       });
+  };
+
+  handleDeleteTask = () => {
+    this.props.handleDeleteTask(this.props.taskId)
   };
 
   // Handle Completing Task   
@@ -34,29 +38,14 @@ class TaskCard extends Component {
     console.log(this.state.taskId);
   }; 
 
-  // Handle Deleting Task   
-  handleDeleteTask = () => {
-    // Delete Task from DB
-    fetch(`api/tasks/${this.state.taskId}`, {
-        method: 'DELETE'
-    }).then(res => res.json())
-    .then(dbTask => {
-        // Then Delete Task Association from List 'Task' Array
-        fetch(`api/lists/${this.props.listId}/${this.props.taskId}`, {
-            method: "POST"
-        // Then reload window to reflect changes.
-        }).then(window.location.reload());
-    });
-  }; 
-
   // Render Component   
   render () {
     return (
-        <li className="list-group-item">
-            {this.state.taskName}
-            <Button color="secondary" style={{marginLeft: 'auto'}} size="small"onClick={this.handleDeleteTask}>Delete Task</Button>
-            <Button color="primary" style={{marginLeft: 'auto'}} size="small" onClick={this.handleCompleteTask}>Task Complete</Button>
-        </li>
+      <li className="list-group-item">
+        <Button color="secondary" style={{marginLeft: 'auto'}} size="small"onClick={this.handleDeleteTask}>x</Button>
+        {this.state.taskName}
+        <Button color="primary" style={{marginLeft: 'auto'}} size="small" onClick={this.handleCompleteTask}>Complete</Button>
+      </li>
     );
   };
 };
