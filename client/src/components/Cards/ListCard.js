@@ -21,7 +21,7 @@ class ListCard extends Component {
   };
 
   // Get list information on component mount
-  async componentWillMount() {
+  async componentDidMount() {
     // Fetch list body using list id
     await fetch(`/api/lists/${this.props.listId}`)
       .then(res => res.json())

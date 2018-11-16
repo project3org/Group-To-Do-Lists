@@ -1,10 +1,6 @@
 // Import Dependencies
 import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 // Create Component
 class TaskCard extends Component {
@@ -14,10 +10,10 @@ class TaskCard extends Component {
       taskName: '',
       taskDescription: '',
       isCompleted: false
-  };
+    };
 
   // Get list information on component mount
-  async componentWillMount() {
+  async componentDidMount() {
     await fetch(`api/tasks/${this.props.taskId}`)
       .then(res => res.json())
       .then(dbTask => {
@@ -25,7 +21,8 @@ class TaskCard extends Component {
               this.setState({
                 taskId: dbTask._id,
                 taskName: dbTask.name,
-                taskDescription: dbTask.description
+                taskDescription: dbTask.description,
+                isCompleted: dbTask.isCompleted
             });
           }
       });
@@ -34,6 +31,7 @@ class TaskCard extends Component {
   // Handle Completing Task   
   handleCompleteTask = () => {
     console.log('Task Completed!');
+    console.log(this.state.taskId);
   }; 
 
   // Handle Deleting Task   

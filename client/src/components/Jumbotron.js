@@ -12,11 +12,6 @@ import { openSignIn, openSignUp, openCreateList } from '../redux/actions/userAct
 
 // Create component
 class Jumbotron extends React.Component {
-    // Handle Creating List
-    handleCreateList = () => {
-        console.log('Creating List');
-    };
-    
     // Render Component
     render() {
         // If signed out, prompt user to sign in or sign up
