@@ -1,5 +1,6 @@
 // Import React and Dependencies
 import React, { Component } from 'react';
+import { Redirect } from 'react-router'
 import { Provider } from 'react-redux';
 import toastr from 'toastr';
 
@@ -15,7 +16,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      serverMessage: ''
+      serverMessage: '',
+      redirect: false
     };    
   };
 
@@ -58,7 +60,7 @@ class App extends Component {
 
           // Function for handling page redirect
           const redirect = () => {
-            window.location.href = "/"
+            this.setState({redirect: true});
           };
 
           // Redirect user back to homepage after a moment so they can read toastr message
@@ -94,6 +96,12 @@ class App extends Component {
 
   // Renders Data to page
   render() {
+    const { redirect } = this.state;
+
+    if (redirect) {
+      return <Redirect to='/'/>;
+    };
+
     return (
       <Provider store={store}>
         <div className="App">

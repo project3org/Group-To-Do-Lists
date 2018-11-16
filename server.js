@@ -13,10 +13,6 @@ app.use(express.json());
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
-
-  app.get('*', (req, res) =>{
-    res.sendFile(path.join(__dirname + './client/build/index.html'));
-  });
 };
 
 // Add routes, both API and view
@@ -24,7 +20,7 @@ app.use(routes);
 
 // Handles any requests that don't match the ones above
 app.get('*', (req, res) =>{
-  res.sendFile(path.join(__dirname + './client/public/index.html'));
+  res.sendFile(path.join(__dirname + './client/build/index.html'));
 });
 
 // If deployed, use the deployed database. Otherwise use the local gratify database
