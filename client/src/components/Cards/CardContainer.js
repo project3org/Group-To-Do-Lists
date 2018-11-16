@@ -48,7 +48,7 @@ class CardContainer extends Component {
       );
     } else {
       return null;
-    };
+    }
   };
 
   // Refreshes component to show change
