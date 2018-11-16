@@ -20,9 +20,15 @@ class CardContainer extends Component {
 
     // If user has no lists, output this
     if(currentUser.lists.length === 0) {
-      return <div>
-        <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
+      return <div className="YourListsContainer">
+      <Card className="text-center">
+        <CardContent className="text-center">
+        <h1>Your Lists</h1><br />
+        <h4>It seems that you don't have any lists.</h4>
+        <h4> Would you like to create one?</h4><br />
         <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
+        </CardContent>
+      </Card>
       </div>
 
     // Else output card for each list

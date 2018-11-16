@@ -2,7 +2,6 @@
 // I Have passport required in case I decide to do any auth with other sites. But I wanna focus on other things for now.
 const randomstring = require('randomstring');
 const moment = require('moment');
-const passport = require('passport');
 
 const mailer = require('../mailer/mailer');
 const db = require('../models');

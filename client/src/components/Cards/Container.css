@@ -6,10 +6,28 @@
     -ms-flex-pack: wrap;
     justify-content: center;
     align-items: center;
-    padding-top: 25px;
+    padding-top: 35px;
     padding-bottom: 25px;
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  .YourListsContainer {
+    display: flex;
+    display: -ms-flexbox;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-pack: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 35px;
+    padding-bottom: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .YourListsContainer .MuiCardContent-root-147 {
+    align-content: center;
   }
 
   /* Setting material-ui card content height and width */
