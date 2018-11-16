@@ -40,25 +40,15 @@ class ListCard extends Component {
 
   // Handle Deleting List
   handleDeleteList = () => {
-    // Delete List from DB
-    fetch(`api/lists/${this.props.listId}`, {
-      method: 'DELETE'
-    }).then(res => res.json())
-    .then(dbList => {
-        // Then Delete List Association from User 'Lists' Array
-        fetch(`api/account/user/${this.props.currentUser._id}/${this.props.listId}`, {
-          method: 'POST'
-        // Then Reload Window to reflect the changes.
-        })
-        // .then(window.location.reload());
-    });
+    this.props.handleDeleteList(this.props.listId);
   };
   
   // Handle Delete Task
   handleDeleteTask = (taskId) => {
+    // Function for removing
     function arrayRemove(arr, value) {
       return arr.filter(function(ele){
-          return ele !== value;
+        return ele !== value;
       });
     };
 
@@ -70,7 +60,7 @@ class ListCard extends Component {
         // Then Delete Task Association from List 'Task' Array
         fetch(`/api/lists/${this.props.listId}/${taskId}`, {
           method: "POST"
-        // Then reload window to reflect changes.
+        // Then set state to reflect changes.
         }).then(
           this.setState({
             tasks: arrayRemove(this.state.tasks, taskId)
@@ -86,8 +76,6 @@ class ListCard extends Component {
         {/* Render List Card */}
         <Card className="text-center">
           <CardContent>
-            <Typography color="textSecondary" gutterBottom>
-            </Typography>
             <Typography variant="h5" component="h2">
             {this.state.listName}
             </Typography>

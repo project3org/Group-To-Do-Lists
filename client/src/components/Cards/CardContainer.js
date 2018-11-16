@@ -13,6 +13,27 @@ import { openSignUp, openCreateList } from '../../redux/actions/userActions';
 
 // Create Component
 class CardContainer extends Component {
+  // Create State
+  state = {
+    lists: []
+  };
+
+  // Function to get user lists
+  getUserLists = () => {
+    // Get User Information and return it in json form
+    fetch(`/api/account/user/${this.props.currentUser._id}`).then(res => res.json()).then(
+      (userBody) => {
+        // Target user lists from user data
+        const userLists = userBody.data[0].lists;
+
+        // Set state lists to userLists
+        this.setState({
+          lists: userLists
+        });
+      }
+    )
+  };
+
   // Function outputs lists
   getLists = () => {
     // Target currentUser
@@ -20,19 +41,39 @@ class CardContainer extends Component {
 
     // If user has no lists, output this
     if(currentUser.lists.length === 0) {
-      return <div>
-        <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
-        <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
-      </div>
-
-    // Else output card for each list
-    } else {
       return (
-        <div id="ChildCardContainer">
-          {currentUser.lists.map(listId => <ListCard key={listId} listId={listId} currentUser={this.props.currentUser}/>)}
+        <div>
+          <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
+          <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
         </div>
-      )
-    }
+      );
+    };
+  };
+
+  // Handles deleting list
+  handleDeleteList = (listId) => {
+    // Function for removing
+    function arrayRemove(arr, value) {
+      return arr.filter(function(ele){
+        return ele !== value;
+      });
+    };
+
+    // Delete List from DB
+    fetch(`api/lists/${listId}`, {
+      method: 'DELETE'
+    }).then(res => res.json())
+    .then(dbList => {
+        // Then Delete List Association from User 'Lists' Array
+        fetch(`api/account/user/${this.props.currentUser._id}/${listId}`, {
+          method: 'POST'
+        }).then(
+          // Remove current list from lists state array
+          this.setState({
+            list: arrayRemove(this.state.lists, listId)
+          })
+        );
+    });
   };
 
   // Render Component
@@ -56,7 +97,11 @@ class CardContainer extends Component {
     } else {
       return (
         <div id="ParentCardContainer">
-          {this.getLists()}
+          {this.getUserLists()}
+          <div id="ChildCardContainer">
+            {this.getLists()}
+            {this.state.lists.map(listId => <ListCard key={listId} listId={listId} currentUser={this.props.currentUser} handleDeleteList={this.handleDeleteList}/>)}
+          </div>
         </div>
       );
     }

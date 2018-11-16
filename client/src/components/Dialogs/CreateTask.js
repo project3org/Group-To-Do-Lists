@@ -29,7 +29,10 @@ class CreateTaskDialog extends React.Component {
     };
 
     // Handle Creating List
-    handleCreateTask = () => {
+    handleCreateTask = (e) => {
+        // Prevent page from loading on submit
+        e.preventDefault();
+
         // Target List Id and body information
         const listId = this.props.thisList
         const taskName = document.getElementById("taskName").value;

@@ -29,7 +29,10 @@ class CreateListDialog extends React.Component {
     };
 
     // Handle Creating List
-    handleCreateList = () => {
+    handleCreateList = (e) => {
+        // Prevent page from reloading by default
+        e.preventDefault();
+
         // Target List Name and Current User Id
         const listName = document.getElementById("listName").value
         const currentUserId = this.props.currentUser._id

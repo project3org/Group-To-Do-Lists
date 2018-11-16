@@ -42,9 +42,9 @@ class TaskCard extends Component {
   render () {
     return (
         <li className="list-group-item">
+            <Button color="secondary" style={{marginLeft: 'auto'}} size="small"onClick={this.handleDeleteTask}>x</Button>
             {this.state.taskName}
-            <Button color="secondary" style={{marginLeft: 'auto'}} size="small"onClick={this.handleDeleteTask}>Delete Task</Button>
-            <Button color="primary" style={{marginLeft: 'auto'}} size="small" onClick={this.handleCompleteTask}>Task Complete</Button>
+            <Button color="primary" style={{marginLeft: 'auto'}} size="small" onClick={this.handleCompleteTask}>Complete</Button>
         </li>
     );
   };
