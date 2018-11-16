@@ -45,7 +45,7 @@ class ListCard extends Component {
   
   // Handle Delete Task
   handleDeleteTask = (taskId) => {
-    // Function for removing
+    // Function for removing item from array
     function arrayRemove(arr, value) {
       return arr.filter(function(ele){
         return ele !== value;

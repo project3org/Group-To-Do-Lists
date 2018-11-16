@@ -23,33 +23,8 @@ const errorStyle = {
 
 // Create Component
 class SignInDialog extends React.Component {
-    // Create Value States for Form
-    constructor(props) {
-        super(props);
-        this.state = {
-            emailValue: '',
-            passwordValue: ''
-        };
-    };
-
-    // Handles form value change for email input
-    handleChangeEmail = (event) => {
-        this.setState({emailValue: event.target.value});
-    };
-
-    // Handles form value change for password input
-    handleChangePassword = (event) => {
-        this.setState({passwordValue: event.target.value});
-    };
-
     // Handles Closing Dialog
     handleDialogClose = () =>{
-        // Sets value states back to empty strings
-        this.setState({
-            emailValue: '',
-            passwordValue: ''
-        });
-
         // Envokes closeDialogs
         this.props.closeDialogs();
     };
@@ -60,8 +35,8 @@ class SignInDialog extends React.Component {
         e.preventDefault();
 
         // Target user information
-        const email = this.state.emailValue;
-        const password = this.state.passwordValue;
+        const email = document.getElementById('signInEmail').value;
+        const password = document.getElementById('signInPassword').value;
 
         // Run signIn function with arguments email and password
         this.props.signIn(email, password);
@@ -87,19 +62,19 @@ class SignInDialog extends React.Component {
                             <TextField
                             autoFocus
                             margin="dense"
+                            id="signInEmail"
                             label="Email Address"
                             type="email"
                             fullWidth
                             autoComplete='no'
-                            onChange={e => this.handleChangeEmail(e)}
                             />
                             <TextField
                             margin="dense"
+                            id="signInPassword"
                             label="Password"
                             type="password"
                             fullWidth
                             autoComplete='no'
-                            onChange={e => this.handleChangePassword(e)}
                             />
                             <DialogContentText style={errorStyle}>
                             {this.props.errorMessage}

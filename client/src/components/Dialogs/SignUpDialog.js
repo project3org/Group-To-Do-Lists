@@ -23,43 +23,6 @@ const errorStyle = {
 
 // Exports Component
 class SignUpDialog extends React.Component {
-  // Create Value States for Form
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstNameValue: '',
-      lastNameValue: '',
-      emailValue: '',
-      passwordValue: '',
-      passwordVerificationValue: ''
-    };
-  };
-
-  // Handles form value change for firstName input
-  handleChangeFirstName = (event) => {
-    this.setState({firstNameValue: event.target.value});
-  };
-
-  // Handles form value change for lastName input
-  handleChangeLastName = (event) => {
-    this.setState({lastNameValue: event.target.value});
-  };
-
-  // Handles form value change for email input
-  handleChangeEmail = (event) => {
-    this.setState({emailValue: event.target.value});
-  };
-
-  // Handles form value change for password input
-  handleChangePassword = (event) => {
-    this.setState({passwordValue: event.target.value});
-  };
-
-  // Handles form value change for passwordVerification input
-  handleChangePasswordVerification = (event) => {
-    this.setState({passwordVerificationValue: event.target.value});
-  }; 
-
   // Handles Closing Dialog
   handleDialogClose = () =>{
     // Sets value states back to empty strings
@@ -81,11 +44,11 @@ class SignUpDialog extends React.Component {
     e.preventDefault();
 
     // Target input fields
-    const firstName = this.state.firstNameValue
-    const lastName = this.state.lastNameValue
-    const email = this.state.emailValue
-    const password = this.state.passwordValue
-    const passwordVerification = this.state.passwordVerificationValue
+    const firstName = document.getElementById('signUpfirstName').value;
+    const lastName = document.getElementById('signUplastName').value;
+    const email = document.getElementById('signUpEmail').value;
+    const password = document.getElementById('signUpPassword').value;
+    const passwordVerification = document.getElementById('signUpPasswordVerification').value;
 
     // Rund signUp function with arguments firstName, lastName, email, password and passwordVerification
     this.props.signUp(firstName, lastName, email, password, passwordVerification);
@@ -111,43 +74,43 @@ class SignUpDialog extends React.Component {
               <TextField
               autoFocus
               margin="dense"
+              id="signUpfirstName"
               label="First Name"
               type="text"
               fullWidth
               autoComplete='no'
-              onChange={e => this.handleChangeFirstName(e)}
               />
               <TextField
               margin="dense"
+              id="signUplastName"
               label="Last Name"
               type="text"
               fullWidth
               autoComplete='no'
-              onChange={e => this.handleChangeLastName(e)}
               />
               <TextField
               margin="dense"
+              id="signUpEmail"
               label="Email Address"
               type="email"
               fullWidth
               autoComplete='no'
-              onChange={e => this.handleChangeEmail(e)}
               />
               <TextField
               margin="dense"
+              id="signUpPassword"
               label="Password"
               type="password"
               fullWidth
               autoComplete='no'
-              onChange={e => this.handleChangePassword(e)}
               />
               <TextField
               margin="dense"
+              id="signUpPasswordVerification"
               label="Password Verification"
               type="password"
               fullWidth
               autoComplete='no'
-              onChange={e => this.handleChangePasswordVerification(e)}
               />
               <DialogContentText style={errorStyle}>
               {this.props.errorMessage}

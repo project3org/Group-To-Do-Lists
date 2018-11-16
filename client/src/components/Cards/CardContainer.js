@@ -34,12 +34,12 @@ class CardContainer extends Component {
     )
   };
 
-  // Function outputs lists
-  getLists = () => {
+  // Function to create list button if user has no available lists
+  noLists = () => {
     // Target currentUser
     const currentUser = this.props.currentUser
 
-    // If user has no lists, output this
+    // If user has no lists, return this div
     if(currentUser.lists.length === 0) {
       return (
         <div>
@@ -52,7 +52,7 @@ class CardContainer extends Component {
 
   // Handles deleting list
   handleDeleteList = (listId) => {
-    // Function for removing
+    // Function for removing item from array
     function arrayRemove(arr, value) {
       return arr.filter(function(ele){
         return ele !== value;
@@ -99,7 +99,7 @@ class CardContainer extends Component {
         <div id="ParentCardContainer">
           {this.getUserLists()}
           <div id="ChildCardContainer">
-            {this.getLists()}
+            {this.noLists()}
             {this.state.lists.map(listId => <ListCard key={listId} listId={listId} currentUser={this.props.currentUser} handleDeleteList={this.handleDeleteList}/>)}
           </div>
         </div>
