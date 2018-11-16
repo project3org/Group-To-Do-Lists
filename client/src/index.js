@@ -13,7 +13,7 @@ ReactDOM.render((
         <BrowserRouter>
             <Switch>
                 <Route exact path='/' component={App} />
-                <Route path='/account/confirmation/:token' component={redirect} />
+                <Route path='account/confirmation/:token' component={redirect} />
             </Switch>
         </BrowserRouter>
     </Provider>
