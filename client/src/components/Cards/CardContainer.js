@@ -49,6 +49,8 @@ class CardContainer extends Component {
           <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
         </div>
       );
+    } else {
+      return null;
     };
   };
 
