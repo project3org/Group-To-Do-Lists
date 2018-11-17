@@ -59,14 +59,14 @@ class FooterPagePro extends React.Component {
                     <i className="fa fa-github"></i>
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#!"  target="_blank" rel="noopener noreferrer">Link 2</a>
                 </li>
                 <li>
                   <a href="#!"  target="_blank" rel="noopener noreferrer">Link 3</a>
-                </li>
+                </li> */}
                 <li>
-                <div>Flavicon made by <a href="http://www.freepik.com" title="Freepik"  target="_blank" rel="noopener noreferrer">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"  target="_blank" rel="noopener noreferrer">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">CC 3.0 BY</a></div>
+                  <div>Flavicon made by <a href="http://www.freepik.com" title="Freepik"  target="_blank" rel="noopener noreferrer">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"  target="_blank" rel="noopener noreferrer">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">CC 3.0 BY</a></div>
                 </li>
               </ul>
             </Col>
