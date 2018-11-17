@@ -44,7 +44,8 @@ class CardContainer extends Component {
             <Card className="text-center">
               <CardContent className="text-center">
               <h1>Your Lists</h1><br />
-              <h3>Your lists would be here, but it seems that you don't have any lists. Would you like to create one?</h3><br />
+              <h3>Your lists would be here, but it seems you don't have any. <br />
+              Would you like to create one?</h3><br />
               <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
               </CardContent>
             </Card>

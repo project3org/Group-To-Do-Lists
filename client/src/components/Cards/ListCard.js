@@ -131,7 +131,7 @@ class ListCard extends Component {
             </CardContent>
             <form onSubmit={this.handleCreateTask}>
               <CardActions>
-                <input type="name" id={this.props.listId + '-new-task'} placeholder='Enter Task Here' />
+                <input type="text" id={this.props.listId + '-new-task'} placeholder='Enter Task Here' size="50" style={{margin: "auto", width: "75%", border: 0, outline: 0, background: "transparent", borderBottom: "1px solid black"}} />
               </CardActions>
               <CardContent style={errorStyle}>
                 {this.state.errorMessage}
