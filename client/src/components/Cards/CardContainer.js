@@ -11,7 +11,6 @@ import "./Container.css";
 import { openSignUp, openCreateList } from '../../redux/actions/actions';
 import CreateListDialog from '../Dialogs/CreateList';
 
-
 // Create Component
 class CardContainer extends Component {
   // Create State
@@ -41,9 +40,15 @@ class CardContainer extends Component {
     // If user has no lists, return this div
     if(this.state.lists.length === 0) {
       return (
-        <div>
-          <h2>It seems that you don't have any lists. Would you like to create one?</h2><br />
-          <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
+        <div id="ParentCardContainer">
+            <Card className="text-center">
+              <CardContent className="text-center">
+              <h1>Your Lists</h1><br />
+              <h3>Your lists would be here, but it seems you don't have any. <br />
+              Would you like to create one?</h3><br />
+              <button className="btn peach-gradient center" onClick={this.props.openCreateList}>Create List</button>
+              </CardContent>
+            </Card>
         </div>
       );
     } else {
