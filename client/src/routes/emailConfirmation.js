@@ -11,7 +11,7 @@ import MainBody from '../components/emailConfirmationMainBody';
 import Footer from '../components/Footer';
 
 // Create Component
-class App extends Component {
+class EmailConfirmationBody extends Component {
   // Set States
   constructor(props) {
     super(props);
@@ -23,9 +23,14 @@ class App extends Component {
 
   // Function for verifing email in DB
   verifyEmail = () => {
+    // Regex for targeting everything after last /
+    const regex = /([^/]+$)/g;
+
+    // Target pathname
+    const route = window.location.pathname;
+
     // Targeting email verification token
-    // There's probably a better way to target this, but I'm in a rush so I'll look into it later.
-    const token = window.location.pathname.substr(22);
+    const token = route.match(regex)
 
     // Changes user isConfirmed index to true so users can sign in.
     fetch(`/api/account/confirmation/${token}`)
@@ -121,5 +126,5 @@ class App extends Component {
   }
 }
 
-// Exports App
-export default App;
+// Exports EmailConfirmationBody
+export default EmailConfirmationBody;
