@@ -123,7 +123,8 @@ export default function(state = initialState, action)  {
                 };
             
                 // Sends toastr success message to user
-                toastr.success("Please follow the link sent to your email.", "Account successfully created!");
+                // toastr.success("Please follow the link sent to your email.", "Account successfully created!");
+
                 // return states with signUpDialog set to false
                 return {
                     ...state,

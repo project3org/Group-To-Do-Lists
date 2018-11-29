@@ -131,7 +131,7 @@ module.exports = {
             Gratify Devs`
 
             // Send email
-            mailer.sendEmail('suburbandad69@thatsgoodrainbow.com', email, 'Gratify Email Verification', verificationEmail);
+            // mailer.sendEmail(email, 'Gratify Email Verification', verificationEmail);
         });
     },
 
@@ -193,12 +193,13 @@ module.exports = {
                     success: false,
                     message: 'Invalid Email.'
                 })
-            } else if (!users[0].isConfirmed) {
-                return res.send({
-                    success: false,
-                    message: 'Please confirm email to sign in.'
-                })
-            }
+            } 
+            // else if (!users[0].isConfirmed) {
+            //     return res.send({
+            //         success: false,
+            //         message: 'Please confirm email to sign in.'
+            //     })
+            // }
 
             // Setting the user to a variable
             const user = users[0];
