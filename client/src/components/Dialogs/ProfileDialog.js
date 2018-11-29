@@ -65,14 +65,11 @@ class ProfileDialog extends React.Component {
                     <DialogTitle id="form-dialog-title">Your Profile</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                        Update or delete your profile information.<br /><br />
+                        Update profile information coming soon!<br /><br />
                         </DialogContentText>
                         <DialogContentText style={styles.errorStyle}>
                         {this.props.errorMessage}
                         </DialogContentText>
-                    </DialogContent>
-                    <DialogContent>
-                        Add User info here with option to edit.
                     </DialogContent>
                     <DialogActions>
                         <Button style={styles.deleteProfBtnStyle} onClick={this.deleteProfile} color="secondary">

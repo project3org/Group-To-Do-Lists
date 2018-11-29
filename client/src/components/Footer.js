@@ -11,7 +11,6 @@ const styles = {
     width: '100%',
     left: 0,
     bottom: 0,
-    top: 10,
     position: "relative"
   }
 };
@@ -59,43 +58,16 @@ class FooterPagePro extends React.Component {
                     <i className="fa fa-github"></i>
                   </a>
                 </li>
-                {/* <li>
-                  <a href="#!"  target="_blank" rel="noopener noreferrer">Link 2</a>
-                </li>
-                <li>
-                  <a href="#!"  target="_blank" rel="noopener noreferrer">Link 3</a>
-                </li> */}
                 <li>
                   <div>Flavicon made by <a href="http://www.freepik.com" title="Freepik"  target="_blank" rel="noopener noreferrer">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"  target="_blank" rel="noopener noreferrer">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">CC 3.0 BY</a></div>
                 </li>
               </ul>
             </Col>
-            {/* Leaving this here, in case we deside to add more Links later */}
-            {/* <hr className="clearfix w-100 d-md-none" />
-            <Col md="2">
-              <h5 className="text-uppercase mb-4 mt-3 font-weight-bold">
-                Links
-              </h5>
-              <ul className="list-unstyled">
-                <li>
-                  <a href="#!">Link 1</a>
-                </li>
-                <li>
-                  <a href="#!">Link 2</a>
-                </li>
-                <li>
-                  <a href="#!">Link 3</a>
-                </li>
-                <li>
-                  <a href="#!">Link 4</a>
-                </li>
-              </ul>
-            </Col> */}
           </Row>
         </Container>
         <div className="footer-copyright text-center py-3">
           <Container fluid>
-            &copy; {new Date().getFullYear()} Copyright: {"Nacho Man Sandy Ravage"}
+            &copy; {new Date().getFullYear()} Copyright: {"Gratify Devs"}
           </Container>
         </div>
       </Footer>

@@ -15,15 +15,12 @@ import { signOut, openSignIn, openSignUp, openMenuDrawer } from '../redux/action
 // Create Custom Styles
 const styles = {
   root: {
-    flexGrow: 1,
-    marginBottom: 20
+    flexGrow: 1
   },
   appBar: {
     background: '#323741',
     overflow: "hidden",
-    position: "fixed",
-    top: 0,
-    marginBottom: 20
+    top: 0
   },
   grow: {
     flexGrow: 1,

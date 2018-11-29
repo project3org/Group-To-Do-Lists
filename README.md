@@ -2,6 +2,10 @@
 
 Shared to-do list, where the list items are assigned to people who desire them most. With an option to outsource work that is not desired by any member of the list group.
 
+## Demo
+
+View a demo of where the project is at [here](https://gratify-lists.herokuapp.com/).
+
 ## Details
 
 Here's what it might look like: You and your partner are planning something, like a big trip. Jointly, you list out the things to be done. Independently, you each 'swipe right' on the tasks you, personally, would find satisfying. From there…
@@ -11,8 +15,6 @@ Here's what it might look like: You and your partner are planning something, lik
 * Your partner gets the tasks only they swiped right on.
 
 * For tasks both of you swiped, you could enjoy working on them together.
-
-* For tasks neither of you swiped, the list might suggest ways to outsource.
 
 There's probably room for machine learning here, so users can give feedback about whether the tasks they got really made them happy and inform future to-do lists.
 
@@ -24,13 +26,9 @@ Basically, this application should make people feel a bit more accomplished afte
 
 ## MVP
 
-A list of tasks that multiple users have access to. The users can add items to the list, assign themselves to tasks, view which users are working on which tasks and mark tasks as completed (perhaps depending on some sort of 'manager/list-owner' status so that not all users can add and delete tasks all willie nillie). Then, perhaps look into providing outsourced relief for unassigned/undesired tasks.
+A list of tasks that multiple users have access to. The users can add items to the list, assign themselves to tasks, view which users are working on which tasks and mark tasks as completed (perhaps depending on some sort of 'manager/list-owner' status so that not all users can add and delete tasks all willie nillie).
 
 # Authors
 
-* **Corey Mitchell** - *User Authentication* - (https://github.com/corey-mitchell)
-* **Tyrell Bopp** - ** - (https://github.com/tbopp)
-* **Matthew Fort** - ** - (https://github.com/mfort87)
-* **Malorie Lara** - ** - ()
-* **V'Ana Abbott** - ** - (https://github.com/vana-abbott)
-* **Casey Monroe** - ** - (https://github.com/Monroe89)
+* [**Corey Mitchell**](https://github.com/corey-mitchell)
+* [**Tyrell Bopp**](https://github.com/tbopp)
